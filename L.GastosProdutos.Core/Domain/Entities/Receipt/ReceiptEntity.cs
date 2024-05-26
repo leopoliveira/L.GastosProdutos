@@ -15,6 +15,12 @@ namespace L.GastosProdutos.Core.Domain.Entities.Receipt
 
         public string? Description { get; set; }
 
-        public List<IngredientsEntity> Ingredients { get; set; } = null!;
+        public List<IngredientsEntity> Ingredients { get; } = null!;
+
+        public void AddIngredient(IngredientsEntity ingredient) =>
+            Ingredients.Add(ingredient);
+
+        public void RemoveIngredient(IngredientsEntity ingredient) =>
+            Ingredients.Remove(ingredient);
     }
 }
