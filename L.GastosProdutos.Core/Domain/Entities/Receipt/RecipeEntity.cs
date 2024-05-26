@@ -2,9 +2,9 @@
 
 namespace L.GastosProdutos.Core.Domain.Entities.Receipt
 {
-    internal class ReceiptEntity : BaseEntity
+    internal class Recipe : BaseEntity
     {
-        public ReceiptEntity(string name, string? description, List<IngredientsEntity> ingredients)
+        public Recipe(string name, string? description, List<IngredientsEntity> ingredients)
         {
             Name = name;
             Description = description;
