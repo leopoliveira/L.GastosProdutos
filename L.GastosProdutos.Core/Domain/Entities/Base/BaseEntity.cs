@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace L.GastosProdutos.Core.Domain.Entities.Base
 {
-    internal class BaseEntity
+    public class BaseEntity
     {
         public BaseEntity()
         {

@@ -2,7 +2,7 @@
 
 namespace L.GastosProdutos.Core.Domain.Entities.Product
 {
-    internal class ProductEntity : BaseEntity
+    public class ProductEntity : BaseEntity
     {
         public ProductEntity(string name, decimal price, float quantity)
         {

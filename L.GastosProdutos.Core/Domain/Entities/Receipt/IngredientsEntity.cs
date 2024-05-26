@@ -2,7 +2,7 @@
 
 namespace L.GastosProdutos.Core.Domain.Entities.Receipt
 {
-    internal class IngredientsEntity : BaseEntity
+    public class IngredientsEntity : BaseEntity
     {
         public IngredientsEntity(string productId, string productName, float quantity, decimal price)
         {
