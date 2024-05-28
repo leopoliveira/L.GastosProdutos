@@ -2,10 +2,10 @@
 {
     public static class MongoCollectionsNames
     {
-        public const string PRODUCTS = "Products";
+        public const string PRODUCT = "Products";
 
-        public const string RECIPES = "Recipes";
+        public const string RECIPE = "Recipes";
 
-        public const string PACKINGS = "Packings";
+        public const string PACKING = "Packings";
     }
 }
