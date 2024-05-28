@@ -1,6 +1,6 @@
-﻿namespace L.GastosProdutos.Core.Infrasctucture.MongoCollections
+﻿namespace L.GastosProdutos.Core.Infrasctucture.Mongo.MongoCollections
 {
-    public static class CollectionsNames
+    public static class MongoCollectionsNames
     {
         public const string PRODUCTS = "Products";
 
