@@ -1,33 +1,64 @@
-﻿using L.GastosProdutos.Core.Application.Interfaces;
+﻿using System.Linq.Expressions;
+
+using L.GastosProdutos.Core.Application.Exceptions;
+using L.GastosProdutos.Core.Application.Interfaces;
 using L.GastosProdutos.Core.Domain.Entities.Packing;
+using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
+using L.GastosProdutos.Core.Infrasctucture.Mongo.MongoCollections;
+
+using MongoDB.Driver;
 
 namespace L.GastosProdutos.Core.Application.Implementations
 {
     public class PackingRepository : IPackingRepository
     {
-        public Task<IReadOnlyList<PackingEntity>> GetAllAsync()
+        private readonly IMongoCollection<PackingEntity> _collection;
+
+        public PackingRepository(IMongoContext context)
         {
-            throw new NotImplementedException();
+            _collection = context.GetCollection<PackingEntity>(MongoCollectionsNames.PACKING);
         }
 
-        public Task<PackingEntity> GetByIdAsync(string id)
+        public async Task<IReadOnlyList<PackingEntity>> GetAllAsync() =>
+            await _collection
+            .Find(_ => true)
+            .ToListAsync();
+
+        public async Task<PackingEntity> GetByIdAsync(string id) =>
+            await _collection
+            .Find(p => p.Id == id)
+            .FirstOrDefaultAsync();
+
+        public async Task<IReadOnlyList<PackingEntity>> GetByFilterAsync(Expression<Func<PackingEntity, bool>> filter) =>
+            await _collection
+            .Find(filter)
+            .ToListAsync();
+
+        public async Task<IReadOnlyList<PackingEntity>> GetByFilterAsync(FilterDefinition<PackingEntity> filter) =>
+            await _collection
+            .Find(filter)
+            .ToListAsync();
+
+        public async Task CreateAsync(PackingEntity entity) =>
+            await _collection
+            .InsertOneAsync(entity);
+
+        public async Task UpdateAsync(string id, PackingEntity entity)
         {
-            throw new NotImplementedException();
+            entity.UpdatedAt = DateTime.UtcNow;
+
+            await _collection
+                .ReplaceOneAsync(p => p.Id == id, entity);
         }
 
-        public Task CreateAsync(PackingEntity entity)
+        public async Task DeleteAsync(string id)
         {
-            throw new NotImplementedException();
-        }
+            var entity = await GetByIdAsync(id) ??
+                throw new NotFoundException("Entity not found. Nothing will be deleted.");
 
-        public Task UpdateAsync(string id, PackingEntity entity)
-        {
-            throw new NotImplementedException();
-        }
+            entity.IsDeleted = true;
 
-        public Task DeleteAsync(string id)
-        {
-            throw new NotImplementedException();
+            await UpdateAsync(id, entity);
         }
     }
 }
