@@ -10,7 +10,7 @@ namespace L.GastosProdutos.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            // Get Mongo section configurations.
+            // Get Mongo section configurations in appsettings.json.
             builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("Mongo"));
 
             builder.Services.AddControllers();
