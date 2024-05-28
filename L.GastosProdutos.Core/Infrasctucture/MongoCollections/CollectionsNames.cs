@@ -4,6 +4,8 @@
     {
         public const string PRODUCTS = "Products";
 
-        public const string RECIPE = "Recipes";
+        public const string RECIPES = "Recipes";
+
+        public const string PACKINGS = "Packings";
     }
 }
