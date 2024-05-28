@@ -1,6 +1,6 @@
 ﻿using L.GastosProdutos.Core.Domain.Entities.Product;
 
-namespace L.GastosProdutos.Core.Application.Implementations
+namespace L.GastosProdutos.Core.Application.Interfaces
 {
     public interface IProductRepository
     {

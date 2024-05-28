@@ -1,5 +1,4 @@
-﻿using L.GastosProdutos.Core.Application.Implementations;
-using L.GastosProdutos.Core.Domain.Entities.Product;
+﻿using L.GastosProdutos.Core.Domain.Entities.Product;
 
 namespace L.GastosProdutos.Core.Application.Interfaces
 {

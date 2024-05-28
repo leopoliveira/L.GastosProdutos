@@ -1,6 +1,6 @@
 ﻿using L.GastosProdutos.Core.Domain.Entities.Receipt;
 
-namespace L.GastosProdutos.Core.Application.Implementations
+namespace L.GastosProdutos.Core.Application.Interfaces
 {
     public interface IRecipeRepository
     {
