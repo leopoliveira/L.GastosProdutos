@@ -7,8 +7,8 @@ namespace L.GastosProdutos.Core.Domain.Entities.Base
     {
         public BaseEntity()
         {
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
         }
 
         [BsonId]
