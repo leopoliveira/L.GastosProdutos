@@ -1,5 +1,5 @@
 
-using L.GastosProdutos.API.Configs.Mongo;
+using L.GastosProdutos.Core.Infrasctucture.Settings;
 
 namespace L.GastosProdutos.API
 {

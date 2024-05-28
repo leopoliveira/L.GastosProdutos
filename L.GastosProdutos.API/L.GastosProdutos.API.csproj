@@ -15,4 +15,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\L.GastosProdutos.Core\L.GastosProdutos.Core.csproj" />
+  </ItemGroup>
+
 </Project>
