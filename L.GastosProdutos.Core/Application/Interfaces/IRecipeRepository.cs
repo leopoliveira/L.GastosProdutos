@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-using L.GastosProdutos.Core.Domain.Entities.Receipt;
+using L.GastosProdutos.Core.Domain.Entities.Recipe;
 
 using MongoDB.Driver;
 
@@ -16,7 +16,7 @@ namespace L.GastosProdutos.Core.Application.Interfaces
 
         Task<IReadOnlyList<RecipeEntity>> GetByFilterAsync(FilterDefinition<RecipeEntity> filter);
 
-        Task<int> CountIngredientsAsync(string recipeId);
+        Task<long> CountIngredientsAsync(string recipeId);
 
         Task CreateAsync(RecipeEntity entity);
 

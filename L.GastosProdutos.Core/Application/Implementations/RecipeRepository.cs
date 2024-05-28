@@ -1,33 +1,67 @@
-﻿using L.GastosProdutos.Core.Application.Interfaces;
-using L.GastosProdutos.Core.Domain.Entities.Receipt;
+﻿using L.GastosProdutos.Core.Application.Exceptions;
+using System.Linq.Expressions;
+
+using L.GastosProdutos.Core.Application.Interfaces;
+using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
+using L.GastosProdutos.Core.Infrasctucture.Mongo.MongoCollections;
+
+using MongoDB.Driver;
+using L.GastosProdutos.Core.Domain.Entities.Recipe;
 
 namespace L.GastosProdutos.Core.Application.Implementations
 {
     public class RecipeRepository : IRecipeRepository
     {
-        public Task<IReadOnlyList<RecipeEntity>> GetAllAsync()
+        private readonly IMongoCollection<RecipeEntity> _collection;
+
+        public RecipeRepository(IMongoContext context)
         {
-            throw new NotImplementedException();
+            _collection = context.GetCollection<RecipeEntity>(MongoCollectionsNames.RECIPE);
         }
 
-        public Task<RecipeEntity> GetByIdAsync(string id)
+        public async Task<IReadOnlyList<RecipeEntity>> GetAllAsync() =>
+            await _collection
+            .Find(_ => true)
+            .ToListAsync();
+
+        public async Task<RecipeEntity> GetByIdAsync(string id) =>
+            await _collection
+            .Find(r => r.Id == id)
+            .FirstOrDefaultAsync();
+
+        public async Task<IReadOnlyList<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter) =>
+            await _collection
+            .Find(filter)
+            .ToListAsync();
+
+        public async Task<IReadOnlyList<RecipeEntity>> GetByFilterAsync(FilterDefinition<RecipeEntity> filter) =>
+            await _collection
+            .Find(filter)
+            .ToListAsync();
+
+        public async Task<long> CountIngredientsAsync(string recipeId) =>
+            await _collection.CountDocumentsAsync(r => r.Id == recipeId);
+
+        public async Task CreateAsync(RecipeEntity entity) =>
+            await _collection
+            .InsertOneAsync(entity);
+
+        public async Task UpdateAsync(string id, RecipeEntity entity)
         {
-            throw new NotImplementedException();
+            entity.UpdatedAt = DateTime.UtcNow;
+
+            await _collection
+                .ReplaceOneAsync(r => r.Id == id, entity);
         }
 
-        public Task CreateAsync(RecipeEntity entity)
+        public async Task DeleteAsync(string id)
         {
-            throw new NotImplementedException();
-        }
+            var entity = await GetByIdAsync(id) ??
+                throw new NotFoundException("Entity not found. Nothing will be deleted.");
 
-        public Task UpdateAsync(string id, RecipeEntity entity)
-        {
-            throw new NotImplementedException();
-        }
+            entity.IsDeleted = true;
 
-        public Task DeleteAsync(string id)
-        {
-            throw new NotImplementedException();
+            await UpdateAsync(id, entity);
         }
     }
 }
