@@ -1,5 +1,4 @@
-﻿using L.GastosProdutos.Core.Application.MediatR.Product.AddProduct;
-
+﻿using L.GastosProdutos.Core.Application.MediatR.Product.V1.AddProduct;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;

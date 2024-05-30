@@ -1,4 +1,4 @@
-﻿using L.GastosProdutos.Core.Application.MediatR.Product.AddProduct;
+﻿using L.GastosProdutos.Core.Application.MediatR.Product.V1.AddProduct;
 using L.GastosProdutos.Core.Application.Repository;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Settings;
