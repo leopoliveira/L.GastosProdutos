@@ -22,9 +22,9 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 
         public List<IngredientsValueObject> Ingredients { get; } = null!;
 
-        public decimal TotalCost { get; private set; }
-
         public List<PackingValueObject> Packings { get; set; } = null!;
+
+        public decimal TotalCost { get; private set; }
 
         public void AddIngredient(IngredientsValueObject ingredient)
         {
