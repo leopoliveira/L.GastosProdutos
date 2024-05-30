@@ -14,7 +14,11 @@ namespace L.GastosProdutos.Core.Application.MediatR.Product.V1.AddProduct
             _repository = repository;
         }
 
-        public async Task<AddProductResponse> Handle(AddProductRequest request, CancellationToken cancellationToken)
+        public async Task<AddProductResponse> Handle
+        (
+            AddProductRequest request,
+            CancellationToken cancellationToken
+        )
         {
             var product = new ProductEntity(request.Name, request.Price, request.Quantity);
 
