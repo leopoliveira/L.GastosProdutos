@@ -1,10 +1,8 @@
 ﻿using System.Linq.Expressions;
-
 using L.GastosProdutos.Core.Domain.Entities.Product;
-
 using MongoDB.Driver;
 
-namespace L.GastosProdutos.Core.Application.Interfaces
+namespace L.GastosProdutos.Core.Interfaces
 {
     public interface IProductRepository
     {

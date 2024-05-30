@@ -1,12 +1,11 @@
 ﻿using L.GastosProdutos.Core.Application.Exceptions;
 using System.Linq.Expressions;
-
-using L.GastosProdutos.Core.Application.Interfaces;
 using L.GastosProdutos.Core.Domain.Entities.Product;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.MongoCollections;
 
 using MongoDB.Driver;
+using L.GastosProdutos.Core.Interfaces;
 
 namespace L.GastosProdutos.Core.Application.Implementations
 {

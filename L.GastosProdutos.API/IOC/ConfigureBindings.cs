@@ -1,7 +1,7 @@
 ﻿using L.GastosProdutos.Core.Application.Implementations;
-using L.GastosProdutos.Core.Application.Interfaces;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Settings;
+using L.GastosProdutos.Core.Interfaces;
 
 namespace L.GastosProdutos.API.IOC
 {
