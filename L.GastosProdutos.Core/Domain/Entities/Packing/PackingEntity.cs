@@ -4,6 +4,8 @@ namespace L.GastosProdutos.Core.Domain.Entities.Packing
 {
     public class PackingEntity : BaseEntity
     {
+        public PackingEntity() { }
+
         public PackingEntity(string name, string? description, decimal price, float quantity)
         {
             Name = name;

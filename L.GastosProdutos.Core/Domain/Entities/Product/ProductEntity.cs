@@ -4,6 +4,8 @@ namespace L.GastosProdutos.Core.Domain.Entities.Product
 {
     public class ProductEntity : BaseEntity
     {
+        public ProductEntity() { }
+
         public ProductEntity(string name, decimal price, decimal quantity)
         {
             Name = name;

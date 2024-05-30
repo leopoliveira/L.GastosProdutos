@@ -1,4 +1,6 @@
 ﻿using L.GastosProdutos.Core.Application.MediatR.Product.V1.AddProduct;
+using L.GastosProdutos.Core.Application.MediatR.Product.V1.GetProduct.ById;
+
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
@@ -15,17 +17,27 @@ namespace L.GastosProdutos.API.Controllers.V1
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetProductById(string id)
+        public async Task<ActionResult> GetProductById(string id, CancellationToken cancellationToken)
         {
-            return Ok();
+            var response = await _mediator.Send
+            (
+                new GetProductByIdRequest(id),
+                cancellationToken
+            );
+
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<ActionResult<AddProductResponse>> CreateProduct(AddProductRequest request, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(request, cancellationToken);
+            var response = await _mediator.Send
+            (
+                request,
+                cancellationToken
+            );
 
-            return CreatedAtAction(nameof(GetProductById), new { id = response.ProductId }, response);
+            return StatusCode(StatusCodes.Status201Created);
         }
     }
 }
