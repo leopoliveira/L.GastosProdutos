@@ -18,9 +18,11 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
         public async Task<Unit> Handle
         (
             UpdateProductRequest request,
-            CancellationToken cancellationToke
+            CancellationToken cancellationToken
         )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var product = await _productRepository.GetByIdAsync(request.Id)
                 ?? throw new NotFoundException("Product not found.");
 

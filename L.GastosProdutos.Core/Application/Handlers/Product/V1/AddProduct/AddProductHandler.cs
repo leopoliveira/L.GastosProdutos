@@ -20,6 +20,8 @@ namespace L.GastosProdutos.Core.Application.MediatR.Product.V1.AddProduct
             CancellationToken cancellationToken
         )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var product = new ProductEntity(request.Name, request.Price, request.Quantity);
 
             await _repository.CreateAsync(product);

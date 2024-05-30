@@ -20,6 +20,8 @@ namespace L.GastosProdutos.Core.Application.MediatR.Product.V1.GetProduct.ById
             CancellationToken cancellationToken
         )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var product = await _repository.GetByIdAsync(request.Id)
                  ?? throw new NotFoundException("Product not found");
 

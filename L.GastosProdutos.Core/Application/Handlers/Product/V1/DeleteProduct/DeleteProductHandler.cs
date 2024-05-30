@@ -20,6 +20,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.DeleteProduct
             CancellationToken cancellationToken
         )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             await _repository.DeleteAsync(request.Id);
 
             return Unit.Value;
