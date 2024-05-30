@@ -1,4 +1,5 @@
-﻿using L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct;
+﻿using L.GastosProdutos.Core.Application.Handlers.Product.V1.DeleteProduct;
+using L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct;
 using L.GastosProdutos.Core.Application.MediatR.Product.V1.AddProduct;
 using L.GastosProdutos.Core.Application.MediatR.Product.V1.GetProduct.ById;
 
@@ -66,6 +67,22 @@ namespace L.GastosProdutos.API.Controllers.V1
                     dto.Price,
                     dto.Quantity
                 ),
+                cancellationToken
+            );
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> DeleteProduct
+        (
+            string id,
+            CancellationToken cancellationToken
+        )
+        {
+            await _mediator.Send
+            (
+                new DeleteProductRequest(id),
                 cancellationToken
             );
 
