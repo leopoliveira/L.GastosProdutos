@@ -7,7 +7,7 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
     {
         public RecipeEntity() { }
 
-        public RecipeEntity(string name, string? description, List<IngredientsEntity> ingredients, List<PackingValue> packings)
+        public RecipeEntity(string name, string? description, List<IngredientsValueObject> ingredients, List<Packing.PackingValueObject> packings)
         {
             Name = name;
             Description = description;
@@ -20,19 +20,19 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 
         public string? Description { get; set; }
 
-        public List<IngredientsEntity> Ingredients { get; } = null!;
+        public List<IngredientsValueObject> Ingredients { get; } = null!;
 
         public decimal TotalCost { get; private set; }
 
-        public List<PackingValue> Packings { get; set; } = null!;
+        public List<PackingValueObject> Packings { get; set; } = null!;
 
-        public void AddIngredient(IngredientsEntity ingredient)
+        public void AddIngredient(IngredientsValueObject ingredient)
         {
             Ingredients.Add(ingredient);
             TotalCost += ingredient.GetPrice();
         }
 
-        public void RemoveIngredient(IngredientsEntity ingredient)
+        public void RemoveIngredient(IngredientsValueObject ingredient)
         {
             Ingredients.Remove(ingredient);
             TotalCost -= ingredient.GetPrice();

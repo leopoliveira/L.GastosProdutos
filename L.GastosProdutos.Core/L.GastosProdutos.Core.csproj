@@ -14,6 +14,10 @@
 
   <ItemGroup>
     <Folder Include="Application\Handlers\Product\V1\GetProduct\All\" />
+    <Folder Include="Application\Handlers\Recipe\GetRecipe\All\" />
+    <Folder Include="Application\Handlers\Recipe\GetRecipe\ById\" />
+    <Folder Include="Application\Handlers\Recipe\DeleteRecipe\" />
+    <Folder Include="Application\Handlers\Recipe\UpdateRecipe\" />
   </ItemGroup>
 
 </Project>
