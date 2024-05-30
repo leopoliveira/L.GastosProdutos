@@ -10,7 +10,7 @@ namespace L.GastosProdutos.API
 
             // Add services to the container.
             ConfigureBindings.Mongo(builder.Services, builder.Configuration);
-            ConfigureMediatR.MediatR(builder.Services);
+            ConfigureBindings.MediatR(builder.Services);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
