@@ -7,7 +7,7 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
     {
         public RecipeEntity() { }
 
-        public RecipeEntity(string name, string? description, List<IngredientsValueObject> ingredients, List<Packing.PackingValueObject> packings)
+        public RecipeEntity(string name, string? description, List<IngredientsValueObject> ingredients, List<PackingValueObject> packings)
         {
             Name = name;
             Description = description;
