@@ -9,8 +9,8 @@ namespace L.GastosProdutos.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            // Get Mongo section configurations in appsettings.json.
             ConfigureBindings.Mongo(builder.Services, builder.Configuration);
+            ConfigureMediatR.MediatR(builder.Services);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

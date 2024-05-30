@@ -1,4 +1,4 @@
-﻿using L.GastosProdutos.Core.Application.Implementations;
+﻿using L.GastosProdutos.Core.Application.Repository;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Settings;
 using L.GastosProdutos.Core.Interfaces;

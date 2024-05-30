@@ -7,7 +7,7 @@ using L.GastosProdutos.Core.Infrasctucture.Mongo.MongoCollections;
 using MongoDB.Driver;
 using L.GastosProdutos.Core.Interfaces;
 
-namespace L.GastosProdutos.Core.Application.Implementations
+namespace L.GastosProdutos.Core.Application.Repository
 {
     public class ProductRepository : IProductRepository
     {

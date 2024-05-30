@@ -5,9 +5,10 @@ using L.GastosProdutos.Core.Domain.Entities.Packing;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.MongoCollections;
 using L.GastosProdutos.Core.Interfaces;
+
 using MongoDB.Driver;
 
-namespace L.GastosProdutos.Core.Application.Implementations
+namespace L.GastosProdutos.Core.Application.Repository
 {
     public class PackingRepository : IPackingRepository
     {

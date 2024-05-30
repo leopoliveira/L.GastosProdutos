@@ -7,7 +7,7 @@ using MongoDB.Driver;
 using L.GastosProdutos.Core.Domain.Entities.Recipe;
 using L.GastosProdutos.Core.Interfaces;
 
-namespace L.GastosProdutos.Core.Application.Implementations
+namespace L.GastosProdutos.Core.Application.Repository
 {
     public class RecipeRepository : IRecipeRepository
     {
