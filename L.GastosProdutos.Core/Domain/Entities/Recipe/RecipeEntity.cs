@@ -13,7 +13,7 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
             Description = description;
             Ingredients = ingredients;
             Packings = packings;
-            TotalCost = ingredients.Sum(i => i.GetPrice());
+            TotalCost = ingredients.Sum(i => i.GetCost());
         }
 
         public string Name { get; set; } = null!;
@@ -29,13 +29,13 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
         public void AddIngredient(IngredientsValueObject ingredient)
         {
             Ingredients.Add(ingredient);
-            TotalCost += ingredient.GetPrice();
+            TotalCost += ingredient.GetCost();
         }
 
         public void RemoveIngredient(IngredientsValueObject ingredient)
         {
             Ingredients.Remove(ingredient);
-            TotalCost -= ingredient.GetPrice();
+            TotalCost -= ingredient.GetCost();
         }
     }
 }
