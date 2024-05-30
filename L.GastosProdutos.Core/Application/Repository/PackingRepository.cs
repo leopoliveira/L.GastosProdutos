@@ -21,12 +21,12 @@ namespace L.GastosProdutos.Core.Application.Repository
 
         public async Task<IReadOnlyList<PackingEntity>> GetAllAsync() =>
             await _collection
-            .Find(_ => true)
+            .Find(p => !p.IsDeleted)
             .ToListAsync();
 
         public async Task<PackingEntity> GetByIdAsync(string id) =>
             await _collection
-            .Find(p => p.Id == id)
+            .Find(p => p.Id == id && !p.IsDeleted)
             .FirstOrDefaultAsync();
 
         public async Task<IReadOnlyList<PackingEntity>> GetByFilterAsync(Expression<Func<PackingEntity, bool>> filter) =>
@@ -48,7 +48,7 @@ namespace L.GastosProdutos.Core.Application.Repository
             entity.UpdatedAt = DateTime.UtcNow;
 
             await _collection
-                .ReplaceOneAsync(p => p.Id == id, entity);
+                .ReplaceOneAsync(p => p.Id == id && !p.IsDeleted, entity);
         }
 
         public async Task DeleteAsync(string id)

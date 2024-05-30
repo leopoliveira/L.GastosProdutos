@@ -20,12 +20,12 @@ namespace L.GastosProdutos.Core.Application.Repository
 
         public async Task<IReadOnlyList<RecipeEntity>> GetAllAsync() =>
             await _collection
-            .Find(_ => true)
+            .Find(r => !r.IsDeleted)
             .ToListAsync();
 
         public async Task<RecipeEntity> GetByIdAsync(string id) =>
             await _collection
-            .Find(r => r.Id == id)
+            .Find(r => r.Id == id && !r.IsDeleted)
             .FirstOrDefaultAsync();
 
         public async Task<IReadOnlyList<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter) =>
@@ -39,7 +39,7 @@ namespace L.GastosProdutos.Core.Application.Repository
             .ToListAsync();
 
         public async Task<long> CountIngredientsAsync(string recipeId) =>
-            await _collection.CountDocumentsAsync(r => r.Id == recipeId);
+            await _collection.CountDocumentsAsync(r => r.Id == recipeId && !r.IsDeleted);
 
         public async Task CreateAsync(RecipeEntity entity) =>
             await _collection
@@ -50,7 +50,7 @@ namespace L.GastosProdutos.Core.Application.Repository
             entity.UpdatedAt = DateTime.UtcNow;
 
             await _collection
-                .ReplaceOneAsync(r => r.Id == id, entity);
+                .ReplaceOneAsync(r => r.Id == id && !r.IsDeleted, entity);
         }
 
         public async Task DeleteAsync(string id)
