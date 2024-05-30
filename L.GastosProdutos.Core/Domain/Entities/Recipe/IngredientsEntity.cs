@@ -20,7 +20,7 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 
         public decimal Price { get; set; }
 
-        public decimal GetCost() =>
+        public decimal GetPrice() =>
             Quantity * Price;
     }
 }
