@@ -2,7 +2,7 @@
 
 namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 {
-    public class IngredientsValueObject : BaseEntity
+    public class IngredientsValueObject
     {
         public IngredientsValueObject(string productId, string productName, decimal quantity, decimal price)
         {
