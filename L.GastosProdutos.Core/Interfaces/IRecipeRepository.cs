@@ -10,9 +10,9 @@ namespace L.GastosProdutos.Core.Interfaces
 
         Task<RecipeEntity> GetByIdAsync(string id);
 
-        Task<IList<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter);
+        Task<List<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter);
 
-        Task<IList<RecipeEntity>> GetByFilterAsync(FilterDefinition<RecipeEntity> filter);
+        Task<List<RecipeEntity>> GetByFilterAsync(FilterDefinition<RecipeEntity> filter);
 
         Task<long> CountIngredientsAsync(string recipeId);
 
