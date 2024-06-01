@@ -1,5 +1,4 @@
-﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.AddRecipe;
-
+﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;

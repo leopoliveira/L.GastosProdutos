@@ -1,4 +1,4 @@
-﻿namespace L.GastosProdutos.Core.Application.Handlers.Recipe.ValueObjects
+﻿namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.Dto
 {
     public record PackingWriteDto
     (

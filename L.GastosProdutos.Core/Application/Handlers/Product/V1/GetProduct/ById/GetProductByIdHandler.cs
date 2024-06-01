@@ -3,7 +3,7 @@ using L.GastosProdutos.Core.Interfaces;
 
 using MediatR;
 
-namespace L.GastosProdutos.Core.Application.MediatR.Product.V1.GetProduct.ById
+namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
 {
     public class GetProductByIdHandler : IRequestHandler<GetProductByIdRequest, GetProductByIdResponse>
     {

@@ -4,7 +4,7 @@ using L.GastosProdutos.Core.Interfaces;
 
 using MediatR;
 
-namespace L.GastosProdutos.Core.Application.Handlers.Recipe.AddRecipe
+namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe
 {
     public class AddRecipeHandler : IRequestHandler<AddRecipeRequest, AddRecipeResponse>
     {
@@ -33,7 +33,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.AddRecipe
 
             if (request.Ingredients.Count > 0)
             {
-                foreach(var ingredient in request.Ingredients)
+                foreach (var ingredient in request.Ingredients)
                 {
                     recipe.AddIngredient
                     (
@@ -50,7 +50,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.AddRecipe
 
             if (request.Packings.Count > 0)
             {
-                foreach(var packing in request.Packings)
+                foreach (var packing in request.Packings)
                 {
                     recipe.AddPacking
                     (

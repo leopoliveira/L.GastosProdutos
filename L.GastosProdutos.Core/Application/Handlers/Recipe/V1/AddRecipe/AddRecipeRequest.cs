@@ -1,8 +1,7 @@
-﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.ValueObjects;
-
+﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.Dto;
 using MediatR;
 
-namespace L.GastosProdutos.Core.Application.Handlers.Recipe.AddRecipe
+namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe
 {
     public record AddRecipeRequest
     (
