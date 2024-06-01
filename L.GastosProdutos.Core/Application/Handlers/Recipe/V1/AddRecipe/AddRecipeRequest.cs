@@ -7,8 +7,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe
     (
         string Name,
         string? Description,
-        List<IngredientWriteDto> Ingredients,
-        List<PackingWriteDto> Packings
+        List<IngredientDto> Ingredients,
+        List<PackingDto> Packings
     )
     : IRequest<AddRecipeResponse>;
 }

@@ -1,6 +1,6 @@
 ﻿namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.Dto
 {
-    public record IngredientWriteDto
+    public record IngredientDto
     (
         string ProductId,
         string ProductName,

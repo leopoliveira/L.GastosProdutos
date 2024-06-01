@@ -1,6 +1,6 @@
 ﻿namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.Dto
 {
-    public record PackingWriteDto
+    public record PackingDto
     (
         string PackingId,
         string PackingName,
