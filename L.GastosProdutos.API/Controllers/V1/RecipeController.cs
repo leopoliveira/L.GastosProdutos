@@ -1,4 +1,6 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe;
+using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.ById;
+
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +14,22 @@ namespace L.GastosProdutos.API.Controllers.V1
         public RecipeController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetRecipeByIdResponse>> GetRecipeById
+        (
+            string id,
+            CancellationToken cancellationToken
+        )
+        {
+            var response = await _mediator.Send
+            (
+                new GetRecipeByIdRequest(id),
+                cancellationToken
+            );
+
+            return Ok(response);
         }
 
         [HttpPost]
