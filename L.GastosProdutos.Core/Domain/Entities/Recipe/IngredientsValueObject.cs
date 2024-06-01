@@ -9,7 +9,7 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
             ProductId = productId;
             ProductName = productName;
             Quantity = quantity;
-            Price = price;
+            ProductUnitPrice = price;
         }
 
         public string ProductId { get; set; }
@@ -18,9 +18,9 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 
         public decimal Quantity { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal ProductUnitPrice { get; set; }
 
         public decimal GetCost() =>
-            Quantity * Price;
+            Quantity * ProductUnitPrice;
     }
 }

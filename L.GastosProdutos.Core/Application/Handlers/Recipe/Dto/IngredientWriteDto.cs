@@ -5,6 +5,6 @@
         string ProductId,
         string ProductName,
         decimal Quantity,
-        decimal Price
+        decimal ProductUnitPrice
     );
 }
