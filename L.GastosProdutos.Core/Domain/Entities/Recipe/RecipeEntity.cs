@@ -19,9 +19,9 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 
         public string? Description { get; set; }
 
-        public List<IngredientsValueObject> Ingredients { get; set; } = null!;
+        public List<IngredientsValueObject> Ingredients { get; private set; } = null!;
 
-        public List<PackingValueObject> Packings { get; set;  } = null!;
+        public List<PackingValueObject> Packings { get; private set;  } = null!;
 
         public decimal TotalCost { get; private set; }
 
