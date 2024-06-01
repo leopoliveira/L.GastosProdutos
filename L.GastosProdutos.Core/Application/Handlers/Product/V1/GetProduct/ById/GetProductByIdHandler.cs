@@ -25,7 +25,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
             var product = await _repository.GetByIdAsync(request.Id)
                  ?? throw new NotFoundException("Product not found");
 
-            return new GetProductByIdResponse(
+            return new GetProductByIdResponse
+            (
                 product.Id,
                 product.Name,
                 product.Price,
