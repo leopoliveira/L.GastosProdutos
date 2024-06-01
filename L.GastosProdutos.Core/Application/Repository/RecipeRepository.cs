@@ -28,12 +28,12 @@ namespace L.GastosProdutos.Core.Application.Repository
             .Find(r => r.Id == id && !r.IsDeleted)
             .FirstOrDefaultAsync();
 
-        public async Task<IReadOnlyList<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter) =>
+        public async Task<IList<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter) =>
             await _collection
             .Find(filter)
             .ToListAsync();
 
-        public async Task<IReadOnlyList<RecipeEntity>> GetByFilterAsync(FilterDefinition<RecipeEntity> filter) =>
+        public async Task<IList<RecipeEntity>> GetByFilterAsync(FilterDefinition<RecipeEntity> filter) =>
             await _collection
             .Find(filter)
             .ToListAsync();
