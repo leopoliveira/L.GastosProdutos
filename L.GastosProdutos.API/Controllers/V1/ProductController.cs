@@ -1,7 +1,7 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.DeleteProduct;
+using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct;
-using L.GastosProdutos.Core.Application.MediatR.Product.V1.GetProduct.ById;
 
 using MediatR;
 
