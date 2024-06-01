@@ -26,14 +26,14 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
             var product = await _productRepository.GetByIdAsync(request.Id)
                 ?? throw new NotFoundException("Product not found.");
 
-            MapRequestToEntity(request, product);
+            UpdateEntity(request, product);
 
             await _productRepository.UpdateAsync(request.Id, product);
 
             return Unit.Value;
         }
 
-        private static void MapRequestToEntity
+        private static void UpdateEntity
         (
             UpdateProductRequest request,
             ProductEntity product
