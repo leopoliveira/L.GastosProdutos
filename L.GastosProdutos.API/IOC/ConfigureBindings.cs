@@ -1,4 +1,4 @@
-﻿using L.GastosProdutos.Core.Application.MediatR.Product.V1.AddProduct;
+﻿using L.GastosProdutos.Core;
 using L.GastosProdutos.Core.Application.Repository;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
 using L.GastosProdutos.Core.Infrasctucture.Mongo.Settings;
@@ -21,7 +21,7 @@ namespace L.GastosProdutos.API.IOC
         public static void MediatR(IServiceCollection services)
         {
             services.AddMediatR(cfg =>
-            cfg.RegisterServicesFromAssemblies(typeof(AddProductHandler).Assembly));
+                cfg.RegisterServicesFromAssemblies(new AssemblyReference().GetAssembly()));
         }
 
         private static void ConfigureMongoRepositories(IServiceCollection services)
