@@ -1,8 +1,8 @@
-﻿using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
+﻿using L.GastosProdutos.Core.Infra.Mongo.Interfaces;
 
 using MongoDB.Driver;
 
-namespace L.GastosProdutos.Core.Infrasctucture.Mongo.Settings
+namespace L.GastosProdutos.Core.Infra.Mongo.Settings
 {
     public class MongoContext : IMongoContext
     {

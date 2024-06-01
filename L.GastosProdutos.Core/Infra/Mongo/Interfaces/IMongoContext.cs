@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces
+namespace L.GastosProdutos.Core.Infra.Mongo.Interfaces
 {
     public interface IMongoContext
     {

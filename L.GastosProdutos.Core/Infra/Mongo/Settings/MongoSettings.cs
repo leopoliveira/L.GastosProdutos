@@ -1,4 +1,4 @@
-﻿namespace L.GastosProdutos.Core.Infrasctucture.Mongo.Settings
+﻿namespace L.GastosProdutos.Core.Infra.Mongo.Settings
 {
     public class MongoSettings
     {

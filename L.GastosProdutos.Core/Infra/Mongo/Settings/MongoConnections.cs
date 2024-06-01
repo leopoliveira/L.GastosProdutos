@@ -1,10 +1,10 @@
-﻿using L.GastosProdutos.Core.Infrasctucture.Mongo.Interfaces;
+﻿using L.GastosProdutos.Core.Infra.Mongo.Interfaces;
 
 using Microsoft.Extensions.Options;
 
 using MongoDB.Driver;
 
-namespace L.GastosProdutos.Core.Infrasctucture.Mongo.Settings
+namespace L.GastosProdutos.Core.Infra.Mongo.Settings
 {
     public class MongoConnections : IMongoConnections
     {
@@ -35,7 +35,7 @@ namespace L.GastosProdutos.Core.Infrasctucture.Mongo.Settings
                 Databases.TryGetValue(_connectionString, out var database);
 
                 if (database is not null)
-                        return database;
+                    return database;
 
                 var client = new MongoClient(_connectionString);
 

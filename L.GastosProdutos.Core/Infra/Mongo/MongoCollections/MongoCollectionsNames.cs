@@ -1,4 +1,4 @@
-﻿namespace L.GastosProdutos.Core.Infrasctucture.Mongo.MongoCollections
+﻿namespace L.GastosProdutos.Core.Infra.Mongo.MongoCollections
 {
     public static class MongoCollectionsNames
     {
