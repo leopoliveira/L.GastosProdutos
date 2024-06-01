@@ -53,6 +53,12 @@ namespace L.GastosProdutos.Core.Application.Repository
                 .ReplaceOneAsync(r => r.Id == id && !r.IsDeleted, entity);
         }
 
+        public async Task<UpdateResult> UpdateMany(FilterDefinition<RecipeEntity> filter, UpdateDefinition<RecipeEntity> update)
+        {
+             return await _collection
+                .UpdateManyAsync(filter, update);
+        }
+
         public async Task DeleteAsync(string id)
         {
             var entity = await GetByIdAsync(id) ??

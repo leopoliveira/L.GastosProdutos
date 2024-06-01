@@ -20,6 +20,8 @@ namespace L.GastosProdutos.Core.Interfaces
 
         Task UpdateAsync(string id, RecipeEntity entity);
 
+        Task<UpdateResult> UpdateMany(FilterDefinition<RecipeEntity> filter, UpdateDefinition<RecipeEntity> update);
+
         Task DeleteAsync(string id);
     }
 }
