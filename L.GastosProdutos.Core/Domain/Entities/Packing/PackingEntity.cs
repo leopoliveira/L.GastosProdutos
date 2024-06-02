@@ -20,11 +20,11 @@ namespace L.GastosProdutos.Core.Domain.Entities.Packing
 
         public decimal Price { get; set; }
 
-        public float Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         public decimal UnitPrice => GetUnitPrice();
 
         private decimal GetUnitPrice() =>
-            Price / (decimal)Quantity;
+            Price / Quantity;
     }
 }
