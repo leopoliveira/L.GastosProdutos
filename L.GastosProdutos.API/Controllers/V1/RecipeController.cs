@@ -51,7 +51,7 @@ namespace L.GastosProdutos.API.Controllers.V1
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> UpdateRecipe
+        public async Task<ActionResult> UpdateRecipe
         (
             string id,
             UpdateRecipeDto dto,
@@ -75,7 +75,7 @@ namespace L.GastosProdutos.API.Controllers.V1
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> DeleteRecipe
+        public async Task<ActionResult> DeleteRecipe
         (
             string id,
             CancellationToken cancellationToken
