@@ -22,7 +22,12 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var product = new ProductEntity(request.Name, request.Price, request.Quantity);
+            var product = new ProductEntity
+            (
+                request.Name,
+                request.Price,
+                request.Quantity
+            );
 
             await _repository.CreateAsync(product);
 
