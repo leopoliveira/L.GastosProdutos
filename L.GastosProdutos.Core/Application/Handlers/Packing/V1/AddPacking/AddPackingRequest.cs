@@ -7,7 +7,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.AddPacking
         string Name,
         string? Description,
         decimal Price,
-        float Quantity
+        decimal Quantity
     )
     : IRequest<AddPackingResponse>;
 }
