@@ -6,7 +6,7 @@ namespace L.GastosProdutos.Core.Domain.Entities.Packing
     {
         public PackingEntity() { }
 
-        public PackingEntity(string name, string? description, decimal price, float quantity)
+        public PackingEntity(string name, string? description, decimal price, decimal quantity)
         {
             Name = name;
             Description = description;
