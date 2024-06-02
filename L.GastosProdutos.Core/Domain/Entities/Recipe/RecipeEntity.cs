@@ -48,5 +48,12 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
             Packings.Remove(packing);
             TotalCost -= packing.Cost;
         }
+
+        public void RemoveAllIngredientsAndPackings()
+        {
+            Ingredients.Clear();
+            Packings.Clear();
+            TotalCost = 0;
+        }
     }
 }
