@@ -1,4 +1,5 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Packing.V1.AddPacking;
+using L.GastosProdutos.Core.Application.Handlers.Packing.V1.DeletePacking;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById;
 
 using MediatR;
@@ -46,6 +47,22 @@ namespace L.GastosProdutos.API.Controllers.V1
             );
 
             return StatusCode(StatusCodes.Status201Created);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeletePacking
+        (
+            string id,
+            CancellationToken cancellationToken
+        )
+        {
+            await _mediator.Send
+            (
+                new DeletePackingRequest(id),
+                cancellationToken
+            );
+
+            return Ok();
         }
     }
 }
