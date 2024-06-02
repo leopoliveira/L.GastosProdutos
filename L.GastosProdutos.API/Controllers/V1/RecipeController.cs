@@ -1,5 +1,6 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.ById;
+using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe;
 
 using MediatR;
 
@@ -46,6 +47,30 @@ namespace L.GastosProdutos.API.Controllers.V1
             );
 
             return StatusCode(StatusCodes.Status201Created);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> UpdateRecipe
+        (
+            string id,
+            UpdateRecipeDto dto,
+            CancellationToken cancellationToken
+        )
+        {
+            await _mediator.Send
+            (
+                new UpdateRecipeRequest
+                (
+                    id,
+                    dto.Name,
+                    dto.Description,
+                    dto.Ingredients,
+                    dto.Packings
+                ),
+                cancellationToken
+            );
+
+            return Ok();
         }
     }
 }
