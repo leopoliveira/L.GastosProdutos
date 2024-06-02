@@ -4,12 +4,12 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 {
     public class IngredientsValueObject
     {
-        public IngredientsValueObject(string productId, string productName, decimal quantity, decimal price)
+        public IngredientsValueObject(string productId, string productName, decimal quantity, decimal productUnitPrice)
         {
             ProductId = productId;
             ProductName = productName;
             Quantity = quantity;
-            ProductUnitPrice = price;
+            ProductUnitPrice = productUnitPrice;
         }
 
         public string ProductId { get; set; }
