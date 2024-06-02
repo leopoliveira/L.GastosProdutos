@@ -15,7 +15,6 @@
   <ItemGroup>
     <Folder Include="Application\Handlers\Product\V1\GetProduct\All\" />
     <Folder Include="Application\Handlers\Recipe\V1\GetRecipe\All\" />
-    <Folder Include="Application\Handlers\Recipe\V1\DeleteRecipe\" />
   </ItemGroup>
 
 </Project>

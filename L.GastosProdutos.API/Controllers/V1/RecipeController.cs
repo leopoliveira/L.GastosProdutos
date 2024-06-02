@@ -1,4 +1,5 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe;
+using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.DeleteRecipe;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.ById;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe;
 
@@ -67,6 +68,22 @@ namespace L.GastosProdutos.API.Controllers.V1
                     dto.Ingredients,
                     dto.Packings
                 ),
+                cancellationToken
+            );
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> DeleteRecipe
+        (
+            string id,
+            CancellationToken cancellationToken
+        )
+        {
+            await _mediator.Send
+            (
+                new DeleteRecipeRequest(id),
                 cancellationToken
             );
 
