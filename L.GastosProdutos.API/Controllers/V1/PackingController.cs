@@ -1,6 +1,7 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Packing.V1.AddPacking;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.DeletePacking;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById;
+using L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking;
 
 using MediatR;
 
@@ -47,6 +48,30 @@ namespace L.GastosProdutos.API.Controllers.V1
             );
 
             return StatusCode(StatusCodes.Status201Created);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdatePacking
+        (
+            string id,
+            UpdatePackingDto dto,
+            CancellationToken cancellationToken
+        )
+        {
+            await _mediator.Send
+            (
+                new UpdatePackingRequest
+                (
+                    id,
+                    dto.Name,
+                    dto.Description,
+                    dto.Price,
+                    dto.Quantity
+                ),
+                cancellationToken
+            );
+
+            return Ok();
         }
 
         [HttpDelete("{id}")]
