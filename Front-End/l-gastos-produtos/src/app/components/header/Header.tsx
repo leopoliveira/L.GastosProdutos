@@ -30,19 +30,19 @@ const Header = () => {
             as={NextLink}
             href="/products"
             _hover={{ textDecoration: "none", color: "gray.600" }}>
-            Products
+            Produtos
           </Link>
           <Link
             as={NextLink}
             href="/packings"
             _hover={{ textDecoration: "none", color: "gray.600" }}>
-            Packings
+            Embalagens
           </Link>
           <Link
             as={NextLink}
             href="/recipes"
             _hover={{ textDecoration: "none", color: "gray.600" }}>
-            Recipes
+            Receitas
           </Link>
         </Flex>
       </Flex>
