@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./components/header";
-import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,15 +22,16 @@ export default function RootLayout({
       <body
         suppressHydrationWarning={true}
         className={inter.className}>
-        <Head>
-          <meta
-            name="viewport"
-            content="initial-scale=1, width=device-width"
-          />
-        </Head>
-        <CssBaseline />
-        <Header />
-        {children}
+        <Providers>
+          <Head>
+            <meta
+              name="viewport"
+              content="initial-scale=1, width=device-width"
+            />
+          </Head>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

@@ -1,5 +1,5 @@
 import ProductGrid from "../components/product/product-data-grid";
-import "./page.css";
+import "./product-page.css";
 
 export default function Products() {
   return (
