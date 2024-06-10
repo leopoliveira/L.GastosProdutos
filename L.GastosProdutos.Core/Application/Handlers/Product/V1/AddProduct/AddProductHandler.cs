@@ -26,7 +26,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct
             (
                 request.Name,
                 request.Price,
-                request.Quantity
+                request.Quantity,
+                request.UnitOfMeasure
             );
 
             await _repository.CreateAsync(product);

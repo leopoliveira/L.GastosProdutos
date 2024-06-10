@@ -53,6 +53,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
             product.Name = request.Name;
             product.Price = request.Price;
             product.Quantity = request.Quantity;
+            product.UnitOfMeasure = request.UnitOfMeasure;
         }
 
         private async Task UpdateIngredientsProductsUnitPrice(string id, decimal productUnitPrice)

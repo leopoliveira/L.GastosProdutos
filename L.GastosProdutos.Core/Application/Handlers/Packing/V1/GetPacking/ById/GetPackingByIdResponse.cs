@@ -1,4 +1,6 @@
-﻿namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById
+﻿using L.GastosProdutos.Core.Domain.Enums;
+
+namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById
 {
     public record GetPackingByIdResponse
     (
@@ -6,6 +8,7 @@
         string Name,
         string? Description,
         decimal Price,
-        decimal Quantity
+        decimal Quantity,
+        EnumUnitOfMeasure UnitOfMeasure
     );
 }

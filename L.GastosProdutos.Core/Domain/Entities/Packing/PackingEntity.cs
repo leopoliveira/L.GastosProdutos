@@ -1,4 +1,5 @@
 ﻿using L.GastosProdutos.Core.Domain.Entities.Base;
+using L.GastosProdutos.Core.Domain.Enums;
 
 namespace L.GastosProdutos.Core.Domain.Entities.Packing
 {
@@ -6,12 +7,13 @@ namespace L.GastosProdutos.Core.Domain.Entities.Packing
     {
         public PackingEntity() { }
 
-        public PackingEntity(string name, string? description, decimal price, decimal quantity)
+        public PackingEntity(string name, string? description, decimal price, decimal quantity, EnumUnitOfMeasure unitOfMeasure)
         {
             Name = name;
             Description = description;
             Price = price;
             Quantity = quantity;
+            UnitOfMeasure = unitOfMeasure;
         }
 
         public string Name { get; set; } = null!;
@@ -21,6 +23,8 @@ namespace L.GastosProdutos.Core.Domain.Entities.Packing
         public decimal Price { get; set; }
 
         public decimal Quantity { get; set; }
+
+        public EnumUnitOfMeasure UnitOfMeasure { get; set; }
 
         public decimal UnitPrice => GetUnitPrice();
 

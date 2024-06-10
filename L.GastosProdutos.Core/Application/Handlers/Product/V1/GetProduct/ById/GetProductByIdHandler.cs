@@ -31,7 +31,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
                 product.Name,
                 product.Price,
                 product.Quantity,
-                product.UnitPrice
+                product.UnitPrice,
+                product.UnitOfMeasure
             );
         }
     }

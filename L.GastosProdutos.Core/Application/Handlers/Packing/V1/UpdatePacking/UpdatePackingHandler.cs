@@ -46,6 +46,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking
             packing.Description = request.Description;
             packing.Price = request.Price;
             packing.Quantity = request.Quantity;
+            packing.UnitOfMeasure = request.UnitOfMeasure;
         }
 
         private async Task UpdateIngredientsPackingUnitPrice(string id, decimal packingUnitPrice)

@@ -1,4 +1,6 @@
-﻿namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
+﻿using L.GastosProdutos.Core.Domain.Enums;
+
+namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
 {
     public record GetProductByIdResponse
     (
@@ -6,6 +8,7 @@
         string Name,
         decimal Price,
         decimal Quantity,
-        decimal UnitPrice
+        decimal UnitPrice,
+        EnumUnitOfMeasure UnitOfMeasure
     );
 }

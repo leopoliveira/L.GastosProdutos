@@ -27,7 +27,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.AddPacking
                 request.Name,
                 request.Description,
                 request.Price,
-                request.Quantity
+                request.Quantity,
+                request.UnitOfMeasure
             );
 
             await _repository.CreateAsync(packing);

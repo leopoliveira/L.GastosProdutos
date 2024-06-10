@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using L.GastosProdutos.Core.Domain.Enums;
+
+using MediatR;
 
 namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct
 {
@@ -6,7 +8,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct
     (
         string Name,
         decimal Price,
-        decimal Quantity
+        decimal Quantity,
+        EnumUnitOfMeasure UnitOfMeasure
     )
     : IRequest<AddProductResponse>;
 }

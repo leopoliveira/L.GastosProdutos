@@ -65,7 +65,8 @@ namespace L.GastosProdutos.API.Controllers.V1
                     id,
                     dto.Name,
                     dto.Price,
-                    dto.Quantity
+                    dto.Quantity,
+                    dto.UnitOfMeasure
                 ),
                 cancellationToken
             );
