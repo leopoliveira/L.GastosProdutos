@@ -1,5 +1,7 @@
 using L.GastosProdutos.API.IOC;
 
+using Microsoft.AspNetCore.Cors.Infrastructure;
+
 namespace L.GastosProdutos.API
 {
     public class Program
@@ -11,6 +13,7 @@ namespace L.GastosProdutos.API
             // Add services to the container.
             ConfigureBindings.Mongo(builder.Services, builder.Configuration);
             ConfigureBindings.MediatR(builder.Services);
+            ConfigureBindings.ConfigureCors(builder.Services);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -27,6 +30,8 @@ namespace L.GastosProdutos.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(ConfigureBindings.CORS_POLICY);
 
             app.UseAuthorization();
 
