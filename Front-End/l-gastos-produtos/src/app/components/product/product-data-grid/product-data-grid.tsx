@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -28,7 +28,7 @@ type ProductGridProps = {
 
 const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   const [filter, setFilter] = useState("");
-  const [sortedData, setSortedData] = useState(products);
+  const [sortedData, setSortedData] = useState<IProduct[]>(products);
   const [sortConfig, setSortConfig] = useState({
     key: "",
     direction: "",
@@ -36,6 +36,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedProduct, setSelectedProduct] =
     useState<IProduct | null>(null);
+
+  useEffect(() => {
+    setSortedData(products);
+  }, [products]);
 
   const onFilterChange = (e: any) => {
     setFilter(e.target.value);

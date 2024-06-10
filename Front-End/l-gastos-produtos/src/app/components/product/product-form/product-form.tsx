@@ -135,7 +135,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
             <Input
               disabled={true}
               type="number"
-              value={formData.price / formData.quantity}
+              value={
+                isNaN(formData.price / formData.quantity)
+                  ? 0
+                  : formData.price / formData.quantity
+              }
             />
           </FormControl>
         </ModalBody>
