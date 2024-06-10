@@ -17,9 +17,10 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import { AddIcon } from "@chakra-ui/icons";
 import ProductModal from "../product-form";
+import { IProduct } from "@/common/interfaces/IProduct";
+import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum";
 
 type ProductGridProps = {
   products: IProduct[];
@@ -72,6 +73,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(value);
   };
 
@@ -127,26 +130,40 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
         <Thead>
           <Tr>
             <Th
+              cursor="pointer"
               textAlign="center"
               onClick={() => onSort("name")}>
               Nome
             </Th>
             <Th
+              cursor="pointer"
               textAlign="center"
               onClick={() => onSort("quantity")}>
               Quantidade
             </Th>
             <Th
+              cursor="pointer"
               textAlign="center"
               onClick={() => onSort("price")}>
               Preço
             </Th>
             <Th
+              cursor="pointer"
               textAlign="center"
-              onClick={() => onSort("totalCost")}>
-              Custo Total
+              onClick={() => onSort("unitOfMeasure")}>
+              Unidade
             </Th>
-            <Th textAlign="center">Ações</Th>
+            <Th
+              cursor="pointer"
+              textAlign="center"
+              onClick={() => onSort("unitPrice")}>
+              Preço Unitário
+            </Th>
+            <Th
+              cursor="pointer"
+              textAlign="center">
+              Ações
+            </Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -157,7 +174,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
               <Td textAlign="center">{item.quantity}</Td>
               <Td textAlign="center">{formatCurrency(item.price)}</Td>
               <Td textAlign="center">
-                {formatCurrency(item.totalCost)}
+                {UnitOfMeasure[item.unitOfMeasure] ?? "-"}
+              </Td>
+              <Td textAlign="center">
+                {formatCurrency(item.unitPrice)}
               </Td>
               <Td textAlign="center">
                 <Button

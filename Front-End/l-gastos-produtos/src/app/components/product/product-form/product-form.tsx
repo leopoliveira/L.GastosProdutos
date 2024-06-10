@@ -1,4 +1,6 @@
+import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum";
 import { IProduct } from "@/common/interfaces/IProduct";
+import { getEnumStrings } from "@/common/utils/utils";
 import {
   Button,
   FormControl,
@@ -11,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
@@ -30,7 +33,8 @@ const ProductModal: React.FC<ProductModalProps> = ({
     name: "",
     quantity: 0,
     price: 0,
-    totalCost: 0,
+    unitOfMeasure: 0,
+    unitPrice: 0,
   });
 
   useEffect(() => {
@@ -42,12 +46,15 @@ const ProductModal: React.FC<ProductModalProps> = ({
         name: "",
         quantity: 0,
         price: 0,
-        totalCost: 0,
+        unitOfMeasure: 0,
+        unitPrice: 0,
       });
     }
   }, [product]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -107,11 +114,28 @@ const ProductModal: React.FC<ProductModalProps> = ({
             />
           </FormControl>
           <FormControl mb={4}>
-            <FormLabel>Custo Total</FormLabel>
+            <FormLabel>Unidade de Medida</FormLabel>
+            <Select
+              name="unitOfMeasure"
+              value={formData.unitOfMeasure}
+              onChange={handleChange}>
+              {getEnumStrings(UnitOfMeasure).map((unit, index) => (
+                <option
+                  key={index}
+                  value={
+                    UnitOfMeasure[unit as keyof typeof UnitOfMeasure]
+                  }>
+                  {unit}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Preço Unitário</FormLabel>
             <Input
               disabled={true}
               type="number"
-              value={formData.quantity * formData.price}
+              value={formData.price / formData.quantity}
             />
           </FormControl>
         </ModalBody>
