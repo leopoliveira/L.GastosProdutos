@@ -5,6 +5,7 @@ import { Spinner, Box } from "@chakra-ui/react";
 import ProductGrid from "../components/product/product-data-grid";
 import "./product-page.css";
 import { IProduct } from "@/common/interfaces/IProduct";
+import ProductService from "@/common/services/product";
 
 export default function Products() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -14,19 +15,12 @@ export default function Products() {
 
   useEffect(() => {
     const getData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_PRODUCT_API_URL}/${produtTestId}`
-        );
+      const response = await ProductService.GetProductById(
+        produtTestId
+      );
 
-        const data: IProduct = await response.json();
-
-        setProducts([data]);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
+      setProducts([response]);
+      setLoading(false);
     };
 
     getData();
