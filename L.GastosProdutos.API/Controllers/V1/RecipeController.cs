@@ -1,5 +1,7 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.DeleteRecipe;
+using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe;
+using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.All;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.ById;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe;
 
@@ -18,8 +20,23 @@ namespace L.GastosProdutos.API.Controllers.V1
             _mediator = mediator;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<GetRecipeResponse>> GetAll
+        (
+            CancellationToken cancellationToken
+        )
+        {
+            var response = await _mediator.Send
+            (
+                new GetAllRecipeRequest(),
+                cancellationToken
+            );
+
+            return Ok(response);
+        }
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetRecipeByIdResponse>> GetRecipeById
+        public async Task<ActionResult<GetRecipeResponse>> GetRecipeById
         (
             string id,
             CancellationToken cancellationToken
