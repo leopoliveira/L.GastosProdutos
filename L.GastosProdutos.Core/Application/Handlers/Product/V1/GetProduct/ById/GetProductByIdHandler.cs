@@ -5,7 +5,7 @@ using MediatR;
 
 namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
 {
-    public class GetProductByIdHandler : IRequestHandler<GetProductByIdRequest, GetProductByIdResponse>
+    public class GetProductByIdHandler : IRequestHandler<GetProductByIdRequest, GetProductResponse>
     {
         private readonly IProductRepository _repository;
 
@@ -14,7 +14,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
             _repository = repository;
         }
 
-        public async Task<GetProductByIdResponse> Handle
+        public async Task<GetProductResponse> Handle
         (
             GetProductByIdRequest request,
             CancellationToken cancellationToken
@@ -25,7 +25,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
             var product = await _repository.GetByIdAsync(request.Id)
                  ?? throw new NotFoundException("Product not found");
 
-            return new GetProductByIdResponse
+            return new GetProductResponse
             (
                 product.Id,
                 product.Name,

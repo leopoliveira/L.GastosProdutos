@@ -1,8 +1,8 @@
 ﻿using L.GastosProdutos.Core.Domain.Enums;
 
-namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById
+namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct
 {
-    public record GetProductByIdResponse
+    public record GetProductResponse
     (
         string Id,
         string Name,

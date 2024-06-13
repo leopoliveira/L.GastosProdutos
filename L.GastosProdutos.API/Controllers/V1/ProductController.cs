@@ -1,5 +1,7 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.DeleteProduct;
+using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct;
+using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.All;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct;
 
@@ -16,6 +18,21 @@ namespace L.GastosProdutos.API.Controllers.V1
         public ProductController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GetProductResponse>>> GetAll
+        (
+            CancellationToken cancellationToken
+        )
+        {
+            var response = await _mediator.Send
+            (
+                new GetAllProductRequest(),
+                cancellationToken
+            );
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
