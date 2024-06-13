@@ -11,15 +11,11 @@ export default function Products() {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const produtTestId = "665a328b443fd9105cee40fa";
-
   useEffect(() => {
     const getData = async () => {
-      const response = await ProductService.GetProductById(
-        produtTestId
-      );
+      const response = await ProductService.GetAllProducts();
 
-      setProducts([response]);
+      setProducts(response);
       setLoading(false);
     };
 

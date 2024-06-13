@@ -17,3 +17,16 @@ export const GetProductById = async (producId: string): Promise<IProduct> =>
     throw error;
   }
 }
+
+export const GetAllProducts = async (): Promise<IProduct[]> =>
+{
+  try
+  {
+    const response = await api.get<IProduct[]>("/");
+    return response.data;
+  }
+  catch (error)
+  {
+    throw error;
+  }
+}
