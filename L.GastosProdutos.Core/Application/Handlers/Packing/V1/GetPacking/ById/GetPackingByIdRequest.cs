@@ -6,5 +6,5 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById
     (
         string Id
     )
-    : IRequest<GetPackingByIdResponse>;
+    : IRequest<GetPackingResponse>;
 }

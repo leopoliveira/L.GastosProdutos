@@ -5,7 +5,7 @@ using MediatR;
 
 namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById
 {
-    public class GetPackingByIdHandler : IRequestHandler<GetPackingByIdRequest, GetPackingByIdResponse>
+    public class GetPackingByIdHandler : IRequestHandler<GetPackingByIdRequest, GetPackingResponse>
     {
         private readonly IPackingRepository _repository;
 
@@ -14,7 +14,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById
             _repository = repository;
         }
 
-        public async Task<GetPackingByIdResponse> Handle
+        public async Task<GetPackingResponse> Handle
         (
             GetPackingByIdRequest request,
             CancellationToken cancellationToken
@@ -25,7 +25,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById
             var packing = await _repository.GetByIdAsync(request.Id)
                 ?? throw new NotFoundException("Packing not found.");
 
-            return new GetPackingByIdResponse
+            return new GetPackingResponse
             (
                 packing.Id,
                 packing.Name,

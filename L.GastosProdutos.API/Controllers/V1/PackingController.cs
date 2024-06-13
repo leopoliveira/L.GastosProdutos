@@ -1,5 +1,7 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Packing.V1.AddPacking;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.DeletePacking;
+using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking;
+using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.All;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking;
 
@@ -18,8 +20,23 @@ namespace L.GastosProdutos.API.Controllers.V1
             _mediator = mediator;
         }
 
+        [HttpGet()]
+        public async Task<ActionResult<GetPackingResponse>> GetAll
+        (
+            CancellationToken cancellationToken
+        )
+        {
+            var response = await _mediator.Send
+            (
+                new GetAllPackingRequest(),
+                cancellationToken
+            );
+
+            return Ok(response);
+        }
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetPackingByIdResponse>> GetById
+        public async Task<ActionResult<GetPackingResponse>> GetById
         (
             string id,
             CancellationToken cancellationToken

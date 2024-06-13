@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Handlers\Packing\V1\GetPacking\All\" />
     <Folder Include="Application\Handlers\Recipe\V1\GetRecipe\All\" />
   </ItemGroup>
 

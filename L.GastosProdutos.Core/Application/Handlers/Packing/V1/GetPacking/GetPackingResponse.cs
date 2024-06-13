@@ -1,8 +1,8 @@
 ﻿using L.GastosProdutos.Core.Domain.Enums;
 
-namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById
+namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking
 {
-    public record GetPackingByIdResponse
+    public record GetPackingResponse
     (
         string Id,
         string Name,
