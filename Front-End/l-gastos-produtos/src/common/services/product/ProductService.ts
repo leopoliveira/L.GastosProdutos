@@ -35,12 +35,12 @@ export const GetAllProducts = async (): Promise<IReadProduct[]> =>
   }
 }
 
-export const UpdateProduct = async (id: string, product: IReadProduct) =>
+export const UpdateProduct = async (producId: string, product: IReadProduct) =>
 {
   try
   {
     const productUpdateObj = { ...product } as IUpdateProduct;
-    await api.put(`/${ id }`, productUpdateObj);
+    await api.put(`/${ producId }`, productUpdateObj);
   }
   catch (error)
   {
@@ -63,11 +63,11 @@ export const CreateProduct = async (product: IReadProduct) =>
   }
 }
 
-export const DeleteProduct = async (id: string) =>
+export const DeleteProduct = async (producId: string) =>
 {
   try
   {
-    await api.delete(`/${ id }`);
+    await api.delete(`/${ producId }`);
   }
   catch (error)
   {
