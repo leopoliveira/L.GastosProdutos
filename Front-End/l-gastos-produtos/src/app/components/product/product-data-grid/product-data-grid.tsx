@@ -16,26 +16,37 @@ import {
   Thead,
   Tr,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import ProductModal from "../product-form";
-import { IProduct } from "@/common/interfaces/IProduct";
+import { IReadProduct } from "@/common/interfaces/product/IReadProduct";
 import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum";
+import DeleteModal from "../../delete-modal";
 
 type ProductGridProps = {
-  products: IProduct[];
+  products: IReadProduct[];
+  onSubmit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({
+  products,
+  onSubmit,
+}) => {
   const [filter, setFilter] = useState("");
-  const [sortedData, setSortedData] = useState<IProduct[]>(products);
+  const [sortedData, setSortedData] =
+    useState<IReadProduct[]>(products);
   const [sortConfig, setSortConfig] = useState({
     key: "",
     direction: "",
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] =
-    useState<IProduct | null>(null);
+    useState<IReadProduct | null>(null);
+  const [selectedProductId, setSelectedProductId] =
+    useState<string>("");
+  const toast = useToast();
 
   useEffect(() => {
     setSortedData(products);
@@ -82,18 +93,44 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
     }).format(value);
   };
 
-  const handleEdit = (product: IProduct) => {
+  const handleEdit = (product: IReadProduct) => {
     setSelectedProduct(product);
     onOpen();
   };
 
   const handleDelete = (id: string) => {
-    // Handle delete logic here
+    setOpenDeleteModal(true);
+    setSelectedProductId(id);
   };
 
   const handleAdd = () => {
     setSelectedProduct(null);
     onOpen();
+  };
+
+  const handleSubmit = (acao: string) => {
+    toast({
+      title: `Produto ${acao} com sucesso!`,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+
+    onSubmit(true);
+  };
+
+  const handleSubmitDelete = () => {
+    setOpenDeleteModal(false);
+    setSelectedProductId("");
+
+    toast({
+      title: "Produto excluído com sucesso!",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+
+    onSubmit(true);
   };
 
   return (
@@ -207,6 +244,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
         isOpen={isOpen}
         onClose={onClose}
         product={selectedProduct}
+        onSubmit={handleSubmit}
+      />
+      <DeleteModal
+        phrase="Deseja realmente excluir este produto?"
+        btnConfirmLabel="Excluir"
+        btnCancelLabel="Cancelar"
+        productId={selectedProductId}
+        isOpen={openDeleteModal}
+        onConfirm={handleSubmitDelete}
+        onClose={() => setOpenDeleteModal(false)}
       />
     </Box>
   );

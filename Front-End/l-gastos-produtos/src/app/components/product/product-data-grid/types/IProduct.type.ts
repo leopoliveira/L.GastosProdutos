@@ -1,6 +1,6 @@
 import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum"
 
-type IProduct = {
+type IReadProduct = {
   id: string,
   name: string,
   quantity: number,

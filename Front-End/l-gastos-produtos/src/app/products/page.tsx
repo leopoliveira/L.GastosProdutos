@@ -4,23 +4,35 @@ import { useEffect, useState } from "react";
 import { Spinner, Box } from "@chakra-ui/react";
 import ProductGrid from "../components/product/product-data-grid";
 import "./product-page.css";
-import { IProduct } from "@/common/interfaces/IProduct";
+import { IReadProduct } from "@/common/interfaces/product/IReadProduct";
 import ProductService from "@/common/services/product";
+import { get } from "http";
 
 export default function Products() {
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<IReadProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reRender, setReRender] = useState(false);
+
+  const getData = async () => {
+    setLoading(true);
+
+    const response = await ProductService.GetAllProducts();
+
+    setProducts(response);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await ProductService.GetAllProducts();
-
-      setProducts(response);
-      setLoading(false);
-    };
-
     getData();
   }, []);
+
+  useEffect(() => {
+    if (!reRender) {
+      return;
+    }
+    getData();
+    setReRender(false);
+  }, [reRender]);
 
   return (
     <main>
@@ -33,7 +45,10 @@ export default function Products() {
           <Spinner size="xl" />
         </Box>
       ) : (
-        <ProductGrid products={products} />
+        <ProductGrid
+          products={products}
+          onSubmit={setReRender}
+        />
       )}
     </main>
   );

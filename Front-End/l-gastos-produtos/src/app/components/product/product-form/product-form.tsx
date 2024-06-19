@@ -1,5 +1,6 @@
 import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum";
-import { IProduct } from "@/common/interfaces/IProduct";
+import { IReadProduct } from "@/common/interfaces/product/IReadProduct";
+import ProductService from "@/common/services/product";
 import { getEnumStrings } from "@/common/utils/utils";
 import {
   Button,
@@ -15,20 +16,22 @@ import {
   ModalOverlay,
   Select,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type ProductModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  product: IProduct | null;
+  product: IReadProduct | null;
+  onSubmit: (acao: string) => void;
 };
 
 const ProductModal: React.FC<ProductModalProps> = ({
   isOpen,
   onClose,
   product,
+  onSubmit,
 }) => {
-  const [formData, setFormData] = useState<IProduct>({
+  const [formData, setFormData] = useState<IReadProduct>({
     id: "",
     name: "",
     quantity: 0,
@@ -59,9 +62,18 @@ const ProductModal: React.FC<ProductModalProps> = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    // Handle form submission logic here
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (formData.id) {
+      ProductService.UpdateProduct(formData.id, formData).then(() => {
+        onSubmit("salvo");
+      });
+    } else {
+      ProductService.CreateProduct(formData).then(() => {
+        onSubmit("criado");
+      });
+    }
     onClose();
   };
 
@@ -78,10 +90,10 @@ const ProductModal: React.FC<ProductModalProps> = ({
         <ModalBody>
           {formData.id && (
             <FormControl mb={4}>
-              <FormLabel>Id</FormLabel>
               <Input
                 name="id"
                 value={formData.id}
+                hidden={true}
                 readOnly={true}
                 variant="filled"
               />
