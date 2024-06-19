@@ -1,3 +1,3 @@
-import ProductModal from './product-form';
+import ProductModal from './product-modal';
 
 export default ProductModal;
