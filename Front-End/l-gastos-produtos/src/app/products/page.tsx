@@ -3,10 +3,8 @@
 import { useEffect, useState } from "react";
 import { Spinner, Box } from "@chakra-ui/react";
 import ProductGrid from "../components/product/product-data-grid";
-import "./product-page.css";
 import { IReadProduct } from "@/common/interfaces/product/IReadProduct";
 import ProductService from "@/common/services/product";
-import { get } from "http";
 
 export default function Products() {
   const [products, setProducts] = useState<IReadProduct[]>([]);
