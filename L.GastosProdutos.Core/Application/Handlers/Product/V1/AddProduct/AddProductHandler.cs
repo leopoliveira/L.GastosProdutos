@@ -1,4 +1,5 @@
 ﻿using L.GastosProdutos.Core.Domain.Entities.Product;
+using L.GastosProdutos.Core.Domain.Enums;
 using L.GastosProdutos.Core.Interfaces;
 
 using MediatR;
@@ -27,7 +28,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct
                 request.Name,
                 request.Price,
                 request.Quantity,
-                request.UnitOfMeasure
+                (EnumUnitOfMeasure)request.UnitOfMeasure
             );
 
             await _repository.CreateAsync(product);

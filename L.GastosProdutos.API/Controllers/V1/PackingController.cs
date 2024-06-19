@@ -4,6 +4,7 @@ using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.All;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking;
+using L.GastosProdutos.Core.Domain.Enums;
 
 using MediatR;
 
@@ -84,7 +85,7 @@ namespace L.GastosProdutos.API.Controllers.V1
                     dto.Description,
                     dto.Price,
                     dto.Quantity,
-                    dto.UnitOfMeasure
+                    (EnumUnitOfMeasure)dto.UnitOfMeasure
                 ),
                 cancellationToken
             );

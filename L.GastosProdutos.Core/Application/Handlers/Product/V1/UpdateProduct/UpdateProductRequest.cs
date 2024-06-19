@@ -19,6 +19,6 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
         string Name,
         decimal Price,
         decimal Quantity,
-        EnumUnitOfMeasure UnitOfMeasure
+        int UnitOfMeasure
     );
 }

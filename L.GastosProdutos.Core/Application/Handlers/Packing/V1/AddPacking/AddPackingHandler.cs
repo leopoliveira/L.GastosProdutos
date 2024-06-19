@@ -1,4 +1,5 @@
 ﻿using L.GastosProdutos.Core.Domain.Entities.Packing;
+using L.GastosProdutos.Core.Domain.Enums;
 using L.GastosProdutos.Core.Interfaces;
 
 using MediatR;
@@ -28,7 +29,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.AddPacking
                 request.Description,
                 request.Price,
                 request.Quantity,
-                request.UnitOfMeasure
+                (EnumUnitOfMeasure)request.UnitOfMeasure
             );
 
             await _repository.CreateAsync(packing);

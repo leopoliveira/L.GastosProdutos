@@ -21,6 +21,6 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking
         string? Description,
         decimal Price,
         decimal Quantity,
-        EnumUnitOfMeasure UnitOfMeasure
+        int UnitOfMeasure
     );
 }

@@ -4,6 +4,7 @@ using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.All;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct;
+using L.GastosProdutos.Core.Domain.Enums;
 
 using MediatR;
 
@@ -83,7 +84,7 @@ namespace L.GastosProdutos.API.Controllers.V1
                     dto.Name,
                     dto.Price,
                     dto.Quantity,
-                    dto.UnitOfMeasure
+                    (EnumUnitOfMeasure)dto.UnitOfMeasure
                 ),
                 cancellationToken
             );
