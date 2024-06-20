@@ -20,7 +20,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import ProductModal from "../product-form";
 import { IReadProduct } from "@/common/interfaces/product/IReadProduct";
 import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum";
-import DeleteModal from "../../delete-modal";
+import ProductDeleteModal from "../product-delete-modal";
 
 type ProductGridProps = {
   products: IReadProduct[];
@@ -244,7 +244,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         product={selectedProduct}
         onSubmit={handleSubmit}
       />
-      <DeleteModal
+      <ProductDeleteModal
         phrase="Deseja realmente excluir este produto?"
         btnConfirmLabel="Excluir"
         btnCancelLabel="Cancelar"

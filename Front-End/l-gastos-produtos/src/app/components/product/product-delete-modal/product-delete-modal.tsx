@@ -10,7 +10,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-type DeleteModalProps = {
+type ProductDeleteModalProps = {
   phrase: string;
   btnConfirmLabel: string;
   btnCancelLabel: string;
@@ -20,7 +20,7 @@ type DeleteModalProps = {
   onClose: () => void;
 };
 
-const DeleteModal: React.FC<DeleteModalProps> = ({
+const ProductDeleteModal: React.FC<ProductDeleteModalProps> = ({
   phrase,
   btnConfirmLabel,
   btnCancelLabel,
@@ -61,4 +61,4 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   );
 };
 
-export default DeleteModal;
+export default ProductDeleteModal;
