@@ -30,7 +30,7 @@ const Header = () => {
             as={NextLink}
             href="/products"
             _hover={{ textDecoration: "none", color: "gray.600" }}>
-            Produtos
+            Materia Prima
           </Link>
           <Link
             as={NextLink}
