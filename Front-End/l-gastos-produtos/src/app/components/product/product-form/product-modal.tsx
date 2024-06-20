@@ -84,7 +84,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {formData.id ? "Editar Produto" : "Adicionar Produto"}
+          {formData.id
+            ? "Editar Materia Prima"
+            : "Adicionar Materia Prima"}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>

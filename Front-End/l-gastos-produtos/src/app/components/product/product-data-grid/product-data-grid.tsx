@@ -108,7 +108,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
   const handleSubmit = (acao: string) => {
     toast({
-      title: `Produto ${acao} com sucesso!`,
+      title: `Materia Prima ${acao} com sucesso!`,
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -122,7 +122,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
     setSelectedProductId("");
 
     toast({
-      title: "Produto excluído com sucesso!",
+      title: "Materia Prima excluída com sucesso!",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -137,7 +137,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         <Heading
           as="h1"
           size="2xl">
-          Produtos
+          Materia Prima
         </Heading>
       </Flex>
       <Flex
@@ -245,7 +245,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         onSubmit={handleSubmit}
       />
       <ProductDeleteModal
-        phrase="Deseja realmente excluir este produto?"
+        phrase="Deseja realmente excluir esta materia prima?"
         btnConfirmLabel="Excluir"
         btnCancelLabel="Cancelar"
         productId={selectedProductId}
