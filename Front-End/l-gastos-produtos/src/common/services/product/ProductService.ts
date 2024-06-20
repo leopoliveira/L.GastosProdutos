@@ -1,6 +1,7 @@
 import { ICreateProduct } from "@/common/interfaces/product/ICreateProduct";
 import { IReadProduct } from "@/common/interfaces/product/IReadProduct";
 import { IUpdateProduct } from "@/common/interfaces/product/IUpdateProduct";
+import IngredientDto from "@/common/interfaces/recipe/dtos/IngredientDto";
 import axios from "axios";
 
 const api = axios.create({
@@ -28,6 +29,32 @@ export const GetAllProducts = async (): Promise<IReadProduct[]> =>
     const response = await api.get<IReadProduct[]>("/");
 
     return response.data;
+  }
+  catch (error)
+  {
+    throw error;
+  }
+}
+
+export const GetAllIngredientsDto = async (): Promise<IngredientDto[]> =>
+{
+  try
+  {
+    const response = await api.get<IReadProduct[]>("/");
+
+    const ingredients: IngredientDto[] = [];
+
+    response.data.map((product) =>
+    {
+      ingredients.push({
+        productId: product.id,
+        productName: product.name,
+        quantity: 0,
+        productUnitPrice: product.price
+      });
+    });
+
+    return ingredients;
   }
   catch (error)
   {

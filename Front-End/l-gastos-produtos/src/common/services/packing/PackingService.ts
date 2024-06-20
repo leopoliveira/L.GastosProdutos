@@ -1,6 +1,7 @@
 import ICreatePacking from "@/common/interfaces/packing/ICreatePacking";
 import IReadPacking from "@/common/interfaces/packing/IReadPacking";
 import IUpdatePacking from "@/common/interfaces/packing/IUpdatePacking";
+import PackingDto from "@/common/interfaces/recipe/dtos/PackingDto";
 import axios from "axios";
 
 const api = axios.create({
@@ -28,6 +29,31 @@ export const GetAllPackings = async (): Promise<IReadPacking[]> =>
     const response = await api.get<IReadPacking[]>("/");
 
     return response.data;
+  }
+  catch (error)
+  {
+    throw error;
+  }
+}
+
+export const GetAllPackingsDto = async (): Promise<PackingDto[]> =>
+{
+  try
+  {
+    const response = await api.get<IReadPacking[]>("/");
+
+    const packings: PackingDto[] = [];
+
+    response.data.map((packing) =>
+    {
+      packings.push({
+        packingId: packing.id,
+        packingName: packing.name,
+        cost: packing.price
+      });
+    });
+
+    return packings;
   }
   catch (error)
   {
