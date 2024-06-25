@@ -24,15 +24,20 @@ import {
   TagLabel,
   Wrap,
   WrapItem,
-  Spinner,
+  useToast,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type RecipeFormProps = {
   recipe: IReadRecipe | null;
+  onFormSubmit: () => void;
 };
 
-const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
+const RecipeForm: React.FC<RecipeFormProps> = ({
+  recipe,
+  onFormSubmit,
+}) => {
   const {
     isOpen: isIngredientsOpen,
     onOpen: onIngredientsOpen,
@@ -67,9 +72,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
     {}
   );
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [isLoadingIngredients, setIsLoadingIngredients] =
-    useState(false);
-  const [isLoadingPackings, setIsLoadingPackings] = useState(false);
+  const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
     if (recipe) {
@@ -129,29 +133,39 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.id) {
-      RecipeService.UpdateRecipe(formData.id, formData).then(
-        () => {}
-      );
-    } else {
-      RecipeService.CreateRecipe(formData).then(() => {});
+    if (formData.name === "" || formData.ingredients.length === 0) {
+      toast({
+        title: `Preencha todos os campos`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
     }
+
+    if (formData.id) {
+      RecipeService.UpdateRecipe(formData.id, formData).then(() => {
+        router.push("/recipes");
+      });
+    } else {
+      RecipeService.CreateRecipe(formData).then(() => {
+        router.push("/recipes");
+      });
+    }
+
+    onFormSubmit();
   };
 
   const fetchIngredients = async () => {
-    setIsLoadingIngredients(true);
     const ingredients = await ProductService.GetAllIngredientsDto();
 
     setAvailableIngredients(ingredients);
-    setIsLoadingIngredients(false);
   };
 
   const fetchPackings = async () => {
-    setIsLoadingPackings(true);
     const packings = await PackingService.GetAllPackingsDto();
 
     setAvailablePackings(packings);
-    setIsLoadingPackings(false);
   };
 
   const handleNewIngredientChange = (
@@ -173,6 +187,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
     if (editIndex !== null) {
       const updatedIngredients = [...formData.ingredients];
       updatedIngredients[editIndex] = newIngredient as IngredientDto;
+
       setFormData((prevState) => ({
         ...prevState,
         ingredients: updatedIngredients,
@@ -203,6 +218,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
     if (editIndex !== null) {
       const updatedPackings = [...formData.packings];
       updatedPackings[editIndex] = newPacking as PackingDto;
+
       setFormData((prevState) => ({
         ...prevState,
         packings: updatedPackings,
@@ -211,10 +227,11 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
       const packing = availablePackings.find(
         (p: PackingDto) => p.packingId === newPacking.packingId
       );
+
       if (packing) {
         setFormData((prevState) => ({
           ...prevState,
-          packings: [...prevState.packings, packing as PackingDto],
+          packings: [...prevState.packings, packing],
         }));
       }
     }
@@ -300,7 +317,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
               <WrapItem key={index}>
                 <Tag
                   cursor="pointer"
-                  onClick={() => handleEditIngredient(index)}>
+                  onClick={() => handleEditIngredient(index)}
+                  colorScheme="green">
                   <TagLabel>{ingredient.productName}</TagLabel>
                   <TagCloseButton
                     onClick={(e) =>
@@ -327,7 +345,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
               <WrapItem key={index}>
                 <Tag
                   cursor="pointer"
-                  onClick={() => handleEditPacking(index)}>
+                  onClick={() => handleEditPacking(index)}
+                  colorScheme="green">
                   <TagLabel>{packing.packingName}</TagLabel>
                   <TagCloseButton
                     onClick={(e) => handleRemovePacking(packing, e)}
@@ -402,17 +421,15 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe }) => {
                   ))}
               </Wrap>
               {newIngredient.productName && (
-                <>
-                  <Input
-                    placeholder="Quantidade"
-                    name="quantity"
-                    type="number"
-                    value={newIngredient.quantity || ""}
-                    onChange={handleNewIngredientChange}
-                    mt={4}
-                    style={getQuantityInputStyle()}
-                  />
-                </>
+                <Input
+                  placeholder="Quantidade"
+                  name="quantity"
+                  type="number"
+                  value={newIngredient.quantity ?? 0}
+                  onChange={handleNewIngredientChange}
+                  mt={4}
+                  style={getQuantityInputStyle()}
+                />
               )}
             </ModalBody>
             <ModalFooter>

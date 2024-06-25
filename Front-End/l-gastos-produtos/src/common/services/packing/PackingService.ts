@@ -49,7 +49,7 @@ export const GetAllPackingsDto = async (): Promise<PackingDto[]> =>
       packings.push({
         packingId: packing.id,
         packingName: packing.name,
-        cost: packing.price
+        cost: (packing.price / packing.quantity)
       });
     });
 

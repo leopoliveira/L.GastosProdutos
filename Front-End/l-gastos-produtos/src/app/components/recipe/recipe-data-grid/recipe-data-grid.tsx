@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import IReadRecipe from "@/common/interfaces/recipe/IReadRecipe";
+import { useRouter } from "next/navigation";
 
 type RecipeGridProps = {
   recipes: IReadRecipe[];
@@ -29,8 +30,8 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes }) => {
     key: "",
     direction: "",
   });
-  const [selectedRecipeId, setSelectedRecipeId] =
-    useState<string>("");
+
+  const router = useRouter();
 
   useEffect(() => {
     setSortedData(recipes);
@@ -79,11 +80,15 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes }) => {
 
   const handleShow = (recipe: IReadRecipe) => {};
 
-  const handleEdit = (recipe: IReadRecipe) => {};
+  const handleEdit = (id: string) => {
+    router.push(`/recipes/${id}`);
+  };
 
   const handleDelete = (id: string) => {};
 
-  const handleAdd = () => {};
+  const handleAdd = () => {
+    router.push("/recipes/new");
+  };
 
   return (
     <Box m={2}>
@@ -161,7 +166,7 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes }) => {
                   size="sm"
                   colorScheme="blue"
                   mr={2}
-                  onClick={() => handleEdit(item)}>
+                  onClick={() => handleEdit(item.id)}>
                   Editar
                 </Button>
                 <Button
