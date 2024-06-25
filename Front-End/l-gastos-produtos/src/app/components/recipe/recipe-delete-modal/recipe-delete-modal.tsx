@@ -1,4 +1,4 @@
-import ProductService from "@/common/services/product";
+import RecipeService from "@/common/services/recipe";
 import {
   Modal,
   ModalOverlay,
@@ -10,27 +10,27 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-type ProductDeleteModalProps = {
+type RecipeDeleteModalProps = {
   phrase: string;
   btnConfirmLabel: string;
   btnCancelLabel: string;
-  productId: string;
+  recipeId: string;
   isOpen: boolean;
   onConfirm: () => void;
   onClose: () => void;
 };
 
-const ProductDeleteModal: React.FC<ProductDeleteModalProps> = ({
+const RecipeDeleteModal: React.FC<RecipeDeleteModalProps> = ({
   phrase,
   btnConfirmLabel,
   btnCancelLabel,
-  productId,
+  recipeId,
   isOpen,
   onConfirm,
   onClose,
 }) => {
   const handleConfirm = () => {
-    ProductService.DeleteProduct(productId);
+    RecipeService.DeleteRecipe(recipeId);
     onConfirm();
   };
 
@@ -61,4 +61,4 @@ const ProductDeleteModal: React.FC<ProductDeleteModalProps> = ({
   );
 };
 
-export default ProductDeleteModal;
+export default RecipeDeleteModal;

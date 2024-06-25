@@ -43,7 +43,10 @@ export default function Recipes() {
           <Spinner size="xl" />
         </Box>
       ) : (
-        <RecipeGrid recipes={recipes} />
+        <RecipeGrid
+          recipes={recipes}
+          onSubmit={setReRender}
+        />
       )}
     </main>
   );

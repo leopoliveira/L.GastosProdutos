@@ -13,16 +13,22 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import IReadRecipe from "@/common/interfaces/recipe/IReadRecipe";
 import { useRouter } from "next/navigation";
+import RecipeDeleteModal from "../recipe-delete-modal";
 
 type RecipeGridProps = {
   recipes: IReadRecipe[];
+  onSubmit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes }) => {
+const RecipeGrid: React.FC<RecipeGridProps> = ({
+  recipes,
+  onSubmit,
+}) => {
   const [filter, setFilter] = useState("");
   const [sortedData, setSortedData] =
     useState<IReadRecipe[]>(recipes);
@@ -30,6 +36,10 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes }) => {
     key: "",
     direction: "",
   });
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedRecipeId, setSelectedRecipeId] =
+    useState<string>("");
+  const toast = useToast();
 
   const router = useRouter();
 
@@ -84,103 +94,132 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes }) => {
     router.push(`/recipes/${id}`);
   };
 
-  const handleDelete = (id: string) => {};
+  const handleDelete = (id: string) => {
+    setOpenDeleteModal(true);
+    setSelectedRecipeId(id);
+  };
 
   const handleAdd = () => {
     router.push("/recipes/new");
   };
 
+  const handleSubmitDelete = () => {
+    setOpenDeleteModal(false);
+    setSelectedRecipeId("");
+
+    toast({
+      title: "Receita excluída com sucesso!",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+
+    onSubmit(true);
+  };
+
   return (
-    <Box m={2}>
-      <Flex justifyContent="center">
-        <Heading
-          as="h1"
-          size="2xl">
-          Receitas
-        </Heading>
-      </Flex>
-      <Flex
-        justify="flex-end"
-        mt={4}
-        mb={4}>
-        <Button
-          colorScheme="teal"
-          size="lg"
-          variant="outline"
-          leftIcon={<AddIcon />}
-          onClick={handleAdd}>
-          Adicionar
-        </Button>
-      </Flex>
-      <Flex
-        mt={2}
-        mb={6}>
-        <Input
-          placeholder="Filtrar por Nome"
-          value={filter}
-          onChange={onFilterChange}
-        />
-      </Flex>
-      <Table
-        variant="striped"
-        width="100%"
-        size="lg">
-        <Thead>
-          <Tr>
-            <Th
-              cursor="pointer"
-              textAlign="center"
-              onClick={() => onSort("name")}>
-              Nome
-            </Th>
-            <Th
-              cursor="pointer"
-              textAlign="center"
-              onClick={() => onSort("price")}>
-              Preço total
-            </Th>
-            <Th
-              cursor="pointer"
-              textAlign="center">
-              Ações
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {filteredData.map((item) => (
-            <Tr key={item.id}>
-              <Td display="none">{item.id}</Td>
-              <Td textAlign="center">{item.name}</Td>
-              <Td textAlign="center">
-                {formatCurrency(item.totalCost)}
-              </Td>
-              <Td textAlign="center">
-                <Button
-                  size="sm"
-                  colorScheme="green"
-                  mr={2}
-                  onClick={() => handleShow(item)}>
-                  Visualizar
-                </Button>
-                <Button
-                  size="sm"
-                  colorScheme="blue"
-                  mr={2}
-                  onClick={() => handleEdit(item.id)}>
-                  Editar
-                </Button>
-                <Button
-                  size="sm"
-                  colorScheme="red"
-                  onClick={() => handleDelete(item.id)}>
-                  Excluir
-                </Button>
-              </Td>
+    <>
+      <Box m={2}>
+        <Flex justifyContent="center">
+          <Heading
+            as="h1"
+            size="2xl">
+            Receitas
+          </Heading>
+        </Flex>
+        <Flex
+          justify="flex-end"
+          mt={4}
+          mb={4}>
+          <Button
+            colorScheme="teal"
+            size="lg"
+            variant="outline"
+            leftIcon={<AddIcon />}
+            onClick={handleAdd}>
+            Adicionar
+          </Button>
+        </Flex>
+        <Flex
+          mt={2}
+          mb={6}>
+          <Input
+            placeholder="Filtrar por Nome"
+            value={filter}
+            onChange={onFilterChange}
+          />
+        </Flex>
+        <Table
+          variant="striped"
+          width="100%"
+          size="lg">
+          <Thead>
+            <Tr>
+              <Th
+                cursor="pointer"
+                textAlign="center"
+                onClick={() => onSort("name")}>
+                Nome
+              </Th>
+              <Th
+                cursor="pointer"
+                textAlign="center"
+                onClick={() => onSort("price")}>
+                Preço total
+              </Th>
+              <Th
+                cursor="pointer"
+                textAlign="center">
+                Ações
+              </Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </Box>
+          </Thead>
+          <Tbody>
+            {filteredData.map((item) => (
+              <Tr key={item.id}>
+                <Td display="none">{item.id}</Td>
+                <Td textAlign="center">{item.name}</Td>
+                <Td textAlign="center">
+                  {formatCurrency(item.totalCost)}
+                </Td>
+                <Td textAlign="center">
+                  <Button
+                    size="sm"
+                    colorScheme="green"
+                    mr={2}
+                    onClick={() => handleShow(item)}>
+                    Visualizar
+                  </Button>
+                  <Button
+                    size="sm"
+                    colorScheme="blue"
+                    mr={2}
+                    onClick={() => handleEdit(item.id)}>
+                    Editar
+                  </Button>
+                  <Button
+                    size="sm"
+                    colorScheme="red"
+                    onClick={() => handleDelete(item.id)}>
+                    Excluir
+                  </Button>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
+
+      <RecipeDeleteModal
+        phrase="Deseja realmente excluir esta receita?"
+        btnConfirmLabel="Excluir"
+        btnCancelLabel="Cancelar"
+        recipeId={selectedRecipeId}
+        isOpen={openDeleteModal}
+        onConfirm={handleSubmitDelete}
+        onClose={() => setOpenDeleteModal(false)}
+      />
+    </>
   );
 };
 
