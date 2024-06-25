@@ -88,7 +88,9 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({
     }).format(value);
   };
 
-  const handleShow = (recipe: IReadRecipe) => {};
+  const handleShow = (id: string) => {
+    router.push(`/recipes/visualize/${id}`);
+  };
 
   const handleEdit = (id: string) => {
     router.push(`/recipes/${id}`);
@@ -187,7 +189,7 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({
                     size="sm"
                     colorScheme="green"
                     mr={2}
-                    onClick={() => handleShow(item)}>
+                    onClick={() => handleShow(item.id)}>
                     Visualizar
                   </Button>
                   <Button
