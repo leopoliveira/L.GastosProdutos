@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  front-end:
+    build:
+      context: ./Front-End/l-gastos-produtos
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+
+  webapi:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - mongo
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Mongo__ConnectionString=mongodb://mongo:27017/ControleDeGastos
+      - Mongo__DatabaseName=ControleDeGastos
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

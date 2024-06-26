@@ -1,0 +1,30 @@
+# Ignore node_modules to ensure a clean installation
+node_modules
+
+# Ignore log files
+*.log
+
+# Ignore Docker files
+Dockerfile
+.dockerignore
+
+# Ignore git repository files
+.git
+.gitignore
+
+# Ignore local development environment files
+.env.local
+.env.development
+.env.test
+
+# Ignore Next.js build and cache directories
+.next
+out
+dist
+
+# Ignore editor and IDE config files
+.vscode
+.idea
+
+# Ignore any other temporary files
+tmp
