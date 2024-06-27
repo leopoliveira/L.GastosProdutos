@@ -37,6 +37,7 @@ const PackingModal: React.FC<PackingModalProps> = ({
     quantity: 0,
     price: 0,
     unitOfMeasure: 0,
+    packingUnitPrice: 0,
   });
 
   useEffect(() => {
@@ -49,6 +50,7 @@ const PackingModal: React.FC<PackingModalProps> = ({
         quantity: 0,
         price: 0,
         unitOfMeasure: 0,
+        packingUnitPrice: 0,
       });
     }
   }, [packing]);
