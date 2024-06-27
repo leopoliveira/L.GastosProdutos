@@ -22,6 +22,7 @@ export default function Packings() {
 
   useEffect(() => {
     getData();
+    setReRender(false);
   }, []);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function Packings() {
       ) : (
         <PackingGrid
           packings={packings}
-          onSubmit={() => setReRender(true)}
+          onSubmit={setReRender}
         />
       )}
     </main>

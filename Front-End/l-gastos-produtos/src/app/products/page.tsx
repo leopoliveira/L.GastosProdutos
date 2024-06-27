@@ -22,6 +22,7 @@ export default function Products() {
 
   useEffect(() => {
     getData();
+    setReRender(false);
   }, []);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function Products() {
       ) : (
         <ProductGrid
           products={products}
-          onSubmit={() => setReRender(true)}
+          onSubmit={setReRender}
         />
       )}
     </main>

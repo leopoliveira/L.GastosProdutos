@@ -22,6 +22,7 @@ export default function Recipes() {
 
   useEffect(() => {
     getData();
+    setReRender(false);
   }, []);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function Recipes() {
       ) : (
         <RecipeGrid
           recipes={recipes}
-          onSubmit={() => setReRender(true)}
+          onSubmit={setReRender}
         />
       )}
     </main>
