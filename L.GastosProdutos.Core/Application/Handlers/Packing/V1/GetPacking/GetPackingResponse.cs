@@ -9,6 +9,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking
         string? Description,
         decimal Price,
         decimal Quantity,
+        decimal UnitPrice,
         EnumUnitOfMeasure UnitOfMeasure
     );
 }

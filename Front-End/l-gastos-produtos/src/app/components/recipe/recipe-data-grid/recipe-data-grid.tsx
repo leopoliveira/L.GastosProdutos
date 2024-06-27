@@ -19,6 +19,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import IReadRecipe from "@/common/interfaces/recipe/IReadRecipe";
 import { useRouter } from "next/navigation";
 import RecipeDeleteModal from "../recipe-delete-modal";
+import { formatCurrency } from "@/common/services/utils/utils";
 
 type RecipeGridProps = {
   recipes: IReadRecipe[];
@@ -77,15 +78,6 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({
 
     setSortedData(sortedArray);
     setSortConfig({ key, direction });
-  };
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value);
   };
 
   const handleShow = (id: string) => {

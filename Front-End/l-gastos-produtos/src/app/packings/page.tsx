@@ -45,7 +45,7 @@ export default function Packings() {
       ) : (
         <PackingGrid
           packings={packings}
-          onSubmit={setReRender}
+          onSubmit={() => setReRender(true)}
         />
       )}
     </main>

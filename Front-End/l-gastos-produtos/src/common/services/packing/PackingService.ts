@@ -46,10 +46,13 @@ export const GetAllPackingsDto = async (): Promise<PackingDto[]> =>
 
     response.data.map((packing) =>
     {
+      const packingUnitPrice = (packing.price / packing.quantity);
+
       packings.push({
         packingId: packing.id,
         packingName: packing.name,
-        cost: (packing.price / packing.quantity)
+        quantity: packing.quantity,
+        packingUnitPrice: packingUnitPrice
       });
     });
 

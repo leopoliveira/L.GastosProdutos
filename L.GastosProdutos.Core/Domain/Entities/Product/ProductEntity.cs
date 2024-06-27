@@ -25,7 +25,14 @@ namespace L.GastosProdutos.Core.Domain.Entities.Product
 
         public decimal UnitPrice => GetUnitPrice();
 
-        private decimal GetUnitPrice() =>
-            Price / Quantity;
+        private decimal GetUnitPrice()
+        {
+            if (Quantity == 0)
+            {
+                return 0;
+            }
+
+            return Price / Quantity;
+        }
     }
 }

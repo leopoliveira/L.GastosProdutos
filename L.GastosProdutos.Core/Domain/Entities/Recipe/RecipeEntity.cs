@@ -40,13 +40,13 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
         public void AddPacking(PackingValueObject packing)
         {
             Packings.Add(packing);
-            TotalCost += packing.Cost;
+            TotalCost += packing.GetCost();
         }
 
         public void RemovePacking(PackingValueObject packing)
         {
             Packings.Remove(packing);
-            TotalCost -= packing.Cost;
+            TotalCost -= packing.GetCost();
         }
 
         public void RemoveAllIngredientsAndPackings()

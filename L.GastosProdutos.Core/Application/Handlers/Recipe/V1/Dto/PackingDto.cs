@@ -4,6 +4,7 @@
     (
         string PackingId,
         string PackingName,
-        decimal Cost
+        decimal Quantity,
+        decimal PackingUnitPrice
     );
 }

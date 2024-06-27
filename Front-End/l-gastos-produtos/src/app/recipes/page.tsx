@@ -45,7 +45,7 @@ export default function Recipes() {
       ) : (
         <RecipeGrid
           recipes={recipes}
-          onSubmit={setReRender}
+          onSubmit={() => setReRender(true)}
         />
       )}
     </main>

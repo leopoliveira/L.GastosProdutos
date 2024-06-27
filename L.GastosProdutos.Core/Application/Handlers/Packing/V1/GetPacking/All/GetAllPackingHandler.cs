@@ -30,6 +30,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.All
                     p.Description,
                     p.Price,
                     p.Quantity,
+                    p.UnitPrice,
                     p.UnitOfMeasure
                 )
             );

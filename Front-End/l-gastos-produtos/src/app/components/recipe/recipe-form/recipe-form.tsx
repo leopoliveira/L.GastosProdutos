@@ -178,6 +178,16 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
     }));
   };
 
+  const handleNewPackingChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setNewPacking((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const handleAddIngredient = () => {
     if (!newIngredient.quantity || newIngredient.quantity <= 0) {
       alert("Quantidade deve ser maior que 0.");
@@ -215,6 +225,11 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
   };
 
   const handleAddPacking = () => {
+    if (!newPacking.quantity || newPacking.quantity <= 0) {
+      alert("Quantidade deve ser maior que 0.");
+      return;
+    }
+
     if (editIndex !== null) {
       const updatedPackings = [...formData.packings];
       updatedPackings[editIndex] = newPacking as PackingDto;
@@ -231,7 +246,13 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
       if (packing) {
         setFormData((prevState) => ({
           ...prevState,
-          packings: [...prevState.packings, packing],
+          packings: [
+            ...prevState.packings,
+            {
+              ...packing,
+              quantity: newPacking.quantity,
+            } as PackingDto,
+          ],
         }));
       }
     }
@@ -254,8 +275,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
     onPackingsOpen();
   };
 
-  const getQuantityInputStyle = () => {
-    if (!newIngredient.quantity || newIngredient.quantity <= 0) {
+  const getQuantityInputStyle = (item: number) => {
+    if (!item || item <= 0) {
       return { borderColor: "red", borderWidth: "2px" };
     }
     return {};
@@ -398,8 +419,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
                         onClick={() =>
                           setNewIngredient({
                             productName: ingredient.productName,
-                            productUnitPrice:
-                              ingredient.productUnitPrice,
+                            ingredientPrice:
+                              ingredient.ingredientPrice,
                             productId: ingredient.productId,
                           })
                         }
@@ -428,7 +449,9 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
                   value={newIngredient.quantity ?? 0}
                   onChange={handleNewIngredientChange}
                   mt={4}
-                  style={getQuantityInputStyle()}
+                  style={getQuantityInputStyle(
+                    newIngredient?.quantity ?? 0
+                  )}
                 />
               )}
             </ModalBody>
@@ -476,7 +499,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
                         onClick={() =>
                           setNewPacking({
                             packingName: packing.packingName,
-                            cost: packing.cost,
+                            packingUnitPrice:
+                              packing.packingUnitPrice,
                             packingId: packing.packingId,
                           })
                         }
@@ -497,6 +521,19 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
                     </WrapItem>
                   ))}
               </Wrap>
+              {newPacking.packingName && (
+                <Input
+                  placeholder="Quantidade"
+                  name="quantity"
+                  type="number"
+                  value={newPacking.quantity ?? 0}
+                  onChange={handleNewPackingChange}
+                  mt={4}
+                  style={getQuantityInputStyle(
+                    newPacking?.quantity ?? 0
+                  )}
+                />
+              )}
             </ModalBody>
             <ModalFooter>
               <Button

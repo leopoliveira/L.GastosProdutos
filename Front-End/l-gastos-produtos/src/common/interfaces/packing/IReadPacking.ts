@@ -1,6 +1,6 @@
-import ICreatePacking from "./ICreatePacking";
+import IUpdatePacking from "./IUpdatePacking";
 
-export default interface IReadPacking extends ICreatePacking
+export default interface IReadPacking extends IUpdatePacking
 {
   id: string;
 }

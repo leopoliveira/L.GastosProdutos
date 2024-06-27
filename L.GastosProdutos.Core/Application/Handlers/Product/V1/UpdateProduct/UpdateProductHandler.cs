@@ -39,7 +39,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
 
             await _repository.UpdateAsync(request.Id, product);
 
-            await UpdateIngredientsProductsUnitPrice(request.Id, product.UnitPrice);
+            await UpdateIngredientsPrice(request.Id, product.UnitPrice);
 
             return Unit.Value;
         }
@@ -56,7 +56,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
             product.UnitOfMeasure = request.UnitOfMeasure;
         }
 
-        private async Task UpdateIngredientsProductsUnitPrice(string id, decimal productUnitPrice)
+        private async Task UpdateIngredientsPrice(string id, decimal ingredientPrice)
         {
             var filter = Builders<RecipeEntity>
                 .Filter
@@ -70,8 +70,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
                 .Update
                 .Set
                 (
-                    "Ingredients.$[].ProductUnitPrice",
-                    productUnitPrice
+                    "Ingredients.$[].IngredientPrice",
+                    ingredientPrice
                 );
 
             await _recipeRepository.UpdateMany(filter, update);

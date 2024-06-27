@@ -4,12 +4,12 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 {
     public class IngredientsValueObject
     {
-        public IngredientsValueObject(string productId, string productName, decimal quantity, decimal productUnitPrice)
+        public IngredientsValueObject(string productId, string productName, decimal quantity, decimal ingredientPrice)
         {
             ProductId = productId;
             ProductName = productName;
             Quantity = quantity;
-            ProductUnitPrice = productUnitPrice;
+            IngredientPrice = ingredientPrice;
         }
 
         public string ProductId { get; set; }
@@ -18,9 +18,9 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 
         public decimal Quantity { get; set; }
 
-        public decimal ProductUnitPrice { get; set; }
+        public decimal IngredientPrice { get; set; }
 
         public decimal GetCost() =>
-            Quantity * ProductUnitPrice;
+            Quantity * IngredientPrice;
     }
 }

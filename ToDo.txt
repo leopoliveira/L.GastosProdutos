@@ -1,0 +1,6 @@
+Back:
+- Validações;
+- Atualizar preço da receita ao atualizar packing ou ingredient unit price.
+
+Front:
+- Não renderiza tela após delete.

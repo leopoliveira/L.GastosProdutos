@@ -19,14 +19,15 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.Helper
                     i.ProductId,
                     i.ProductName,
                     i.Quantity,
-                    i.ProductUnitPrice
+                    i.IngredientPrice
                 )),
                 recipe.Packings.ConvertAll(p =>
                 new PackingDto
                 (
                     p.PackingId,
                     p.PackingName,
-                    p.Cost
+                    p.Quantity,
+                    p.UnitPrice
                 )),
                 recipe.TotalCost
             );

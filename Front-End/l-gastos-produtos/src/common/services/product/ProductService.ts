@@ -46,11 +46,13 @@ export const GetAllIngredientsDto = async (): Promise<IngredientDto[]> =>
 
     response.data.map((product) =>
     {
+      const ingredientPrice = (product.price / product.quantity);
+
       ingredients.push({
         productId: product.id,
         productName: product.name,
         quantity: 0,
-        productUnitPrice: product.price
+        ingredientPrice: ingredientPrice
       });
     });
 

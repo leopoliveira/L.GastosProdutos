@@ -21,6 +21,7 @@ import ProductModal from "../product-form";
 import { IReadProduct } from "@/common/interfaces/product/IReadProduct";
 import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum";
 import ProductDeleteModal from "../product-delete-modal";
+import { formatCurrency } from "@/common/services/utils/utils";
 
 type ProductGridProps = {
   products: IReadProduct[];
@@ -80,15 +81,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
     setSortedData(sortedArray);
     setSortConfig({ key, direction });
-  };
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value);
   };
 
   const handleEdit = (product: IReadProduct) => {

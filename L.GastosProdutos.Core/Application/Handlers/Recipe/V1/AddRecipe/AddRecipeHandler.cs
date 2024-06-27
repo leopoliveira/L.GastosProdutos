@@ -42,7 +42,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe
                             ingredient.ProductId,
                             ingredient.ProductName,
                             ingredient.Quantity,
-                            ingredient.ProductUnitPrice
+                            ingredient.IngredientPrice
                         )
                     );
                 }
@@ -58,7 +58,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe
                         (
                             packing.PackingId,
                             packing.PackingName,
-                            packing.Cost
+                            packing.Quantity,
+                            packing.PackingUnitPrice
                         )
                     );
                 }

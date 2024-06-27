@@ -21,6 +21,7 @@ import PackingModal from "../packing-form";
 import IReadPacking from "@/common/interfaces/packing/IReadPacking";
 import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum";
 import PackingDeleteModal from "../packing-delet-modal";
+import { formatCurrency } from "@/common/services/utils/utils";
 
 type PackingGridProps = {
   packings: IReadPacking[];
@@ -80,15 +81,6 @@ const PackingGrid: React.FC<PackingGridProps> = ({
 
     setSortedData(sortedArray);
     setSortConfig({ key, direction });
-  };
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value);
   };
 
   const handleEdit = (packing: IReadPacking) => {

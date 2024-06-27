@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L.GastosProdutos.API", "L.GastosProdutos.API\L.GastosProdutos.API.csproj", "{E1675DBC-FBAB-482C-B92C-6497B0D8E873}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "L.GastosProdutos.API", "L.GastosProdutos.API\L.GastosProdutos.API.csproj", "{E1675DBC-FBAB-482C-B92C-6497B0D8E873}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L.GastosProdutos.Core", "L.GastosProdutos.Core\L.GastosProdutos.Core.csproj", "{88FEFC6D-BA8C-45F1-BE6D-937C1DCE6175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "L.GastosProdutos.Core", "L.GastosProdutos.Core\L.GastosProdutos.Core.csproj", "{88FEFC6D-BA8C-45F1-BE6D-937C1DCE6175}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DBB1166D-5115-4A57-8813-479A04717E8D}"
+	ProjectSection(SolutionItems) = preProject
+		ToDo.txt = ToDo.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

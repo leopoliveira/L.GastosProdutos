@@ -45,7 +45,7 @@ export default function Products() {
       ) : (
         <ProductGrid
           products={products}
-          onSubmit={setReRender}
+          onSubmit={() => setReRender(true)}
         />
       )}
     </main>
