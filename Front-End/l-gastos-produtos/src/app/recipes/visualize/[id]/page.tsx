@@ -15,6 +15,8 @@ export default function VisualizeRecipe() {
     totalCost: 0,
     ingredients: [],
     packings: [],
+    quantity: 0,
+    sellingValue: 0
   });
   const [isLoading, setIsLoading] = useState(true);
 
