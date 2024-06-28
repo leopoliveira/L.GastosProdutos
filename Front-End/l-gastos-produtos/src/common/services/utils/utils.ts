@@ -4,7 +4,7 @@ const formatCurrency = (value: number) =>
     style: "currency",
     currency: "BRL",
     minimumFractionDigits: 2,
-    maximumFractionDigits: 4,
+    maximumFractionDigits: 2,
   }).format(value);
 }
 
