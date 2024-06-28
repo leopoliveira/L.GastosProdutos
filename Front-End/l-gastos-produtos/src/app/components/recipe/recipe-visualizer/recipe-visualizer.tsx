@@ -80,13 +80,26 @@ const RecipeVisualizer = ({ recipe }: RecipeViewProps) => {
             <Center height="50px">
               <Divider orientation="vertical" />
             </Center>
+            <Text fontWeight="bold">Lucro por Unidade:</Text>
+            <Text>
+              {formatCurrency(
+                recipe.sellingValue -
+                  recipe.totalCost / recipe.quantity
+              )}
+            </Text>
+            <Center height="50px">
+              <Divider orientation="vertical" />
+            </Center>
             <Text
               fontWeight="bold"
               color="green">
-              Lucro:
+              Lucro Total:
             </Text>
             <Text color="green">
-              {formatCurrency(recipe.sellingValue - recipe.totalCost)}
+              {formatCurrency(
+                recipe.sellingValue * recipe.quantity -
+                  recipe.totalCost
+              )}
             </Text>
           </HStack>
           <Divider />

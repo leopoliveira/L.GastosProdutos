@@ -110,6 +110,9 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({
 
     onSubmit(true);
   };
+  const unitCost = (item: IReadRecipe): number => {
+    return item.totalCost / item.quantity;
+  };
 
   return (
     <>
@@ -176,12 +179,12 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({
                 cursor="pointer"
                 textAlign="center"
                 onClick={() => onSort("sellingValue")}>
-                Preço de Venda
+                Preço de Venda da Un.
               </Th>
               <Th
                 cursor="pointer"
                 textAlign="center">
-                Lucro
+                Lucro por Un.
               </Th>
               <Th
                 cursor="pointer"
@@ -200,13 +203,13 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({
                 </Td>
                 <Td textAlign="center">{item.quantity}</Td>
                 <Td textAlign="center">
-                  {formatCurrency(item.totalCost / item.quantity)}
+                  {formatCurrency(unitCost(item))}
                 </Td>
                 <Td textAlign="center">
                   {formatCurrency(item.sellingValue)}
                 </Td>
                 <Td textAlign="center">
-                  {formatCurrency(item.sellingValue - item.totalCost)}
+                  {formatCurrency(item.sellingValue - unitCost(item))}
                 </Td>
                 <Td textAlign="center">
                   <Button

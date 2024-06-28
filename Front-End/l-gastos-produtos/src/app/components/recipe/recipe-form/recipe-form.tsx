@@ -345,7 +345,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
           />
         </FormControl>
         <FormControl mb={4}>
-          <FormLabel>Preço de Venda</FormLabel>
+          <FormLabel>Preço de Venda da Unidade</FormLabel>
           <Input
             name="sellingValue"
             type="number"
