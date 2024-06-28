@@ -39,6 +39,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
 
             await _repository.UpdateAsync(request.Id, product);
 
+            // Pegar a receitaId remover os ingredientes e adicionar novamente com preço atualizado.
+
             await UpdateIngredientsPrice(request.Id, product.UnitPrice);
 
             return Unit.Value;
@@ -66,6 +68,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
                     i => i.ProductId == id
                 );
 
+            var recipes = await _recipeRepository.GetByFilterAsync(filter);
+
             var update = Builders<RecipeEntity>
                 .Update
                 .Set
@@ -75,6 +79,29 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
                 );
 
             await _recipeRepository.UpdateMany(filter, update);
+
+            //await UpdateRecipeTotalCost(filter);
+        }
+
+        private async Task UpdateRecipeTotalCost(FilterDefinition<RecipeEntity> filter, List<RecipeEntity?> oldRecipe)
+        {
+            var recipes = await _recipeRepository.GetByFilterAsync(filter);
+
+            if (recipes is null)
+            {
+                return;
+            }
+
+            foreach (var recipe in recipes)
+            {
+                var ingredients = recipe.Ingredients;
+                recipe.RemoveAllIngredients();
+
+                foreach (var ingredient in ingredients)
+                {
+                    recipe.AddIngredient(ingredient);
+                }
+            }
         }
     }
 }

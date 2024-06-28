@@ -9,6 +9,7 @@ import {
   Box,
   Text,
   Button,
+  Center,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
@@ -38,21 +39,56 @@ const RecipeVisualizer = ({ recipe }: RecipeViewProps) => {
           fontSize="2xl"
           mb={4}
           textAlign="center">
-          Receita
+          {recipe.name}
         </Text>
         <VStack
           spacing={4}
           align="start">
-          <HStack>
-            <Text fontWeight="bold">Nome:</Text>
-            <Text>{recipe.name}</Text>
-          </HStack>
           {recipe.description && (
-            <HStack>
+            <HStack spacing={5}>
               <Text fontWeight="bold">Descrição:</Text>
-              <Text>{recipe.description}</Text>
+              <Text>{recipe.description ?? "Sem descrição"}</Text>
             </HStack>
           )}
+          <Divider />
+          <HStack spacing={5}>
+            <Text
+              fontWeight="bold"
+              color="red">
+              Custo Total:
+            </Text>
+            <Text color="red">
+              {formatCurrency(recipe.totalCost)}
+            </Text>
+            <Center height="50px">
+              <Divider orientation="vertical" />
+            </Center>
+            <Text fontWeight="bold">Quantidade Produzida:</Text>
+            <Text>{recipe.quantity}</Text>
+            <Center height="50px">
+              <Divider orientation="vertical" />
+            </Center>
+            <Text fontWeight="bold">Custo por Unidade:</Text>
+            <Text>
+              {formatCurrency(recipe.totalCost / recipe.quantity)}
+            </Text>
+          </HStack>
+          <Divider />
+          <HStack spacing={5}>
+            <Text fontWeight="bold">Preço de Venda:</Text>
+            <Text>{formatCurrency(recipe.sellingValue)}</Text>
+            <Center height="50px">
+              <Divider orientation="vertical" />
+            </Center>
+            <Text
+              fontWeight="bold"
+              color="green">
+              Lucro:
+            </Text>
+            <Text color="green">
+              {formatCurrency(recipe.sellingValue - recipe.totalCost)}
+            </Text>
+          </HStack>
           <Divider />
           <Box width="100%">
             <Text
@@ -135,16 +171,6 @@ const RecipeVisualizer = ({ recipe }: RecipeViewProps) => {
             </Wrap>
           </Box>
           <Divider />
-          <HStack>
-            <Text
-              fontWeight="bold"
-              fontSize="x-large">
-              Custo Total:
-            </Text>
-            <Text fontSize="x-large">
-              {formatCurrency(recipe.totalCost)}
-            </Text>
-          </HStack>
         </VStack>
       </Box>
       <Box

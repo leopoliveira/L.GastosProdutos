@@ -159,7 +159,29 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({
                 cursor="pointer"
                 textAlign="center"
                 onClick={() => onSort("price")}>
-                Preço total
+                Custo Total
+              </Th>
+              <Th
+                cursor="pointer"
+                textAlign="center"
+                onClick={() => onSort("quantity")}>
+                Qtde. Produzida
+              </Th>
+              <Th
+                cursor="pointer"
+                textAlign="center">
+                Custo por Unidade
+              </Th>
+              <Th
+                cursor="pointer"
+                textAlign="center"
+                onClick={() => onSort("sellingValue")}>
+                Preço de Venda
+              </Th>
+              <Th
+                cursor="pointer"
+                textAlign="center">
+                Lucro
               </Th>
               <Th
                 cursor="pointer"
@@ -175,6 +197,16 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({
                 <Td textAlign="center">{item.name}</Td>
                 <Td textAlign="center">
                   {formatCurrency(item.totalCost)}
+                </Td>
+                <Td textAlign="center">{item.quantity}</Td>
+                <Td textAlign="center">
+                  {formatCurrency(item.totalCost / item.quantity)}
+                </Td>
+                <Td textAlign="center">
+                  {formatCurrency(item.sellingValue)}
+                </Td>
+                <Td textAlign="center">
+                  {formatCurrency(item.sellingValue - item.totalCost)}
                 </Td>
                 <Td textAlign="center">
                   <Button

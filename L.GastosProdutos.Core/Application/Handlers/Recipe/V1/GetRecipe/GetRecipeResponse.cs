@@ -9,6 +9,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe
         string? Description,
         List<IngredientDto> Ingredients,
         List<PackingDto> Packings,
-        decimal TotalCost
+        decimal TotalCost,
+        decimal? Quantity,
+        decimal? SellingValue
     );
 }

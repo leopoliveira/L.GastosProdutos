@@ -7,4 +7,6 @@ export default interface ICreateRecipe
   description?: string;
   ingredients: IngredientDto[];
   packings: PackingDto[];
+  quantity: number;
+  sellingValue: number;
 }

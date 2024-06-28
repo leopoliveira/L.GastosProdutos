@@ -10,7 +10,9 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe
         string Name,
         string? Description,
         List<IngredientDto> Ingredients,
-        List<PackingDto> Packings
+        List<PackingDto> Packings,
+        decimal? Quantity,
+        decimal? SellingValue
     )
     : IRequest<Unit>;
 
@@ -19,6 +21,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe
         string Name,
         string? Description,
         List<IngredientDto> Ingredients,
-        List<PackingDto> Packings
+        List<PackingDto> Packings,
+        decimal? Quantity,
+        decimal? SellingValue
     );
 }

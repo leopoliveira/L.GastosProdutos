@@ -29,7 +29,9 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.Helper
                     p.Quantity,
                     p.UnitPrice
                 )),
-                recipe.TotalCost
+                recipe.TotalCost,
+                recipe.Quantity ?? 0,
+                recipe.SellingValue ?? 0
             );
         }
     }

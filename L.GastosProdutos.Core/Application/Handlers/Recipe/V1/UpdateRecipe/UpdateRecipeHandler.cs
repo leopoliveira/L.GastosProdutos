@@ -38,6 +38,8 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe
         {
             recipe.Name = request.Name;
             recipe.Description = request.Description;
+            recipe.Quantity = request.Quantity;
+            recipe.SellingValue = request.SellingValue;
             recipe.RemoveAllIngredientsAndPackings();
 
             foreach (var ingredient in request.Ingredients)

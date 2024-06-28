@@ -28,7 +28,9 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe
                 request.Name,
                 request.Description,
                 new List<IngredientsValueObject>(),
-                new List<PackingValueObject>()
+                new List<PackingValueObject>(),
+                request.Quantity,
+                request.SellingValue
             );
 
             if (request.Ingredients.Count > 0)

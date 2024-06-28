@@ -57,6 +57,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
     totalCost: 0,
     ingredients: [],
     packings: [],
+    quantity: 0,
+    sellingValue: 0,
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [availableIngredients, setAvailableIngredients] = useState<
@@ -86,6 +88,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
         totalCost: 0,
         ingredients: [],
         packings: [],
+        quantity: 0,
+        sellingValue: 0,
       });
     }
   }, [recipe]);
@@ -328,6 +332,24 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
           <Input
             name="description"
             value={formData.description}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Quantidade Produzida</FormLabel>
+          <Input
+            name="quantity"
+            type="number"
+            value={formData.quantity}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Preço de Venda</FormLabel>
+          <Input
+            name="sellingValue"
+            type="number"
+            value={formData.sellingValue}
             onChange={handleChange}
           />
         </FormControl>

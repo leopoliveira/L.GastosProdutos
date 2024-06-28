@@ -7,12 +7,22 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
     {
         public RecipeEntity() { }
 
-        public RecipeEntity(string name, string? description, List<IngredientsValueObject> ingredients, List<PackingValueObject> packings)
+        public RecipeEntity
+        (
+            string name,
+            string? description,
+            List<IngredientsValueObject> ingredients,
+            List<PackingValueObject> packings,
+            decimal? quantity,
+            decimal? sellingValue
+        )
         {
             Name = name;
             Description = description;
             Ingredients = ingredients;
             Packings = packings;
+            Quantity = quantity ?? 0;
+            SellingValue = sellingValue ?? 0;
         }
 
         public string Name { get; set; } = null!;
@@ -22,6 +32,10 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
         public List<IngredientsValueObject> Ingredients { get; private set; } = null!;
 
         public List<PackingValueObject> Packings { get; private set;  } = null!;
+
+        public decimal? Quantity { get; set; }
+
+        public decimal? SellingValue { get; set; }
 
         public decimal TotalCost { get; private set; }
 
@@ -37,6 +51,13 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
             TotalCost -= ingredient.GetCost();
         }
 
+        public void RemoveAllIngredients()
+        {
+            decimal ingredientsTotalCost = Ingredients.Sum(i => i.GetCost());
+            Ingredients.Clear();
+            TotalCost -= ingredientsTotalCost;
+        }
+
         public void AddPacking(PackingValueObject packing)
         {
             Packings.Add(packing);
@@ -47,6 +68,13 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
         {
             Packings.Remove(packing);
             TotalCost -= packing.GetCost();
+        }
+
+        public void RemoveAllPackings()
+        {
+            decimal packingsTotalCost = Packings.Sum(i => i.GetCost());
+            Packings.Clear();
+            TotalCost -= packingsTotalCost;
         }
 
         public void RemoveAllIngredientsAndPackings()

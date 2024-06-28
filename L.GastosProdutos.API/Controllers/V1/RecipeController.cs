@@ -83,7 +83,9 @@ namespace L.GastosProdutos.API.Controllers.V1
                     dto.Name,
                     dto.Description,
                     dto.Ingredients,
-                    dto.Packings
+                    dto.Packings,
+                    dto.Quantity ?? 0,
+                    dto.SellingValue ?? 0
                 ),
                 cancellationToken
             );
