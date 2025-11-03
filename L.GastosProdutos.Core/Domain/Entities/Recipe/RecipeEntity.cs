@@ -31,7 +31,7 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 
         public List<IngredientsValueObject> Ingredients { get; private set; } = null!;
 
-        public List<PackingValueObject> Packings { get; private set;  } = null!;
+        public List<PackingValueObject> Packings { get; private set; } = null!;
 
         public decimal? Quantity { get; set; }
 

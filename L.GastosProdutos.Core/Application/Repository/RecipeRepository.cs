@@ -19,7 +19,7 @@ namespace L.GastosProdutos.Core.Application.Repository
         public async Task<IReadOnlyList<RecipeEntity>> GetAllAsync() =>
             await _db.Recipes.AsNoTracking().ToListAsync();
 
-        public async Task<RecipeEntity> GetByIdAsync(string id) =>
+        public async Task<RecipeEntity?> GetByIdAsync(string id) =>
             await _db.Recipes.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
 
         public async Task<List<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter) =>
@@ -74,4 +74,3 @@ namespace L.GastosProdutos.Core.Application.Repository
         }
     }
 }
-

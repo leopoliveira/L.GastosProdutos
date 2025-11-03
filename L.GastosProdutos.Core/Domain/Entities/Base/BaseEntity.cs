@@ -12,7 +12,7 @@ namespace L.GastosProdutos.Core.Domain.Entities.Base
         }
 
         [Key]
-        public string? Id { get; set; }
+        public string Id { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

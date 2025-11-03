@@ -7,7 +7,7 @@ namespace L.GastosProdutos.Core.Interfaces
     {
         Task<IReadOnlyList<RecipeEntity>> GetAllAsync();
 
-        Task<RecipeEntity> GetByIdAsync(string id);
+        Task<RecipeEntity?> GetByIdAsync(string id);
 
         Task<List<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter);
 
@@ -20,4 +20,3 @@ namespace L.GastosProdutos.Core.Interfaces
         Task DeleteAsync(string id);
     }
 }
-

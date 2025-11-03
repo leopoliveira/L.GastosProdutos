@@ -1,6 +1,6 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.Dto;
 
- 
+
 
 namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe
 {

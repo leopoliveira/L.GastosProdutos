@@ -19,7 +19,7 @@ namespace L.GastosProdutos.Core.Application.Repository
         public async Task<IReadOnlyList<PackingEntity>> GetAllAsync() =>
             await _db.Packings.AsNoTracking().ToListAsync();
 
-        public async Task<PackingEntity> GetByIdAsync(string id) =>
+        public async Task<PackingEntity?> GetByIdAsync(string id) =>
             await _db.Packings.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task<IReadOnlyList<PackingEntity>> GetByFilterAsync(Expression<Func<PackingEntity, bool>> filter) =>
@@ -54,4 +54,3 @@ namespace L.GastosProdutos.Core.Application.Repository
         }
     }
 }
-

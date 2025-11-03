@@ -1,6 +1,6 @@
 ﻿using L.GastosProdutos.Core.Domain.Enums;
 
- 
+
 
 namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking
 {
