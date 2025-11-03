@@ -21,6 +21,11 @@ namespace L.GastosProdutos.API.Controllers.V1
             _service = service;
         }
 
+        /// <summary>
+        /// Returns all recipes.
+        /// </summary>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>List of recipes.</returns>
         [HttpGet]
         public async Task<ActionResult<GetRecipeResponse>> GetAll
         (
@@ -32,6 +37,12 @@ namespace L.GastosProdutos.API.Controllers.V1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Returns a recipe by its identifier.
+        /// </summary>
+        /// <param name="id">Recipe identifier.</param>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>Recipe data.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<GetRecipeResponse>> GetRecipeById
         (
@@ -44,6 +55,12 @@ namespace L.GastosProdutos.API.Controllers.V1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Creates a new recipe.
+        /// </summary>
+        /// <param name="request">Recipe creation data.</param>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>Created recipe information.</returns>
         [HttpPost]
         public async Task<ActionResult<AddRecipeResponse>> CreateRecipe
         (
@@ -56,6 +73,13 @@ namespace L.GastosProdutos.API.Controllers.V1
             return CreatedAtAction(nameof(GetRecipeById), new { id = response.RecipeId }, response);
         }
 
+        /// <summary>
+        /// Updates an existing recipe.
+        /// </summary>
+        /// <param name="id">Recipe identifier.</param>
+        /// <param name="dto">Recipe fields to update.</param>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>Status of the operation.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRecipe
         (
@@ -69,6 +93,12 @@ namespace L.GastosProdutos.API.Controllers.V1
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes a recipe.
+        /// </summary>
+        /// <param name="id">Recipe identifier.</param>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>Status of the operation.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRecipe
         (
@@ -82,4 +112,3 @@ namespace L.GastosProdutos.API.Controllers.V1
         }
     }
 }
-

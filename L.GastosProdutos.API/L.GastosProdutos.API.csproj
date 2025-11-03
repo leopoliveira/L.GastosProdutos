@@ -7,6 +7,8 @@
     <UserSecretsId>956e837b-cc5f-4ea0-ba56-a56f5b9c9fc2</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<DockerfileTag>webapi</DockerfileTag>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

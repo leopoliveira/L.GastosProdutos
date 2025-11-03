@@ -22,6 +22,11 @@ namespace L.GastosProdutos.API.Controllers.V1
             _service = service;
         }
 
+        /// <summary>
+        /// Returns all packings.
+        /// </summary>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>List of packings.</returns>
         [HttpGet()]
         public async Task<ActionResult<GetPackingResponse>> GetAll
         (
@@ -33,6 +38,12 @@ namespace L.GastosProdutos.API.Controllers.V1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Returns a packing by its identifier.
+        /// </summary>
+        /// <param name="id">Packing identifier.</param>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>Packing data.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<GetPackingResponse>> GetById
         (
@@ -45,6 +56,12 @@ namespace L.GastosProdutos.API.Controllers.V1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Creates a new packing.
+        /// </summary>
+        /// <param name="request">Packing creation data.</param>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>Created packing information.</returns>
         [HttpPost]
         public async Task<ActionResult> CreatePacking
         (
@@ -57,6 +74,13 @@ namespace L.GastosProdutos.API.Controllers.V1
             return CreatedAtAction(nameof(GetById), new { id = response.PackingID }, response);
         }
 
+        /// <summary>
+        /// Updates an existing packing.
+        /// </summary>
+        /// <param name="id">Packing identifier.</param>
+        /// <param name="dto">Packing fields to update.</param>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>Status of the operation.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdatePacking
         (
@@ -70,6 +94,12 @@ namespace L.GastosProdutos.API.Controllers.V1
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes a packing.
+        /// </summary>
+        /// <param name="id">Packing identifier.</param>
+        /// <param name="cancellationToken">Request cancellation token.</param>
+        /// <returns>Status of the operation.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePacking
         (
@@ -83,4 +113,3 @@ namespace L.GastosProdutos.API.Controllers.V1
         }
     }
 }
-

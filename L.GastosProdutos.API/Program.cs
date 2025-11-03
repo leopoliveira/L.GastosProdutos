@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using L.GastosProdutos.Core.Application.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace L.GastosProdutos.API
 {
@@ -26,7 +27,24 @@ namespace L.GastosProdutos.API
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                var basePath = AppContext.BaseDirectory;
+                var apiXml = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var apiXmlPath = Path.Combine(basePath, apiXml);
+                if (File.Exists(apiXmlPath))
+                {
+                    options.IncludeXmlComments(apiXmlPath, includeControllerXmlComments: true);
+                }
+
+                var coreAssembly = typeof(L.GastosProdutos.Core.Domain.Enums.UnitMeasure).Assembly;
+                var coreXml = $"{coreAssembly.GetName().Name}.xml";
+                var coreXmlPath = Path.Combine(basePath, coreXml);
+                if (File.Exists(coreXmlPath))
+                {
+                    options.IncludeXmlComments(coreXmlPath, includeControllerXmlComments: false);
+                }
+            });
 
             var app = builder.Build();
 
