@@ -1,20 +1,11 @@
 using System.Linq.Expressions;
 using L.GastosProdutos.Core.Domain.Entities.Recipe;
+using L.GastosProdutos.Core.Interfaces;
 
 namespace L.GastosProdutos.Core.Interfaces
 {
-    public interface IRecipeRepository
+    public interface IRecipeRepository : IRepository<RecipeEntity>
     {
-        Task<IReadOnlyList<RecipeEntity>> GetAllAsync(CancellationToken cancellationToken = default);
-
-        Task<RecipeEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default);
-
         Task<long> CountIngredientsAsync(string recipeId, CancellationToken cancellationToken = default);
-
-        Task CreateAsync(RecipeEntity entity, CancellationToken cancellationToken = default);
-
-        Task UpdateAsync(string id, RecipeEntity entity, CancellationToken cancellationToken = default);
-
-        Task DeleteAsync(string id, CancellationToken cancellationToken = default);
     }
 }

@@ -1,5 +1,3 @@
-using System.Linq.Expressions;
-using L.GastosProdutos.Core.Application.Exceptions;
 using L.GastosProdutos.Core.Domain.Entities.Recipe;
 using L.GastosProdutos.Core.Infra.Sqlite;
 using L.GastosProdutos.Core.Interfaces;
@@ -7,20 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace L.GastosProdutos.Core.Application.Repository
 {
-    public class RecipeRepository : IRecipeRepository
+    public class RecipeRepository : GenericRepository<RecipeEntity>, IRecipeRepository
     {
-        private readonly AppDbContext _db;
-
-        public RecipeRepository(AppDbContext db)
-        {
-            _db = db;
-        }
-
-        public async Task<IReadOnlyList<RecipeEntity>> GetAllAsync(CancellationToken cancellationToken = default) =>
-            await _db.Recipes.AsNoTracking().ToListAsync(cancellationToken);
-
-        public async Task<RecipeEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default) =>
-            await _db.Recipes.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        public RecipeRepository(AppDbContext db) : base(db) { }
 
         public async Task<long> CountIngredientsAsync(string recipeId, CancellationToken cancellationToken = default)
         {
@@ -32,13 +19,7 @@ namespace L.GastosProdutos.Core.Application.Repository
             return count;
         }
 
-        public async Task CreateAsync(RecipeEntity entity, CancellationToken cancellationToken = default)
-        {
-            _db.Recipes.Add(entity);
-            await _db.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task UpdateAsync(string id, RecipeEntity entity, CancellationToken cancellationToken = default)
+        public override async Task UpdateAsync(string id, RecipeEntity entity, CancellationToken cancellationToken = default)
         {
             entity.UpdatedAt = DateTime.UtcNow;
 
@@ -46,7 +27,7 @@ namespace L.GastosProdutos.Core.Application.Repository
                 .Include(r => r.Ingredients)
                 .Include(r => r.Packings)
                 .FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken)
-                ?? throw new NotFoundException("Entity not found. Nothing will be updated.");
+                ?? throw new L.GastosProdutos.Core.Application.Exceptions.NotFoundException("Entity not found. Nothing will be updated.");
 
             entity.Id = existing.Id;
             _db.Entry(existing).CurrentValues.SetValues(entity);
@@ -60,14 +41,6 @@ namespace L.GastosProdutos.Core.Application.Repository
             await _db.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
-        {
-            var entity = await _db.Recipes.FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken)
-                ?? throw new NotFoundException("Entity not found. Nothing will be deleted.");
-
-            entity.IsDeleted = true;
-            entity.UpdatedAt = DateTime.UtcNow;
-            await _db.SaveChangesAsync(cancellationToken);
-        }
+        // DeleteAsync inherited from GenericRepository
     }
 }
