@@ -21,6 +21,9 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Ensure a public directory exists even if absent in repo
+RUN mkdir -p public
+
 # Build the application
 RUN npm run build
 
@@ -37,6 +40,8 @@ WORKDIR /app
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
+## Some projects don't include a /public folder; ensure it exists in builder so copy doesn't fail
+RUN mkdir -p public
 COPY --from=builder /app/public ./public
 
 # Expose the port the app runs on

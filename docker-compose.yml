@@ -6,16 +6,16 @@ services:
       context: ./Front-End/l-gastos-produtos
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_PRODUCT_API_URL: http://webapi:8080/api/v1/Product
-        NEXT_PUBLIC_PACKING_API_URL: http://webapi:8080/api/v1/Packing
-        NEXT_PUBLIC_RECIPE_API_URL: http://webapi:8080/api/v1/Recipe
+        NEXT_PUBLIC_PRODUCT_API_URL: http://localhost:8080/api/v1/Product
+        NEXT_PUBLIC_PACKING_API_URL: http://localhost:8080/api/v1/Packing
+        NEXT_PUBLIC_RECIPE_API_URL: http://localhost:8080/api/v1/Recipe
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_PRODUCT_API_URL=http://webapi:8080/api/v1/Product
-      - NEXT_PUBLIC_PACKING_API_URL=http://webapi:8080/api/v1/Packing
-      - NEXT_PUBLIC_RECIPE_API_URL=http://webapi:8080/api/v1/Recipe
+      - NEXT_PUBLIC_PRODUCT_API_URL=http://localhost:8080/api/v1/Product
+      - NEXT_PUBLIC_PACKING_API_URL=http://localhost:8080/api/v1/Packing
+      - NEXT_PUBLIC_RECIPE_API_URL=http://localhost:8080/api/v1/Recipe
     depends_on:
       - webapi
 
@@ -23,6 +23,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    user: root
     ports:
       - "8080:8080"
     environment:

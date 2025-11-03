@@ -51,10 +51,28 @@ namespace L.GastosProdutos.API
 
             using (var scope = app.Services.CreateScope())
             {
-                var db = scope.ServiceProvider.GetRequiredService<L.GastosProdutos.Core.Infra.Sqlite.AppDbContext>();
-                db.Database.Migrate();
+                try
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<L.GastosProdutos.Core.Infra.Sqlite.AppDbContext>();
+                    var hasMigrations = db.Database.GetMigrations().Any();
+                    if (hasMigrations)
+                    {
+                        db.Database.Migrate();
+                        app.Logger.LogInformation("Database migration applied successfully.");
+                    }
+                    else
+                    {
+                        db.Database.EnsureCreated();
+                        app.Logger.LogWarning("No EF Core migrations found. Ensured database created from model.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    app.Logger.LogError(ex, "Error initializing database.");
+                    throw;
+                }
             }
-
+        
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
