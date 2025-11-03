@@ -6,6 +6,7 @@ using L.GastosProdutos.Core.Application.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using L.GastosProdutos.Core.Domain.Enums;
 
 namespace L.GastosProdutos.API
 {
@@ -37,7 +38,7 @@ namespace L.GastosProdutos.API
                     options.IncludeXmlComments(apiXmlPath, includeControllerXmlComments: true);
                 }
 
-                var coreAssembly = typeof(L.GastosProdutos.Core.Domain.Enums.UnitMeasure).Assembly;
+                var coreAssembly = typeof(EnumUnitOfMeasure).Assembly;
                 var coreXml = $"{coreAssembly.GetName().Name}.xml";
                 var coreXmlPath = Path.Combine(basePath, coreXml);
                 if (File.Exists(coreXmlPath))
