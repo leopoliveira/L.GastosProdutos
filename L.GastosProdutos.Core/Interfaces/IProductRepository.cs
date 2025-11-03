@@ -1,6 +1,5 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using L.GastosProdutos.Core.Domain.Entities.Product;
-using MongoDB.Driver;
 
 namespace L.GastosProdutos.Core.Interfaces
 {
@@ -12,8 +11,6 @@ namespace L.GastosProdutos.Core.Interfaces
 
         Task<IReadOnlyList<ProductEntity>> GetByFilterAsync(Expression<Func<ProductEntity, bool>> filter);
 
-        Task<IReadOnlyList<ProductEntity>> GetByFilterAsync(FilterDefinition<ProductEntity> filter);
-
         Task CreateAsync(ProductEntity entity);
 
         Task UpdateAsync(string id, ProductEntity entity);
@@ -21,3 +18,4 @@ namespace L.GastosProdutos.Core.Interfaces
         Task DeleteAsync(string id);
     }
 }
+

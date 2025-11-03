@@ -5,8 +5,7 @@ using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.All;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.GetPacking.ById;
 using L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking;
 using L.GastosProdutos.Core.Domain.Enums;
-
-using MediatR;
+using L.GastosProdutos.Core.Application.Services;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +13,11 @@ namespace L.GastosProdutos.API.Controllers.V1
 {
     public class PackingController : CommonV1Controller
     {
-        private readonly IMediator _mediator;
+        private readonly IPackingService _service;
 
-        public PackingController(IMediator mediator)
+        public PackingController(IPackingService service)
         {
-            _mediator = mediator;
+            _service = service;
         }
 
         [HttpGet()]
@@ -27,11 +26,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            var response = await _mediator.Send
-            (
-                new GetAllPackingRequest(),
-                cancellationToken
-            );
+            var response = await _service.GetAllAsync(cancellationToken);
 
             return Ok(response);
         }
@@ -43,11 +38,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            var response = await _mediator.Send
-            (
-                new GetPackingByIdRequest(id),
-                cancellationToken
-            );
+            var response = await _service.GetByIdAsync(id, cancellationToken);
 
             return Ok(response);
         }
@@ -59,11 +50,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            await _mediator.Send
-            (
-                request,
-                cancellationToken
-            );
+            await _service.AddAsync(request, cancellationToken);
 
             return StatusCode(StatusCodes.Status201Created);
         }
@@ -76,19 +63,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            await _mediator.Send
-            (
-                new UpdatePackingRequest
-                (
-                    id,
-                    dto.Name,
-                    dto.Description,
-                    dto.Price,
-                    dto.Quantity,
-                    (EnumUnitOfMeasure)dto.UnitOfMeasure
-                ),
-                cancellationToken
-            );
+            await _service.UpdateAsync(id, dto, cancellationToken);
 
             return Ok();
         }
@@ -100,11 +75,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            await _mediator.Send
-            (
-                new DeletePackingRequest(id),
-                cancellationToken
-            );
+            await _service.DeleteAsync(id, cancellationToken);
 
             return Ok();
         }

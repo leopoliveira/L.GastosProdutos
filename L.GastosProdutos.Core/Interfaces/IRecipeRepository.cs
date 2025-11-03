@@ -1,6 +1,5 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using L.GastosProdutos.Core.Domain.Entities.Recipe;
-using MongoDB.Driver;
 
 namespace L.GastosProdutos.Core.Interfaces
 {
@@ -12,16 +11,13 @@ namespace L.GastosProdutos.Core.Interfaces
 
         Task<List<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter);
 
-        Task<List<RecipeEntity>> GetByFilterAsync(FilterDefinition<RecipeEntity> filter);
-
         Task<long> CountIngredientsAsync(string recipeId);
 
         Task CreateAsync(RecipeEntity entity);
 
         Task UpdateAsync(string id, RecipeEntity entity);
 
-        Task<UpdateResult> UpdateMany(FilterDefinition<RecipeEntity> filter, UpdateDefinition<RecipeEntity> update);
-
         Task DeleteAsync(string id);
     }
 }
+

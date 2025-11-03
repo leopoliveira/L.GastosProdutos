@@ -1,5 +1,4 @@
-﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.Dto;
-using MediatR;
+using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.Dto;
 
 namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe
 {
@@ -11,6 +10,6 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe
         List<PackingDto> Packings,
         decimal? Quantity,
         decimal? SellingValue
-    )
-    : IRequest<AddRecipeResponse>;
+    );
 }
+

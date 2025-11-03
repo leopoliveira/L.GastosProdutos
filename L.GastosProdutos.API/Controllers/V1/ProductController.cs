@@ -5,8 +5,7 @@ using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.All;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById;
 using L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct;
 using L.GastosProdutos.Core.Domain.Enums;
-
-using MediatR;
+using L.GastosProdutos.Core.Application.Services;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +13,11 @@ namespace L.GastosProdutos.API.Controllers.V1
 {
     public class ProductController : CommonV1Controller
     {
-        private readonly IMediator _mediator;
+        private readonly IProductService _service;
 
-        public ProductController(IMediator mediator)
+        public ProductController(IProductService service)
         {
-            _mediator = mediator;
+            _service = service;
         }
 
         [HttpGet]
@@ -27,11 +26,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            var response = await _mediator.Send
-            (
-                new GetAllProductRequest(),
-                cancellationToken
-            );
+            var response = await _service.GetAllAsync(cancellationToken);
 
             return Ok(response);
         }
@@ -43,11 +38,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            var response = await _mediator.Send
-            (
-                new GetProductByIdRequest(id),
-                cancellationToken
-            );
+            var response = await _service.GetByIdAsync(id, cancellationToken);
 
             return Ok(response);
         }
@@ -59,11 +50,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            var response = await _mediator.Send
-            (
-                request,
-                cancellationToken
-            );
+            var response = await _service.AddAsync(request, cancellationToken);
 
             return StatusCode(StatusCodes.Status201Created);
         }
@@ -76,18 +63,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            await _mediator.Send
-            (
-                new UpdateProductRequest
-                (
-                    id,
-                    dto.Name,
-                    dto.Price,
-                    dto.Quantity,
-                    (EnumUnitOfMeasure)dto.UnitOfMeasure
-                ),
-                cancellationToken
-            );
+            await _service.UpdateAsync(id, dto, cancellationToken);
 
             return Ok();
         }
@@ -99,11 +75,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            await _mediator.Send
-            (
-                new DeleteProductRequest(id),
-                cancellationToken
-            );
+            await _service.DeleteAsync(id, cancellationToken);
 
             return Ok();
         }

@@ -1,6 +1,6 @@
 ﻿using L.GastosProdutos.Core.Domain.Enums;
 
-using MediatR;
+ 
 
 namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
 {
@@ -11,8 +11,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct
         decimal Price,
         decimal Quantity,
         EnumUnitOfMeasure UnitOfMeasure
-    )
-    : IRequest<Unit>;
+    );
 
     public record UpdateProductDto
     (

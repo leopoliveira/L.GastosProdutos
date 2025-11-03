@@ -1,8 +1,10 @@
-﻿using L.GastosProdutos.Core;
+using L.GastosProdutos.Core;
 using L.GastosProdutos.Core.Application.Repository;
-using L.GastosProdutos.Core.Infra.Mongo.Interfaces;
-using L.GastosProdutos.Core.Infra.Mongo.Settings;
 using L.GastosProdutos.Core.Interfaces;
+using L.GastosProdutos.Core.Infra.Sqlite;
+using L.GastosProdutos.Core.Application.Services;
+using L.GastosProdutos.Core.Application.Services.Implementations;
+using Microsoft.EntityFrameworkCore;
 
 namespace L.GastosProdutos.API.IOC
 {
@@ -10,20 +12,20 @@ namespace L.GastosProdutos.API.IOC
     {
         public const string CORS_POLICY = "AllowAll";
 
-        public static void Mongo(IServiceCollection services, IConfiguration configuration)
+        public static void Sqlite(IServiceCollection services, string databasePath)
         {
-            services.Configure<MongoSettings>(configuration.GetSection("Mongo"));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite($"Data Source={databasePath}"));
 
-            services.AddSingleton<IMongoConnections, MongoConnections>();
-            services.AddSingleton<IMongoContext, MongoContext>();
-
-            ConfigureMongoRepositories(services);
+            ConfigureRepositories(services);
         }
 
-        public static void MediatR(IServiceCollection services)
+        // Application service registrations (replacing MediatR handlers)
+        public static void Services(IServiceCollection services)
         {
-            services.AddMediatR(cfg =>
-                cfg.RegisterServicesFromAssemblies(new AssemblyReference().GetAssembly()));
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IRecipeService, RecipeService>();
+            services.AddScoped<IPackingService, PackingService>();
         }
 
         public static void ConfigureCors(IServiceCollection services)
@@ -33,15 +35,15 @@ namespace L.GastosProdutos.API.IOC
                 options.AddPolicy(CORS_POLICY,
                     builder =>
                     {
-                        builder.WithOrigins("*")
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
                     });
             });
         }
 
-        private static void ConfigureMongoRepositories(IServiceCollection services)
+        private static void ConfigureRepositories(IServiceCollection services)
         {
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IRecipeRepository, RecipeRepository>();

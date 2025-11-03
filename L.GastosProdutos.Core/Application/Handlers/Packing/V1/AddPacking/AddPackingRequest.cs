@@ -1,5 +1,3 @@
-﻿using MediatR;
-
 namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.AddPacking
 {
     public record AddPackingRequest
@@ -9,6 +7,6 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.AddPacking
         decimal Price,
         decimal Quantity,
         int UnitOfMeasure
-    )
-    : IRequest<AddPackingResponse>;
+    );
 }
+

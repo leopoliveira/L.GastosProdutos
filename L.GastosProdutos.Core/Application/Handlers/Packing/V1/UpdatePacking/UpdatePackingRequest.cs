@@ -1,6 +1,6 @@
 ﻿using L.GastosProdutos.Core.Domain.Enums;
 
-using MediatR;
+ 
 
 namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking
 {
@@ -12,8 +12,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Packing.V1.UpdatePacking
         decimal Price,
         decimal Quantity,
         EnumUnitOfMeasure UnitOfMeasure
-    )
-    : IRequest<Unit>;
+    );
 
     public record UpdatePackingDto
     (

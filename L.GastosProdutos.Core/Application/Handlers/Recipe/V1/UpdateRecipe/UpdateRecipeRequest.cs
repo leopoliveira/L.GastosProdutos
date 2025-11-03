@@ -1,6 +1,6 @@
 ﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.Dto;
 
-using MediatR;
+ 
 
 namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe
 {
@@ -13,8 +13,7 @@ namespace L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe
         List<PackingDto> Packings,
         decimal? Quantity,
         decimal? SellingValue
-    )
-    : IRequest<Unit>;
+    );
 
     public record UpdateRecipeDto
     (

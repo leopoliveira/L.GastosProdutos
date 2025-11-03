@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 using L.GastosProdutos.Core.Domain.Entities.Packing;
-using MongoDB.Driver;
 
 namespace L.GastosProdutos.Core.Interfaces
 {
@@ -13,8 +11,6 @@ namespace L.GastosProdutos.Core.Interfaces
 
         Task<IReadOnlyList<PackingEntity>> GetByFilterAsync(Expression<Func<PackingEntity, bool>> filter);
 
-        Task<IReadOnlyList<PackingEntity>> GetByFilterAsync(FilterDefinition<PackingEntity> filter);
-
         Task CreateAsync(PackingEntity entity);
 
         Task UpdateAsync(string id, PackingEntity entity);
@@ -22,3 +18,4 @@ namespace L.GastosProdutos.Core.Interfaces
         Task DeleteAsync(string id);
     }
 }
+

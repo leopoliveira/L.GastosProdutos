@@ -5,10 +5,19 @@ services:
     build:
       context: ./Front-End/l-gastos-produtos
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_PRODUCT_API_URL: http://webapi:8080/api/v1/Product
+        NEXT_PUBLIC_PACKING_API_URL: http://webapi:8080/api/v1/Packing
+        NEXT_PUBLIC_RECIPE_API_URL: http://webapi:8080/api/v1/Recipe
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - NEXT_PUBLIC_PRODUCT_API_URL=http://webapi:8080/api/v1/Product
+      - NEXT_PUBLIC_PACKING_API_URL=http://webapi:8080/api/v1/Packing
+      - NEXT_PUBLIC_RECIPE_API_URL=http://webapi:8080/api/v1/Recipe
+    depends_on:
+      - webapi
 
   webapi:
     build:
@@ -16,20 +25,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-      - "8081:8081"
-    depends_on:
-      - mongo
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - Mongo__ConnectionString=mongodb://mongo:27017/ControleDeGastos
-      - Mongo__DatabaseName=ControleDeGastos
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
+      - ASPNETCORE_URLS=http://+:8080
     volumes:
-      - mongo-data:/data/db
-
+      - appdata:/app/App_Data
 volumes:
-  mongo-data:
+  appdata:
+  

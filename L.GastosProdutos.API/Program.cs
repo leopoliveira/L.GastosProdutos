@@ -1,6 +1,7 @@
 using L.GastosProdutos.API.IOC;
 
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace L.GastosProdutos.API
 {
@@ -11,9 +12,13 @@ namespace L.GastosProdutos.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            ConfigureBindings.Mongo(builder.Services, builder.Configuration);
-            ConfigureBindings.MediatR(builder.Services);
+            var dataDir = Path.Combine(builder.Environment.ContentRootPath, "App_Data");
+            Directory.CreateDirectory(dataDir);
+            var dbPath = Path.Combine(dataDir, "gastos.db");
+            ConfigureBindings.Sqlite(builder.Services, dbPath);
+            // MediatR removed; using simple application services
             ConfigureBindings.ConfigureCors(builder.Services);
+            ConfigureBindings.Services(builder.Services);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -22,14 +27,19 @@ namespace L.GastosProdutos.API
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<L.GastosProdutos.Core.Infra.Sqlite.AppDbContext>();
+                db.Database.Migrate();
+            }
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseHttpsRedirection();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseCors(ConfigureBindings.CORS_POLICY);
 

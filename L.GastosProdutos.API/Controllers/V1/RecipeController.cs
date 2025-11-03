@@ -4,8 +4,7 @@ using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.All;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.ById;
 using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe;
-
-using MediatR;
+using L.GastosProdutos.Core.Application.Services;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +12,11 @@ namespace L.GastosProdutos.API.Controllers.V1
 {
     public class RecipeController : CommonV1Controller
     {
-        private readonly IMediator _mediator;
+        private readonly IRecipeService _service;
 
-        public RecipeController(IMediator mediator)
+        public RecipeController(IRecipeService service)
         {
-            _mediator = mediator;
+            _service = service;
         }
 
         [HttpGet]
@@ -26,11 +25,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            var response = await _mediator.Send
-            (
-                new GetAllRecipeRequest(),
-                cancellationToken
-            );
+            var response = await _service.GetAllAsync(cancellationToken);
 
             return Ok(response);
         }
@@ -42,11 +37,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            var response = await _mediator.Send
-            (
-                new GetRecipeByIdRequest(id),
-                cancellationToken
-            );
+            var response = await _service.GetByIdAsync(id, cancellationToken);
 
             return Ok(response);
         }
@@ -58,11 +49,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            var response = await _mediator.Send
-            (
-                request,
-                cancellationToken
-            );
+            var response = await _service.AddAsync(request, cancellationToken);
 
             return StatusCode(StatusCodes.Status201Created);
         }
@@ -75,20 +62,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            await _mediator.Send
-            (
-                new UpdateRecipeRequest
-                (
-                    id,
-                    dto.Name,
-                    dto.Description,
-                    dto.Ingredients,
-                    dto.Packings,
-                    dto.Quantity ?? 0,
-                    dto.SellingValue ?? 0
-                ),
-                cancellationToken
-            );
+            await _service.UpdateAsync(id, dto, cancellationToken);
 
             return Ok();
         }
@@ -100,11 +74,7 @@ namespace L.GastosProdutos.API.Controllers.V1
             CancellationToken cancellationToken
         )
         {
-            await _mediator.Send
-            (
-                new DeleteRecipeRequest(id),
-                cancellationToken
-            );
+            await _service.DeleteAsync(id, cancellationToken);
 
             return Ok();
         }

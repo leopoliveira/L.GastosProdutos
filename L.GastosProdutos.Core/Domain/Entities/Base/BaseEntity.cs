@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace L.GastosProdutos.Core.Domain.Entities.Base
 {
@@ -7,12 +6,12 @@ namespace L.GastosProdutos.Core.Domain.Entities.Base
     {
         public BaseEntity()
         {
+            Id = Guid.NewGuid().ToString();
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
         }
 
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [Key]
         public string? Id { get; set; }
 
         public DateTime CreatedAt { get; set; }
