@@ -2,6 +2,7 @@ using L.GastosProdutos.Core.Domain.Enums;
 using L.GastosProdutos.Core.Application.Services;
 
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using L.GastosProdutos.Core.Application.Contracts.Product.V1.AddProduct;
 using L.GastosProdutos.Core.Application.Contracts.Product.V1.DeleteProduct;
 using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct;
@@ -11,7 +12,11 @@ using L.GastosProdutos.Core.Application.Contracts.Product.V1.UpdateProduct;
 
 namespace L.GastosProdutos.API.Controllers.V1
 {
-    public class ProductController : CommonV1Controller
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    public class ProductController : ControllerBase
     {
         private readonly IProductService _service;
 

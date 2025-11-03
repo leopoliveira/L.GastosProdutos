@@ -1,3 +1,4 @@
+using L.GastosProdutos.Core.Application.Contracts.Product;
 using L.GastosProdutos.Core.Domain.Enums;
 
 namespace L.GastosProdutos.Core.Application.Contracts.Product.V1.UpdateProduct
@@ -11,11 +12,6 @@ namespace L.GastosProdutos.Core.Application.Contracts.Product.V1.UpdateProduct
         EnumUnitOfMeasure UnitOfMeasure
     );
 
-    public record UpdateProductDto
-    (
-        string Name,
-        decimal Price,
-        decimal Quantity,
-        int UnitOfMeasure
-    );
+    public record UpdateProductDto(string Name, decimal Price, decimal Quantity, int UnitOfMeasure)
+        : ProductWriteDto(Name, Price, Quantity, UnitOfMeasure);
 }

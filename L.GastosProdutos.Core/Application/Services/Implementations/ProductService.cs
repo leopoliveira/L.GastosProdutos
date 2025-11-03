@@ -5,6 +5,7 @@ using L.GastosProdutos.Core.Application.Contracts.Product.V1.UpdateProduct;
 using L.GastosProdutos.Core.Domain.Entities.Product;
 using L.GastosProdutos.Core.Domain.Enums;
 using L.GastosProdutos.Core.Interfaces;
+using L.GastosProdutos.Core.Application.Services.Mappers;
 
 namespace L.GastosProdutos.Core.Application.Services.Implementations
 {
@@ -20,28 +21,14 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
         public async Task<IEnumerable<GetProductResponse>> GetAllAsync(CancellationToken cancellationToken)
         {
             var products = await _repository.GetAllAsync(cancellationToken);
-            return products.Select(p => new GetProductResponse(
-                p.Id,
-                p.Name,
-                p.Price,
-                p.Quantity,
-                p.UnitPrice,
-                p.UnitOfMeasure
-            ));
+            return products.Select(p => p.ToResponse());
         }
 
         public async Task<GetProductResponse> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var product = await _repository.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Product not found");
-            return new GetProductResponse(
-                product.Id,
-                product.Name,
-                product.Price,
-                product.Quantity,
-                product.UnitPrice,
-                product.UnitOfMeasure
-            );
+            return product.ToResponse();
         }
 
         public async Task<AddProductResponse> AddAsync(AddProductRequest request, CancellationToken cancellationToken)

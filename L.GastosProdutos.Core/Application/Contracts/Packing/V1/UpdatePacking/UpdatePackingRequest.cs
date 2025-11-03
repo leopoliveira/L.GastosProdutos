@@ -1,3 +1,4 @@
+using L.GastosProdutos.Core.Application.Contracts.Packing;
 using L.GastosProdutos.Core.Domain.Enums;
 
 namespace L.GastosProdutos.Core.Application.Contracts.Packing.V1.UpdatePacking
@@ -12,12 +13,6 @@ namespace L.GastosProdutos.Core.Application.Contracts.Packing.V1.UpdatePacking
         EnumUnitOfMeasure UnitOfMeasure
     );
 
-    public record UpdatePackingDto
-    (
-        string Name,
-        string? Description,
-        decimal Price,
-        decimal Quantity,
-        int UnitOfMeasure
-    );
+    public record UpdatePackingDto(string Name, string? Description, decimal Price, decimal Quantity, int UnitOfMeasure)
+        : PackingWriteDto(Name, Description, Price, Quantity, UnitOfMeasure);
 }

@@ -1,9 +1,10 @@
-using L.GastosProdutos.Core.Application.Contracts.Recipe;
+using System.Collections.Generic;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.Dto;
 
-namespace L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe
+namespace L.GastosProdutos.Core.Application.Contracts.Recipe
 {
-    public record GetRecipeResponse(
+    public record RecipeResponse
+    (
         string Id,
         string Name,
         string? Description,
@@ -12,5 +13,5 @@ namespace L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe
         decimal TotalCost,
         decimal? Quantity,
         decimal? SellingValue
-    ) : RecipeResponse(Id, Name, Description, Ingredients, Packings, TotalCost, Quantity ?? 0, SellingValue ?? 0);
+    );
 }

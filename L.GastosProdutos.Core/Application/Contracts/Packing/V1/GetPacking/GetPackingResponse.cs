@@ -1,9 +1,9 @@
+using L.GastosProdutos.Core.Application.Contracts.Packing;
 using L.GastosProdutos.Core.Domain.Enums;
 
 namespace L.GastosProdutos.Core.Application.Contracts.Packing.V1.GetPacking
 {
-    public record GetPackingResponse
-    (
+    public record GetPackingResponse(
         string Id,
         string Name,
         string? Description,
@@ -11,5 +11,5 @@ namespace L.GastosProdutos.Core.Application.Contracts.Packing.V1.GetPacking
         decimal Quantity,
         decimal UnitPrice,
         EnumUnitOfMeasure UnitOfMeasure
-    );
+    ) : PackingResponse(Id, Name, Description, Price, Quantity, UnitPrice, UnitOfMeasure);
 }

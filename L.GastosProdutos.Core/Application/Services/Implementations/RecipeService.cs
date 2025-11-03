@@ -6,6 +6,7 @@ using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.UpdateRecipe;
 using L.GastosProdutos.Core.Domain.Entities.Packing;
 using L.GastosProdutos.Core.Domain.Entities.Recipe;
 using L.GastosProdutos.Core.Interfaces;
+using L.GastosProdutos.Core.Application.Services.Mappers;
 
 namespace L.GastosProdutos.Core.Application.Services.Implementations
 {
@@ -21,14 +22,14 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
         public async Task<IEnumerable<GetRecipeResponse>> GetAllAsync(CancellationToken cancellationToken)
         {
             var recipes = await _repository.GetAllAsync(cancellationToken);
-            return recipes.Select(MapEntityToResponse);
+            return recipes.Select(r => r.ToResponse());
         }
 
         public async Task<GetRecipeResponse> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var recipe = await _repository.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Recipe not found.");
-            return MapEntityToResponse(recipe);
+            return recipe.ToResponse();
         }
 
         public async Task<AddRecipeResponse> AddAsync(AddRecipeRequest request, CancellationToken cancellationToken)
@@ -117,33 +118,6 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
 
         }
 
-        private static GetRecipeResponse MapEntityToResponse(RecipeEntity recipe)
-        {
-            return new GetRecipeResponse
-            (
-                recipe.Id,
-                recipe.Name,
-                recipe.Description,
-                recipe.Ingredients.ConvertAll(i =>
-                    new IngredientDto
-                    (
-                        i.ProductId,
-                        i.ProductName,
-                        i.Quantity,
-                        i.IngredientPrice
-                    )),
-                recipe.Packings.ConvertAll(p =>
-                    new PackingDto
-                    (
-                        p.PackingId,
-                        p.PackingName,
-                        p.Quantity,
-                        p.UnitPrice
-                    )),
-                recipe.TotalCost,
-                recipe.Quantity ?? 0,
-                recipe.SellingValue ?? 0
-            );
-        }
+        // Mapping centralized in EntityToResponseMapper
     }
 }

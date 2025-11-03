@@ -1,6 +1,7 @@
 using L.GastosProdutos.Core.Application.Services;
 
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.AddRecipe;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.DeleteRecipe;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe;
@@ -10,7 +11,11 @@ using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.UpdateRecipe;
 
 namespace L.GastosProdutos.API.Controllers.V1
 {
-    public class RecipeController : CommonV1Controller
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    public class RecipeController : ControllerBase
     {
         private readonly IRecipeService _service;
 

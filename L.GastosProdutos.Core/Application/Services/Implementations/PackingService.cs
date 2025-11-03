@@ -5,6 +5,7 @@ using L.GastosProdutos.Core.Application.Contracts.Packing.V1.UpdatePacking;
 using L.GastosProdutos.Core.Domain.Entities.Packing;
 using L.GastosProdutos.Core.Domain.Enums;
 using L.GastosProdutos.Core.Interfaces;
+using L.GastosProdutos.Core.Application.Services.Mappers;
 
 namespace L.GastosProdutos.Core.Application.Services.Implementations
 {
@@ -20,30 +21,14 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
         public async Task<IEnumerable<GetPackingResponse>> GetAllAsync(CancellationToken cancellationToken)
         {
             var packings = await _repository.GetAllAsync(cancellationToken);
-            return packings.Select(p => new GetPackingResponse(
-                p.Id,
-                p.Name,
-                p.Description,
-                p.Price,
-                p.Quantity,
-                p.UnitPrice,
-                p.UnitOfMeasure
-            ));
+            return packings.Select(p => p.ToResponse());
         }
 
         public async Task<GetPackingResponse> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var packing = await _repository.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Packing not found.");
-            return new GetPackingResponse(
-                packing.Id,
-                packing.Name,
-                packing.Description,
-                packing.Price,
-                packing.Quantity,
-                packing.UnitPrice,
-                packing.UnitOfMeasure
-            );
+            return packing.ToResponse();
         }
 
         public async Task<AddPackingResponse> AddAsync(AddPackingRequest request, CancellationToken cancellationToken)

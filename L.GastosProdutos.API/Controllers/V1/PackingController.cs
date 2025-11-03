@@ -2,6 +2,7 @@ using L.GastosProdutos.Core.Domain.Enums;
 using L.GastosProdutos.Core.Application.Services;
 
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using L.GastosProdutos.Core.Application.Contracts.Packing.V1.AddPacking;
 using L.GastosProdutos.Core.Application.Contracts.Packing.V1.DeletePacking;
 using L.GastosProdutos.Core.Application.Contracts.Packing.V1.GetPacking;
@@ -11,7 +12,11 @@ using L.GastosProdutos.Core.Application.Contracts.Packing.V1.UpdatePacking;
 
 namespace L.GastosProdutos.API.Controllers.V1
 {
-    public class PackingController : CommonV1Controller
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    public class PackingController : ControllerBase
     {
         private readonly IPackingService _service;
 
