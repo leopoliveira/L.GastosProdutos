@@ -4,10 +4,7 @@ using L.GastosProdutos.Core.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using L.GastosProdutos.Core.Application.Contracts.Packing.V1.AddPacking;
-using L.GastosProdutos.Core.Application.Contracts.Packing.V1.DeletePacking;
 using L.GastosProdutos.Core.Application.Contracts.Packing.V1.GetPacking;
-using L.GastosProdutos.Core.Application.Contracts.Packing.V1.GetPacking.All;
-using L.GastosProdutos.Core.Application.Contracts.Packing.V1.GetPacking.ById;
 using L.GastosProdutos.Core.Application.Contracts.Packing.V1.UpdatePacking;
 
 namespace L.GastosProdutos.API.Controllers.V1

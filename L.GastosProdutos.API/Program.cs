@@ -1,6 +1,9 @@
 using L.GastosProdutos.API.IOC;
 
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using L.GastosProdutos.Core.Application.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace L.GastosProdutos.API
@@ -40,6 +43,26 @@ namespace L.GastosProdutos.API
                 app.UseSwaggerUI();
                 app.UseHttpsRedirection();
             }
+
+            // Map application NotFoundException to HTTP 404 with ProblemDetails
+            app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next();
+                }
+                catch (NotFoundException ex)
+                {
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    var problem = new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Not Found",
+                        Detail = ex.Message
+                    };
+                    await context.Response.WriteAsJsonAsync(problem);
+                }
+            });
 
             app.UseCors(ConfigureBindings.CORS_POLICY);
 

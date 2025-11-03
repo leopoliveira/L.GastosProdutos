@@ -5,30 +5,32 @@ using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.UpdateRecipe;
 using L.GastosProdutos.Core.Domain.Entities.Packing;
 using L.GastosProdutos.Core.Domain.Entities.Recipe;
-using L.GastosProdutos.Core.Interfaces;
+using L.GastosProdutos.Core.Infra.Sqlite;
 using L.GastosProdutos.Core.Application.Services.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace L.GastosProdutos.Core.Application.Services.Implementations
 {
     public class RecipeService : IRecipeService
     {
-        private readonly IRecipeRepository _repository;
+        private readonly AppDbContext _db;
 
-        public RecipeService(IRecipeRepository repository)
+        public RecipeService(AppDbContext db)
         {
-            _repository = repository;
+            _db = db;
         }
 
         public async Task<IEnumerable<GetRecipeResponse>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var recipes = await _repository.GetAllAsync(cancellationToken);
+            var recipes = await _db.Recipes.AsNoTracking().ToListAsync(cancellationToken);
             return recipes.Select(r => r.ToResponse());
         }
 
         public async Task<GetRecipeResponse> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var recipe = await _repository.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Recipe not found.");
+            var recipe = await _db.Recipes.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id, cancellationToken)
+                ?? throw new NotFoundException("Recipe not found.");
             return recipe.ToResponse();
         }
 
@@ -71,7 +73,8 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
                 }
             }
 
-            await _repository.CreateAsync(recipe, cancellationToken);
+            _db.Recipes.Add(recipe);
+            await _db.SaveChangesAsync(cancellationToken);
 
             return new AddRecipeResponse(recipe.Id);
         }
@@ -80,7 +83,8 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var recipe = await _repository.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Recipe not found.");
+            var recipe = await _db.Recipes.FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken)
+                ?? throw new NotFoundException("Recipe not found.");
 
             recipe.Name = dto.Name;
             recipe.Description = dto.Description;
@@ -108,13 +112,19 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
                 ));
             }
 
-            await _repository.UpdateAsync(id, recipe, cancellationToken);
+            recipe.UpdatedAt = DateTime.UtcNow;
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            await _repository.DeleteAsync(id, cancellationToken);
+            var entity = await _db.Recipes.FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken)
+                ?? throw new NotFoundException("Recipe not found. Nothing will be deleted.");
+
+            entity.IsDeleted = true;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _db.SaveChangesAsync(cancellationToken);
 
         }
 

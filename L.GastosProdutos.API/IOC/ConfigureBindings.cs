@@ -1,6 +1,4 @@
 using L.GastosProdutos.Core;
-using L.GastosProdutos.Core.Application.Repository;
-using L.GastosProdutos.Core.Interfaces;
 using L.GastosProdutos.Core.Infra.Sqlite;
 using L.GastosProdutos.Core.Application.Services;
 using L.GastosProdutos.Core.Application.Services.Implementations;
@@ -17,7 +15,7 @@ namespace L.GastosProdutos.API.IOC
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite($"Data Source={databasePath}"));
 
-            ConfigureRepositories(services);
+            // Repositories removed; services use DbContext directly.
         }
 
         // Application service registrations (replacing MediatR handlers)
@@ -43,11 +41,6 @@ namespace L.GastosProdutos.API.IOC
             });
         }
 
-        private static void ConfigureRepositories(IServiceCollection services)
-        {
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IRecipeRepository, RecipeRepository>();
-            services.AddScoped<IPackingRepository, PackingRepository>();
-        }
+        // Repository registrations removed
     }
 }

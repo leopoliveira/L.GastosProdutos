@@ -4,30 +4,32 @@ using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct;
 using L.GastosProdutos.Core.Application.Contracts.Product.V1.UpdateProduct;
 using L.GastosProdutos.Core.Domain.Entities.Product;
 using L.GastosProdutos.Core.Domain.Enums;
-using L.GastosProdutos.Core.Interfaces;
+using L.GastosProdutos.Core.Infra.Sqlite;
 using L.GastosProdutos.Core.Application.Services.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace L.GastosProdutos.Core.Application.Services.Implementations
 {
     public class ProductService : IProductService
     {
-        private readonly IProductRepository _repository;
+        private readonly AppDbContext _db;
 
-        public ProductService(IProductRepository repository)
+        public ProductService(AppDbContext db)
         {
-            _repository = repository;
+            _db = db;
         }
 
         public async Task<IEnumerable<GetProductResponse>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var products = await _repository.GetAllAsync(cancellationToken);
+            var products = await _db.Products.AsNoTracking().ToListAsync(cancellationToken);
             return products.Select(p => p.ToResponse());
         }
 
         public async Task<GetProductResponse> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var product = await _repository.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Product not found");
+            var product = await _db.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken)
+                ?? throw new NotFoundException("Product not found");
             return product.ToResponse();
         }
 
@@ -42,7 +44,8 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
                 (EnumUnitOfMeasure)request.UnitOfMeasure
             );
 
-            await _repository.CreateAsync(product, cancellationToken);
+            _db.Products.Add(product);
+            await _db.SaveChangesAsync(cancellationToken);
 
             return new AddProductResponse(product.Id);
         }
@@ -51,20 +54,27 @@ namespace L.GastosProdutos.Core.Application.Services.Implementations
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var existing = await _repository.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Product not found");
+            var existing = await _db.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken)
+                ?? throw new NotFoundException("Product not found");
 
             existing.Name = dto.Name;
             existing.Price = dto.Price;
             existing.Quantity = dto.Quantity;
             existing.UnitOfMeasure = (EnumUnitOfMeasure)dto.UnitOfMeasure;
 
-            await _repository.UpdateAsync(id, existing, cancellationToken);
+            existing.UpdatedAt = DateTime.UtcNow;
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            await _repository.DeleteAsync(id, cancellationToken);
+            var entity = await _db.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken)
+                ?? throw new NotFoundException("Product not found. Nothing will be deleted.");
+
+            entity.IsDeleted = true;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _db.SaveChangesAsync(cancellationToken);
         }
     }
 }

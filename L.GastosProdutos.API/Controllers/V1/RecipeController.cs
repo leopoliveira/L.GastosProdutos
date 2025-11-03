@@ -3,10 +3,7 @@ using L.GastosProdutos.Core.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.AddRecipe;
-using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.DeleteRecipe;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe;
-using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe.All;
-using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe.ById;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.UpdateRecipe;
 
 namespace L.GastosProdutos.API.Controllers.V1

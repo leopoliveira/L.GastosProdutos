@@ -4,10 +4,7 @@ using L.GastosProdutos.Core.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using L.GastosProdutos.Core.Application.Contracts.Product.V1.AddProduct;
-using L.GastosProdutos.Core.Application.Contracts.Product.V1.DeleteProduct;
 using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct;
-using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct.All;
-using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct.ById;
 using L.GastosProdutos.Core.Application.Contracts.Product.V1.UpdateProduct;
 
 namespace L.GastosProdutos.API.Controllers.V1
