@@ -5,18 +5,16 @@ namespace L.GastosProdutos.Core.Interfaces
 {
     public interface IRecipeRepository
     {
-        Task<IReadOnlyList<RecipeEntity>> GetAllAsync();
+        Task<IReadOnlyList<RecipeEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
-        Task<RecipeEntity?> GetByIdAsync(string id);
+        Task<RecipeEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default);
 
-        Task<List<RecipeEntity>> GetByFilterAsync(Expression<Func<RecipeEntity, bool>> filter);
+        Task<long> CountIngredientsAsync(string recipeId, CancellationToken cancellationToken = default);
 
-        Task<long> CountIngredientsAsync(string recipeId);
+        Task CreateAsync(RecipeEntity entity, CancellationToken cancellationToken = default);
 
-        Task CreateAsync(RecipeEntity entity);
+        Task UpdateAsync(string id, RecipeEntity entity, CancellationToken cancellationToken = default);
 
-        Task UpdateAsync(string id, RecipeEntity entity);
-
-        Task DeleteAsync(string id);
+        Task DeleteAsync(string id, CancellationToken cancellationToken = default);
     }
 }

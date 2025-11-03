@@ -1,6 +1,6 @@
-using L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct;
-using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct;
-using L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.AddProduct;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.UpdateProduct;
 
 namespace L.GastosProdutos.Core.Application.Services
 {
@@ -13,4 +13,3 @@ namespace L.GastosProdutos.Core.Application.Services
         Task DeleteAsync(string id, CancellationToken cancellationToken);
     }
 }
-

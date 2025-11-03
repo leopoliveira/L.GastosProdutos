@@ -1,6 +1,6 @@
-using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe;
-using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe;
-using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.AddRecipe;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.UpdateRecipe;
 
 namespace L.GastosProdutos.Core.Application.Services
 {
@@ -13,4 +13,3 @@ namespace L.GastosProdutos.Core.Application.Services
         Task DeleteAsync(string id, CancellationToken cancellationToken);
     }
 }
-

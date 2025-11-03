@@ -16,41 +16,38 @@ namespace L.GastosProdutos.Core.Application.Repository
             _db = db;
         }
 
-        public async Task<IReadOnlyList<ProductEntity>> GetAllAsync() =>
-            await _db.Products.AsNoTracking().ToListAsync();
+        public async Task<IReadOnlyList<ProductEntity>> GetAllAsync(CancellationToken cancellationToken = default) =>
+            await _db.Products.AsNoTracking().ToListAsync(cancellationToken);
 
-        public async Task<ProductEntity?> GetByIdAsync(string id) =>
-            await _db.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+        public async Task<ProductEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default) =>
+            await _db.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
-        public async Task<IReadOnlyList<ProductEntity>> GetByFilterAsync(Expression<Func<ProductEntity, bool>> filter) =>
-            await _db.Products.AsNoTracking().Where(filter).ToListAsync();
-
-        public async Task CreateAsync(ProductEntity entity)
+        public async Task CreateAsync(ProductEntity entity, CancellationToken cancellationToken = default)
         {
             _db.Products.Add(entity);
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task UpdateAsync(string id, ProductEntity entity)
+        public async Task UpdateAsync(string id, ProductEntity entity, CancellationToken cancellationToken = default)
         {
             entity.UpdatedAt = DateTime.UtcNow;
 
-            var existing = await _db.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted)
+            var existing = await _db.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken)
                 ?? throw new NotFoundException("Entity not found. Nothing will be updated.");
 
             entity.Id = existing.Id;
             _db.Entry(existing).CurrentValues.SetValues(entity);
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
-            var entity = await _db.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted)
+            var entity = await _db.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken)
                 ?? throw new NotFoundException("Entity not found. Nothing will be deleted.");
 
             entity.IsDeleted = true;
             entity.UpdatedAt = DateTime.UtcNow;
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(cancellationToken);
         }
     }
 }

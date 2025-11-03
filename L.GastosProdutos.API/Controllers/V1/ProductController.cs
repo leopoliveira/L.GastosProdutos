@@ -1,13 +1,13 @@
-﻿using L.GastosProdutos.Core.Application.Handlers.Product.V1.AddProduct;
-using L.GastosProdutos.Core.Application.Handlers.Product.V1.DeleteProduct;
-using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct;
-using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.All;
-using L.GastosProdutos.Core.Application.Handlers.Product.V1.GetProduct.ById;
-using L.GastosProdutos.Core.Application.Handlers.Product.V1.UpdateProduct;
 using L.GastosProdutos.Core.Domain.Enums;
 using L.GastosProdutos.Core.Application.Services;
 
 using Microsoft.AspNetCore.Mvc;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.AddProduct;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.DeleteProduct;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct.All;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct.ById;
+using L.GastosProdutos.Core.Application.Contracts.Product.V1.UpdateProduct;
 
 namespace L.GastosProdutos.API.Controllers.V1
 {
@@ -52,7 +52,7 @@ namespace L.GastosProdutos.API.Controllers.V1
         {
             var response = await _service.AddAsync(request, cancellationToken);
 
-            return StatusCode(StatusCodes.Status201Created);
+            return CreatedAtAction(nameof(GetProductById), new { id = response.ProductId }, response);
         }
 
         [HttpPut("{id}")]
@@ -81,3 +81,4 @@ namespace L.GastosProdutos.API.Controllers.V1
         }
     }
 }
+

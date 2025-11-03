@@ -5,16 +5,14 @@ namespace L.GastosProdutos.Core.Interfaces
 {
     public interface IProductRepository
     {
-        Task<IReadOnlyList<ProductEntity>> GetAllAsync();
+        Task<IReadOnlyList<ProductEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
-        Task<ProductEntity?> GetByIdAsync(string id);
+        Task<ProductEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default);
 
-        Task<IReadOnlyList<ProductEntity>> GetByFilterAsync(Expression<Func<ProductEntity, bool>> filter);
+        Task CreateAsync(ProductEntity entity, CancellationToken cancellationToken = default);
 
-        Task CreateAsync(ProductEntity entity);
+        Task UpdateAsync(string id, ProductEntity entity, CancellationToken cancellationToken = default);
 
-        Task UpdateAsync(string id, ProductEntity entity);
-
-        Task DeleteAsync(string id);
+        Task DeleteAsync(string id, CancellationToken cancellationToken = default);
     }
 }

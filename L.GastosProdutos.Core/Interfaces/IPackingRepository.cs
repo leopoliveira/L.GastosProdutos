@@ -5,16 +5,13 @@ namespace L.GastosProdutos.Core.Interfaces
 {
     public interface IPackingRepository
     {
-        Task<IReadOnlyList<PackingEntity>> GetAllAsync();
+        Task<IReadOnlyList<PackingEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
-        Task<PackingEntity?> GetByIdAsync(string id);
+        Task<PackingEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task CreateAsync(PackingEntity entity, CancellationToken cancellationToken = default);
 
-        Task<IReadOnlyList<PackingEntity>> GetByFilterAsync(Expression<Func<PackingEntity, bool>> filter);
+        Task UpdateAsync(string id, PackingEntity entity, CancellationToken cancellationToken = default);
 
-        Task CreateAsync(PackingEntity entity);
-
-        Task UpdateAsync(string id, PackingEntity entity);
-
-        Task DeleteAsync(string id);
+        Task DeleteAsync(string id, CancellationToken cancellationToken = default);
     }
 }

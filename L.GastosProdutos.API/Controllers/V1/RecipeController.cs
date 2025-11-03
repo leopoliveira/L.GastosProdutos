@@ -1,12 +1,12 @@
-﻿using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.AddRecipe;
-using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.DeleteRecipe;
-using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe;
-using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.All;
-using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.GetRecipe.ById;
-using L.GastosProdutos.Core.Application.Handlers.Recipe.V1.UpdateRecipe;
 using L.GastosProdutos.Core.Application.Services;
 
 using Microsoft.AspNetCore.Mvc;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.AddRecipe;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.DeleteRecipe;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe.All;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe.ById;
+using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.UpdateRecipe;
 
 namespace L.GastosProdutos.API.Controllers.V1
 {
@@ -51,7 +51,7 @@ namespace L.GastosProdutos.API.Controllers.V1
         {
             var response = await _service.AddAsync(request, cancellationToken);
 
-            return StatusCode(StatusCodes.Status201Created);
+            return CreatedAtAction(nameof(GetRecipeById), new { id = response.RecipeId }, response);
         }
 
         [HttpPut("{id}")]
@@ -80,3 +80,4 @@ namespace L.GastosProdutos.API.Controllers.V1
         }
     }
 }
+
