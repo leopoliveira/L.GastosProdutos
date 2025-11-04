@@ -154,7 +154,12 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, onSubmit }) => {
               </Tr>
             </Thead>
             <Tbody>
-              {filteredData.map((item) => (
+              {filteredData.length === 0 ? (
+                <Tr>
+                  <Td textAlign="center" colSpan={7}>Nenhum registro encontrado.</Td>
+                </Tr>
+              ) : (
+                filteredData.map((item) => (
                 <Tr key={item.id}>
                   <Td display="none">{item.id}</Td>
                   <Td textAlign="center">{item.name}</Td>
@@ -180,7 +185,8 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, onSubmit }) => {
                     </Button>
                   </Td>
                 </Tr>
-              ))}
+                ))
+              )}
             </Tbody>
           </Table>
         </Box>

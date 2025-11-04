@@ -52,10 +52,6 @@ export default function Recipes() {
           </Alert>
           <Button onClick={getData}>Tentar novamente</Button>
         </Box>
-      ) : recipes.length === 0 ? (
-        <Box p={8} textAlign="center">
-          <Text fontSize="lg">Nenhuma receita encontrada.</Text>
-        </Box>
       ) : (
         <RecipeGrid recipes={recipes} onSubmit={setReRender} />
       )}

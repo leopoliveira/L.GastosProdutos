@@ -121,16 +121,24 @@ export function DataGrid<T extends object>({
             </Tr>
           </Thead>
           <Tbody>
-            {sorted.map((row, i) => (
-              <Tr key={i}>
-                {columns.map((col, idx) => (
-                  <Td key={idx} textAlign="center">
-                    {col.render ? col.render(row) : col.key ? String((row as any)[col.key]) : null}
-                  </Td>
-                ))}
-                {actionsRenderer && <Td textAlign="center">{actionsRenderer(row)}</Td>}
+            {sorted.length === 0 ? (
+              <Tr>
+                <Td textAlign="center" colSpan={columns.length + (actionsRenderer ? 1 : 0)}>
+                  Nenhum registro encontrado.
+                </Td>
               </Tr>
-            ))}
+            ) : (
+              sorted.map((row, i) => (
+                <Tr key={i}>
+                  {columns.map((col, idx) => (
+                    <Td key={idx} textAlign="center">
+                      {col.render ? col.render(row) : col.key ? String((row as any)[col.key]) : null}
+                    </Td>
+                  ))}
+                  {actionsRenderer && <Td textAlign="center">{actionsRenderer(row)}</Td>}
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </Box>

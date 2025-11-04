@@ -25,13 +25,13 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5",
     "eslint": "^8",
     "eslint-config-next": "^14",
     "eslint-config-prettier": "^9",
     "eslint-plugin-prettier": "^5",
     "prettier": "^3",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "typescript": "^5"
   },
   "main": "index.js",
   "author": "",

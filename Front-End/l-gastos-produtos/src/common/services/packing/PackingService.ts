@@ -4,7 +4,7 @@ import IUpdatePacking from '@/common/interfaces/packing/IUpdatePacking';
 import PackingDto from '@/common/interfaces/recipe/dtos/PackingDto';
 import baseApi from '@/common/services/http/api';
 const api = baseApi.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/Packing`,
+  baseURL: `${process.env.NEXT_PUBLIC_PACKING_API_URL}`,
 });
 
 export const GetPackingById = async (packingId: string): Promise<IReadPacking> => {

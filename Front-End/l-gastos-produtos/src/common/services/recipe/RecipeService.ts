@@ -3,7 +3,7 @@ import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
 import IUpdateRecipe from '@/common/interfaces/recipe/IUpdateRecipe';
 import baseApi from '@/common/services/http/api';
 const api = baseApi.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/Recipe`,
+  baseURL: `${process.env.NEXT_PUBLIC_RECIPE_API_URL}`,
 });
 
 export const GetRecipeById = async (recipeId: string): Promise<IReadRecipe> => {

@@ -52,10 +52,6 @@ export default function Packings() {
           </Alert>
           <Button onClick={getData}>Tentar novamente</Button>
         </Box>
-      ) : packings.length === 0 ? (
-        <Box p={8} textAlign="center">
-          <Text fontSize="lg">Nenhuma embalagem encontrada.</Text>
-        </Box>
       ) : (
         <PackingGrid packings={packings} onSubmit={setReRender} />
       )}

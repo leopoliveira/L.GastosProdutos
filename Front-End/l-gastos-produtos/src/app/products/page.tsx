@@ -58,10 +58,6 @@ export default function Products() {
           </Alert>
           <Button onClick={getData}>Tentar novamente</Button>
         </Box>
-      ) : products.length === 0 ? (
-        <Box p={8} textAlign="center">
-          <Text fontSize="lg">Nenhum produto encontrado.</Text>
-        </Box>
       ) : (
         <ProductGrid products={products} onSubmit={setReRender} />
       )}

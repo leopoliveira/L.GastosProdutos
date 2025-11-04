@@ -19,8 +19,7 @@ const PackingGrid: React.FC<PackingGridProps> = ({ packings, onSubmit }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedPacking, setSelectedPacking] = useState<IReadPacking | null>(null);
-  const [selectedPackingId, setSelectedPackingId] = useState<string>("
-  ");
+  const [selectedPackingId, setSelectedPackingId] = useState<string>("");
   const toast = useToast();
 
   const handleEdit = (packing: IReadPacking) => {

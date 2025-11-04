@@ -4,7 +4,7 @@ import { IUpdateProduct } from '@/common/interfaces/product/IUpdateProduct';
 import IngredientDto from '@/common/interfaces/recipe/dtos/IngredientDto';
 import baseApi from '@/common/services/http/api';
 const api = baseApi.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/Product`,
+  baseURL: `${ process.env.NEXT_PUBLIC_PRODUCT_API_URL }`,
 });
 
 export const GetProductById = async (producId: string): Promise<IReadProduct> => {
