@@ -1,8 +1,7 @@
-import IngredientDto from "./dtos/IngredientDto";
-import PackingDto from "./dtos/PackingDto";
+import IngredientDto from './dtos/IngredientDto';
+import PackingDto from './dtos/PackingDto';
 
-export default interface ICreateRecipe
-{
+export default interface ICreateRecipe {
   name: string;
   description?: string;
   ingredients: IngredientDto[];

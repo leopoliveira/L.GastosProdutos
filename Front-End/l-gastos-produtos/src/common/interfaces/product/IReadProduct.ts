@@ -1,6 +1,5 @@
-import { IUpdateProduct } from "./IUpdateProduct"
+import { IUpdateProduct } from './IUpdateProduct';
 
-export interface IReadProduct extends IUpdateProduct
-{
-  id: string
+export interface IReadProduct extends IUpdateProduct {
+  id: string;
 }

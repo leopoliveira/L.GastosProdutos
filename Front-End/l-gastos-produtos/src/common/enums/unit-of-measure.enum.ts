@@ -1,5 +1,4 @@
-export enum UnitOfMeasure
-{
+export enum UnitOfMeasure {
   mg = 0,
   g = 1,
   kg = 2,
@@ -20,5 +19,5 @@ export enum UnitOfMeasure
   dozen = 17,
   set = 18,
   kit = 19,
-  other = 20
+  other = 20,
 }

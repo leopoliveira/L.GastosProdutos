@@ -1,3 +1,3 @@
-import ProductGrid from "./product-data-grid";
+import ProductGrid from './product-data-grid';
 
 export default ProductGrid;

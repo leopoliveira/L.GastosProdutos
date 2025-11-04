@@ -1,5 +1,4 @@
-export default interface ICreatePacking
-{
+export default interface ICreatePacking {
   name: string;
   description?: string;
   price: number;

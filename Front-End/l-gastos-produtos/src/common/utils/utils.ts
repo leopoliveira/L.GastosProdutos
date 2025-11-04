@@ -1,5 +1,4 @@
-const getEnumStrings = (enumObj: any): string[] =>
-{
+const getEnumStrings = (enumObj: any): string[] => {
   return Object.keys(enumObj).filter((key) => isNaN(Number(key)));
 };
 

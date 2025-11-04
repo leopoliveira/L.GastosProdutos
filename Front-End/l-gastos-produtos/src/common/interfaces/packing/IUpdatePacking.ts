@@ -1,6 +1,5 @@
-import ICreatePacking from "./ICreatePacking";
+import ICreatePacking from './ICreatePacking';
 
-export default interface IUpdatePacking extends ICreatePacking
-{
+export default interface IUpdatePacking extends ICreatePacking {
   packingUnitPrice: number;
 }

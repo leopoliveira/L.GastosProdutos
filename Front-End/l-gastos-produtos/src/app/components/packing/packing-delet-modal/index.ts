@@ -1,3 +1,3 @@
-import PackingDeleteModal from "./packing-delete-modal";
+import PackingDeleteModal from './packing-delete-modal';
 
 export default PackingDeleteModal;

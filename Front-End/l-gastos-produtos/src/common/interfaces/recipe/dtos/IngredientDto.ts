@@ -1,5 +1,4 @@
-export default interface IngredientDto
-{
+export default interface IngredientDto {
   productId: string;
   productName: string;
   quantity: number;

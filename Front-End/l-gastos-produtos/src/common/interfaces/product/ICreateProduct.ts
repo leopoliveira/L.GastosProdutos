@@ -1,7 +1,6 @@
-export interface ICreateProduct
-{
-  name: string,
-  price: number,
-  quantity: number,
-  unitOfMeasure: number
+export interface ICreateProduct {
+  name: string;
+  price: number;
+  quantity: number;
+  unitOfMeasure: number;
 }

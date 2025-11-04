@@ -1,7 +1,6 @@
-import ICreateRecipe from "./ICreateRecipe";
+import ICreateRecipe from './ICreateRecipe';
 
-export default interface IReadRecipe extends ICreateRecipe
-{
+export default interface IReadRecipe extends ICreateRecipe {
   id: string;
   totalCost: number;
 }

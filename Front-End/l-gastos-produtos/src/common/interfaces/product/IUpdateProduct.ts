@@ -1,6 +1,5 @@
-import { ICreateProduct } from "./ICreateProduct"
+import { ICreateProduct } from './ICreateProduct';
 
-export interface IUpdateProduct extends ICreateProduct
-{
-  unitPrice: number
+export interface IUpdateProduct extends ICreateProduct {
+  unitPrice: number;
 }

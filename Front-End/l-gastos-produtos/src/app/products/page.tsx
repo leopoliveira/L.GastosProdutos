@@ -1,23 +1,28 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Spinner, Box } from "@chakra-ui/react";
-import ProductGrid from "../components/product/product-data-grid";
-import { IReadProduct } from "@/common/interfaces/product/IReadProduct";
-import ProductService from "@/common/services/product";
+import { useEffect, useState } from 'react';
+import { Box, Skeleton, Stack, Alert, AlertIcon, Text, Button } from '@chakra-ui/react';
+import ProductGrid from '../components/product/product-data-grid';
+import { IReadProduct } from '@/common/interfaces/product/IReadProduct';
+import ProductService from '@/common/services/product';
 
 export default function Products() {
   const [products, setProducts] = useState<IReadProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [reRender, setReRender] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const getData = async () => {
     setLoading(true);
 
-    const response = await ProductService.GetAllProducts();
-
-    setProducts(response);
-    setLoading(false);
+    try {
+      const response = await ProductService.GetAllProducts();
+      setProducts(response);
+    } catch (err: any) {
+      setError(err?.message ?? 'Erro ao carregar produtos.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -36,18 +41,29 @@ export default function Products() {
   return (
     <main>
       {loading ? (
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100vh">
-          <Spinner size="xl" />
+        <Box p={4}>
+          <Stack spacing={4}>
+            <Skeleton height="32px" />
+            <Skeleton height="32px" />
+            <Skeleton height="32px" />
+            <Skeleton height="32px" />
+            <Skeleton height="32px" />
+          </Stack>
+        </Box>
+      ) : error ? (
+        <Box p={4}>
+          <Alert status="error" mb={4}>
+            <AlertIcon />
+            {error}
+          </Alert>
+          <Button onClick={getData}>Tentar novamente</Button>
+        </Box>
+      ) : products.length === 0 ? (
+        <Box p={8} textAlign="center">
+          <Text fontSize="lg">Nenhum produto encontrado.</Text>
         </Box>
       ) : (
-        <ProductGrid
-          products={products}
-          onSubmit={setReRender}
-        />
+        <ProductGrid products={products} onSubmit={setReRender} />
       )}
     </main>
   );

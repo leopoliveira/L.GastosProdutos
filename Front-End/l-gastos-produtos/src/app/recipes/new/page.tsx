@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import RecipeForm from "@/app/components/recipe/recipe-form";
-import IReadRecipe from "@/common/interfaces/recipe/IReadRecipe";
-import RecipeService from "@/common/services/recipe";
-import { Box, Spinner, useToast } from "@chakra-ui/react";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import RecipeForm from '@/app/components/recipe/recipe-form';
+import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
+import RecipeService from '@/common/services/recipe';
+import { Box, Spinner, useToast } from '@chakra-ui/react';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function FormRecipe() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,7 @@ export default function FormRecipe() {
   const formSubmitCallback = (): void => {
     toast({
       title: `Receita criada com sucesso!`,
-      status: "success",
+      status: 'success',
       duration: 5000,
       isClosable: true,
     });
@@ -23,18 +23,11 @@ export default function FormRecipe() {
   return (
     <main>
       {isLoading ? (
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100vh">
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
           <Spinner size="xl" />
         </Box>
       ) : (
-        <RecipeForm
-          recipe={null}
-          onFormSubmit={formSubmitCallback}
-        />
+        <RecipeForm recipe={null} onFormSubmit={formSubmitCallback} />
       )}
     </main>
   );

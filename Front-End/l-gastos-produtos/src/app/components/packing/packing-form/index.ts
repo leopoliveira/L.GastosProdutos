@@ -1,3 +1,3 @@
-import PackingModal from "./packing-modal";
+import PackingModal from './packing-modal';
 
 export default PackingModal;

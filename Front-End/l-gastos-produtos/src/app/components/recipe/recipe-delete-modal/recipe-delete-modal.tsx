@@ -1,4 +1,4 @@
-import RecipeService from "@/common/services/recipe";
+import RecipeService from '@/common/services/recipe';
 import {
   Modal,
   ModalOverlay,
@@ -8,7 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 type RecipeDeleteModalProps = {
   phrase: string;
@@ -35,24 +35,17 @@ const RecipeDeleteModal: React.FC<RecipeDeleteModalProps> = ({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Atenção</ModalHeader>
         <ModalCloseButton />
         <ModalBody>{phrase}</ModalBody>
         <ModalFooter>
-          <Button
-            colorScheme="red"
-            mr={3}
-            onClick={handleConfirm}>
+          <Button colorScheme="red" mr={3} onClick={handleConfirm}>
             {btnConfirmLabel}
           </Button>
-          <Button
-            variant="ghost"
-            onClick={onClose}>
+          <Button variant="ghost" onClick={onClose}>
             {btnCancelLabel}
           </Button>
         </ModalFooter>

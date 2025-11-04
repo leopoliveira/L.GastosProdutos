@@ -1,3 +1,3 @@
-import ProductDeleteModal from "./product-delete-modal";
+import ProductDeleteModal from './product-delete-modal';
 
 export default ProductDeleteModal;

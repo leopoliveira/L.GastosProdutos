@@ -1,3 +1,3 @@
-import RecipeDeleteModal from "./recipe-delete-modal";
+import RecipeDeleteModal from './recipe-delete-modal';
 
 export default RecipeDeleteModal;
