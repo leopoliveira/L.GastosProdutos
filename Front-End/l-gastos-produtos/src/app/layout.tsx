@@ -7,7 +7,7 @@ import { Providers } from './providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Gastos de Produtos',
+  title: 'Amo Doces',
   description: 'Sistema pra controle de Produto x Receitas.',
   icons: {
     icon: '/icon.svg',
