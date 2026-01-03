@@ -12,18 +12,18 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link href="/products" className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-            <h2 className="text-2xl font-semibold mb-2">🛍️ Produtos</h2>
+            <h2 className="text-2xl font-semibold mb-2">🛍️ Materia Prima</h2>
             <p className="text-gray-600">Gerencie seus produtos e acompanhe custos individuais.</p>
-          </Link>
-
-          <Link href="/recipes" className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-            <h2 className="text-2xl font-semibold mb-2">📋 Receitas</h2>
-            <p className="text-gray-600">Crie e gerencie receitas com ingredientes e proporções.</p>
           </Link>
 
           <Link href="/packings" className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
             <h2 className="text-2xl font-semibold mb-2">📦 Embalagens</h2>
             <p className="text-gray-600">Gerencie tipos de embalagens e custos associados.</p>
+          </Link>
+
+                    <Link href="/recipes" className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
+            <h2 className="text-2xl font-semibold mb-2">📋 Receitas</h2>
+            <p className="text-gray-600">Crie e gerencie receitas com ingredientes e proporções.</p>
           </Link>
         </div>
       </div>
