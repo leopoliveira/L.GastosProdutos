@@ -21,8 +21,14 @@ The project uses the Next.js **App Router** directory structure, where the file 
 
 ### `app/` Directory (Routes)
 *   **`page.tsx`**: The home page (`/`).
-*   **`layout.tsx`**: The root layout, wrapping the application with global styles and providers.
+*   **`layout.tsx`**: The root layout, wrapping the application with global styles and providers. The layout includes a fixed vertical sidebar navigation.
 *   **`providers.tsx`**: Client-side context providers (Toaster for notifications).
+*   **`components/`**: Reusable UI components organized by feature and shared utilities.
+    *   **`header/`**: Contains the Sidebar component (vertical navigation menu, fixed on the left side).
+    *   **`product/`**: Product-specific components (data grids, forms, modals).
+    *   **`packing/`**: Packing-specific components.
+    *   **`recipe/`**: Recipe-specific components.
+    *   **`shared/`**: Shared components used across the application (e.g., DataGrid, modals).
 *   **`products/`**: Contains the route for Product management.
     *   `page.tsx`: The UI for listing/adding products.
 *   **`packings/`**: Contains the route for Packing management.
@@ -56,12 +62,18 @@ This directory holds code that is reused across the application, keeping the UI 
 
 ## UI Components
 
+### Layout & Navigation
+*   **Sidebar Navigation:** A fixed vertical sidebar on the left side of the application (256px width) providing navigation to all main sections (Home, Materia Prima, Embalagens, Receitas). The active route is highlighted.
+*   **Layout:** The main content area occupies the full remaining screen width with a left margin to accommodate the fixed sidebar.
+
+### Styling & Components
 *   **Tailwind CSS:** The application uses Tailwind CSS utility classes for styling, providing a consistent and customizable design system.
 *   **Custom Components:** UI components are built using standard HTML elements styled with Tailwind utility classes.
 *   **Styling:** Styling is done via Tailwind's utility-first approach (e.g., `<div className="p-4 bg-gray-100">`), with `clsx` and `tailwind-merge` utilities for conditional styling.
 *   **Icons:** Lucide React provides a comprehensive icon library (replacing Chakra icons).
 *   **Notifications:** Sonner is used for toast notifications.
 *   **Responsiveness:** Tailwind's responsive utilities (e.g., `sm:`, `md:`, `lg:`) handle different screen sizes.
+*   **Interactive Elements:** Buttons use hover effects (e.g., darker background on hover) and cursor pointer for better UX.
 
 **********
 
