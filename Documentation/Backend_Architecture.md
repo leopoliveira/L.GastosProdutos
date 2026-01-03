@@ -63,16 +63,22 @@ All major entities (`Product`, `Packing`, `Recipe`) inherit from `BaseEntity` (o
 ## Database & Persistence
 
 *   **Database Engine:** SQLite (`gastos.db`).
-*   **ORM:** Entity Framework Core 8.
+*   **ORM:** Entity Framework Core 10.0.1.
+*   **Database Location:** Stored in `App_Data/gastos.db` directory (created automatically).
 *   **Configuration:**
     *   Located in `L.GastosProdutos.Core/Infra/Sqlite/AppDbContext.cs`.
     *   Uses `OnModelCreating` to define relationships and table mapping.
-    *   **Migrations:** Managed via EF Core tools. The `Program.cs` automatically applies migrations on startup (`db.Database.Migrate()`).
+    *   **Migrations:** Managed via EF Core tools. The `Program.cs` automatically applies migrations on startup if migrations exist (`db.Database.Migrate()`), or creates the database from the model if no migrations are found (`db.Database.EnsureCreated()`).
 
 **********
 
 ## Dependency Injection
 
 Dependencies are configured in `L.GastosProdutos.API/IOC/ConfigureBindings.cs`.
-*   **Services:** Registered as Scoped (e.g., `services.AddScoped<IRecipeService, RecipeService>()`).
-*   **Database:** Registered with `AddDbContext`.
+*   **Services:** Registered as Scoped:
+    *   `IProductService` → `ProductService`
+    *   `IRecipeService` → `RecipeService`
+    *   `IPackingService` → `PackingService`
+*   **Database:** SQLite registered with `AddDbContext<AppDbContext>`.
+*   **CORS:** Configured with an "AllowAll" policy for development.
+*   **Note:** MediatR was removed; the application now uses direct service calls instead of command/query handlers.

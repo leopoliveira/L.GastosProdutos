@@ -72,12 +72,35 @@ The relationship between Recipes and their components is modeled using **Value O
 
 ## Database Schema (SQLite)
 
-The database `gastos.db` contains the following tables:
+The database `gastos.db` is stored in the `App_Data` directory and contains the following tables:
 
-1.  `Products`
-2.  `Packings`
-3.  `Recipes`
-4.  `RecipeIngredients` (Linked to Recipes)
-5.  `RecipePackings` (Linked to Recipes)
+### Main Tables
+1.  **`Products`** - Stores raw ingredients/materials
+    *   Primary Key: `Id` (Guid)
+    *   Soft Delete: `IsDeleted` (Boolean)
+    *   Global Query Filter: Automatically excludes deleted records
 
-All tables likely include an `IsDeleted` column to support soft deletion, ensuring data integrity is maintained even when items are "removed" from the UI.
+2.  **`Packings`** - Stores packaging materials
+    *   Primary Key: `Id` (Guid)
+    *   Soft Delete: `IsDeleted` (Boolean)
+    *   Global Query Filter: Automatically excludes deleted records
+
+3.  **`Recipes`** - Stores recipe information
+    *   Primary Key: `Id` (Guid)
+    *   Soft Delete: `IsDeleted` (Boolean)
+    *   Global Query Filter: Automatically excludes deleted records
+    *   Contains computed field `TotalCost` (updated via domain methods)
+
+### Relationship Tables (Owned Types)
+4.  **`RecipeIngredients`** - Links recipes to products (snapshot pattern)
+    *   Composite Key: `(RecipeId, ProductId)`
+    *   Foreign Key: `RecipeId` references `Recipes.Id`
+    *   Configured as EF Core Owned Type via `OwnsMany`
+
+5.  **`RecipePackings`** - Links recipes to packings (snapshot pattern)
+    *   Composite Key: `(RecipeId, PackingId)`
+    *   Foreign Key: `RecipeId` references `Recipes.Id`
+    *   Configured as EF Core Owned Type via `OwnsMany`
+
+### Soft Deletion Strategy
+All main entity tables include an `IsDeleted` column to support soft deletion. The `AppDbContext` applies global query filters (`e.HasQueryFilter(p => !p.IsDeleted)`) ensuring that deleted records are automatically excluded from all queries unless explicitly included with `.IgnoreQueryFilters()`.

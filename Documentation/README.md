@@ -4,26 +4,27 @@
 
 **L.GastosProdutos** is a web application designed to help culinary businesses and individuals calculate the precise cost of their recipes. By managing the costs of raw ingredients (Products) and packaging materials (Packings), the system automatically calculates the total production cost of a Recipe.
 
-This project is built using a modern stack with a **.NET 8** backend and a **Next.js 14** frontend, containerized with **Docker**.
+This project is built using a modern stack with a **.NET 10** backend and a **Next.js 14** frontend, containerized with **Docker**.
 
 ## Technology Stack
 
 ### Backend
-*   **Framework:** .NET 8.0
+*   **Framework:** .NET 10.0
 *   **Language:** C#
 *   **Architecture:** Clean Architecture (Simplified)
 *   **Database:** SQLite
-*   **ORM:** Entity Framework Core
+*   **ORM:** Entity Framework Core 10.0.1
 *   **API:** RESTful API with Swagger documentation
 
 ### Frontend
-*   **Framework:** Next.js 14 (App Router)
+*   **Framework:** Next.js 14.2.3 (App Router)
 *   **Language:** TypeScript
-*   **UI Library:** Tailwind CSS
-*   **State/Data Fetching:** Axios, React Hooks
-*   **Styling:** Tailwind CSS utility classes
-*   **Icons:** Lucide React
-*   **Notifications:** Sonner
+*   **UI Library:** Tailwind CSS 4.1.18
+*   **HTTP Client:** Axios 1.7.2
+*   **State Management:** React Hooks, SWR (for data fetching)
+*   **Styling:** Tailwind CSS utility classes with clsx and tailwind-merge
+*   **Icons:** Lucide React 0.562.0
+*   **Notifications:** Sonner 2.0.7
 
 ### Infrastructure
 *   **Containerization:** Docker & Docker Compose

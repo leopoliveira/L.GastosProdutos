@@ -4,12 +4,14 @@ This document explains the structure and design of the **L.GastosProdutos** fron
 
 ## Technology Stack
 
-*   **Framework:** Next.js 14 (App Router)
+*   **Framework:** Next.js 14.2.3 (App Router)
 *   **Language:** TypeScript
-*   **UI Library:** Tailwind CSS
-*   **HTTP Client:** Axios
-*   **Icons:** Lucide React
-*   **Notifications:** Sonner
+*   **UI Library:** Tailwind CSS 4.1.18
+*   **HTTP Client:** Axios 1.7.2
+*   **Data Fetching:** SWR 2.2.5 (for caching and revalidation)
+*   **Icons:** Lucide React 0.562.0
+*   **Notifications:** Sonner 2.0.7
+*   **Styling Utilities:** clsx and tailwind-merge for conditional class composition
 
 **********
 
@@ -32,9 +34,11 @@ This directory holds code that is reused across the application, keeping the UI 
     *   `recipe/`: Service functions for Recipe API calls.
     *   `product/`: Service functions for Product API calls.
     *   `packing/`: Service functions for Packing API calls.
-    *   `http/`: Likely contains the configured Axios instance (base URL, interceptors).
+    *   `http/`: Contains the configured Axios instance (base URL, interceptors).
+    *   `utils/`: Service-level utility functions.
 *   **`interfaces/`**: TypeScript definitions for API responses and domain objects.
-*   **`utils/`**: Helper functions.
+*   **`enums/`**: Enumeration types (e.g., UnitOfMeasure).
+*   **`utils/`**: General helper functions.
 
 **********
 
@@ -45,7 +49,8 @@ This directory holds code that is reused across the application, keeping the UI 
     *   *Example:* A component calls `RecipeService.getAll()` instead of `axios.get('/api/v1/Recipe')`.
 *   **State Management:**
     *   Uses standard React hooks (`useState`, `useEffect`) for local state.
-    *   Likely uses `SWR` or `React Query` (implied by `swr` in `package.json`) for server state management, caching, and revalidation, although simple `useEffect` fetching might also be present.
+    *   Uses `SWR` for server state management, caching, and automatic revalidation of remote data.
+    *   Components can trigger revalidation after mutations to keep data in sync.
 
 **********
 

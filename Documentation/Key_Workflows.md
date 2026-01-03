@@ -49,15 +49,26 @@ When adding packaging to a recipe:
 3.  **Recalculate:**
     *   If an ingredient is removed, its cost is subtracted from the Total Cost.
     *   If an ingredient's quantity is changed, the cost is recalculated.
+    *   The domain entity maintains cost consistency through methods like `AddIngredient()`, `RemoveIngredient()`, `AddPacking()`, `RemovePacking()`.
 4.  **Save:**
-    *   The Backend (`PUT /api/v1/Recipe/{id}`) typically replaces the ingredient/packing lists.
-    *   **Implementation Detail:** The current implementation clears the existing lists (`RemoveAllIngredientsAndPackings`) and re-adds the new ones from the request to ensure consistency.
+    *   The Backend (`PUT /api/v1/Recipe/{id}`) receives the updated recipe data.
+    *   **Implementation Detail:** The current implementation uses a "clear and rebuild" strategy - it calls `RemoveAllIngredientsAndPackings()` to clear existing lists and reset `TotalCost` to 0, then re-adds all ingredients and packings from the request.
+    *   This ensures consistency but means the relationship records are recreated on each update.
+    *   The updated entity is saved to the database via Entity Framework Core.
 
 **********
 
 ## 4. Soft Deletion
 
-To preserve historical data or prevent accidental data loss, the system uses "Soft Deletes".
-*   **Action:** When a user deletes a Product, Packing, or Recipe.
-*   **Logic:** The record is **not** removed from the database. Instead, an `IsDeleted` flag is set to `true`.
-*   **Visibility:** The application filters out all records where `IsDeleted == true`, so they disappear from the UI but remain in the database.
+To preserve historical data and prevent accidental data loss, the system uses "Soft Deletes" for all main entities.
+
+*   **Action:** When a user deletes a Product, Packing, or Recipe via the UI.
+*   **Backend Logic:** 
+    *   The record is **not** physically removed from the database.
+    *   Instead, an `IsDeleted` flag on the entity is set to `true`.
+    *   The updated entity is saved via `SaveChangesAsync()`.
+*   **Visibility:** 
+    *   Entity Framework Core's Global Query Filters automatically exclude all records where `IsDeleted == true` from normal queries.
+    *   They disappear from the UI but remain in the database for data integrity and potential recovery.
+*   **Accessing Deleted Records:** 
+    *   If needed (e.g., for admin tools or audit features), deleted records can be accessed by adding `.IgnoreQueryFilters()` to LINQ queries.
