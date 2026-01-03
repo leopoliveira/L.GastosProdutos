@@ -21,7 +21,7 @@ const Header = () => {
           href="/"
           className="hover:no-underline hover:text-gray-400 transition-colors text-lg font-semibold"
         >
-          Amoh Doces
+          Amo Doces
         </NextLink>
         <div className="flex gap-12">
           <NextLink
