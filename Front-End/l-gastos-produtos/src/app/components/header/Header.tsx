@@ -5,53 +5,53 @@ import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
-const Header = () => {
+const Sidebar = () => {
   const pathname = usePathname();
 
   const linkClass = (isActive: boolean) =>
     clsx(
-      'hover:no-underline hover:text-gray-400 transition-colors',
-      isActive && 'font-bold'
+      'block px-4 py-3 rounded-md hover:bg-gray-700 transition-colors',
+      isActive ? 'bg-gray-700 font-bold' : 'hover:bg-gray-700'
     );
 
   return (
-    <header className="bg-gray-800 text-white px-4 py-6">
-      <div className="flex justify-between items-center">
+    <aside className="bg-gray-800 text-white w-64 min-h-screen p-4 fixed left-0 top-0">
+      <div className="mb-8">
         <NextLink
           href="/"
-          className="hover:no-underline hover:text-gray-400 transition-colors text-lg font-semibold"
+          className="text-xl font-bold hover:text-gray-400 transition-colors block"
         >
           Amo Doces
         </NextLink>
-        <div className="flex gap-12">
-          <NextLink
-            href="/"
-            className={linkClass(pathname === '/')}
-          >
-            Home
-          </NextLink>
-          <NextLink
-            href="/products"
-            className={linkClass(pathname?.startsWith('/products') || false)}
-          >
-            Materia Prima
-          </NextLink>
-          <NextLink
-            href="/packings"
-            className={linkClass(pathname?.startsWith('/packings') || false)}
-          >
-            Embalagens
-          </NextLink>
-          <NextLink
-            href="/recipes"
-            className={linkClass(pathname?.startsWith('/recipes') || false)}
-          >
-            Receitas
-          </NextLink>
-        </div>
       </div>
-    </header>
+      <nav className="flex flex-col gap-2">
+        <NextLink
+          href="/"
+          className={linkClass(pathname === '/')}
+        >
+          Home
+        </NextLink>
+        <NextLink
+          href="/products"
+          className={linkClass(pathname?.startsWith('/products') || false)}
+        >
+          Materia Prima
+        </NextLink>
+        <NextLink
+          href="/packings"
+          className={linkClass(pathname?.startsWith('/packings') || false)}
+        >
+          Embalagens
+        </NextLink>
+        <NextLink
+          href="/recipes"
+          className={linkClass(pathname?.startsWith('/recipes') || false)}
+        >
+          Receitas
+        </NextLink>
+      </nav>
+    </aside>
   );
 };
 
-export default Header;
+export default Sidebar;

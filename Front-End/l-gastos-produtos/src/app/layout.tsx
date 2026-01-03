@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Header from './components/header';
+import Sidebar from './components/header';
 import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -25,8 +25,8 @@ export default function RootLayout({
     <html lang="pt-br">
       <body suppressHydrationWarning={true} className={inter.className}>
         <Providers>
-          <Header />
-          <div className="max-w-[1120px] mx-auto p-4">{children}</div>
+          <Sidebar />
+          <div className="ml-64 p-4">{children}</div>
         </Providers>
       </body>
     </html>
