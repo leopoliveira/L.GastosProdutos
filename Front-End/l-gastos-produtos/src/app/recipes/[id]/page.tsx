@@ -68,17 +68,11 @@ export default function FormRecipe() {
           <p className="text-lg">Receita não encontrada.</p>
         </div>
       ) : (
-        <>
-          <div className="flex justify-end mb-4">
-            <button
-              onClick={() => router.push('/recipes')}
-              className="border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold py-2 px-4 rounded transition-colors"
-            >
-              Cancelar
-            </button>
-          </div>
-          <RecipeForm recipe={recipe} onFormSubmit={formSubmitCallback} />
-        </>
+        <RecipeForm
+          recipe={recipe}
+          onFormSubmit={formSubmitCallback}
+          onCancel={() => router.push('/recipes')}
+        />
       )}
     </main>
   );

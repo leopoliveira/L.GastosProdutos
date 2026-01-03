@@ -12,9 +12,10 @@ import { X, Search } from 'lucide-react';
 type RecipeFormProps = {
   recipe: IReadRecipe | null;
   onFormSubmit: () => void;
+  onCancel?: () => void;
 };
 
-const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
+const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit, onCancel }) => {
   const [isIngredientsOpen, setIsIngredientsOpen] = useState(false);
   const [isPackingsOpen, setIsPackingsOpen] = useState(false);
 
@@ -71,6 +72,15 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if (name === 'quantity' || name === 'sellingValue') {
+      const num = parseFloat(value);
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: isNaN(num) ? 0 : num,
+      }));
+      return;
+    }
+
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -84,8 +94,14 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.name === '' || formData.ingredients.length === 0) {
-      toast.error('Preencha todos os campos');
+    const hasMissingRequired =
+      formData.name.trim() === '' ||
+      formData.quantity <= 0 ||
+      formData.sellingValue <= 0 ||
+      formData.ingredients.length === 0;
+
+    if (hasMissingRequired) {
+      toast.error('Preencha todos os campos obrigatórios.');
       return;
     }
 
@@ -114,23 +130,30 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
 
   const handleNewIngredientChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const parsed = name === 'quantity' ? parseFloat(value) : value;
     setNewIngredient((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: name === 'quantity' ? (isNaN(parsed as number) ? undefined : (parsed as number)) : parsed,
     }));
   };
 
   const handleNewPackingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const parsed = name === 'quantity' ? parseFloat(value) : value;
     setNewPacking((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: name === 'quantity' ? (isNaN(parsed as number) ? undefined : (parsed as number)) : parsed,
     }));
   };
 
   const handleAddIngredient = () => {
+    if (!newIngredient.productId || !newIngredient.productName) {
+      toast.error('Selecione uma matéria prima.');
+      return;
+    }
+
     if (!newIngredient.quantity || newIngredient.quantity <= 0) {
-      alert('Quantidade deve ser maior que 0.');
+      toast.error('Quantidade deve ser maior que 0.');
       return;
     }
 
@@ -165,8 +188,13 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
   };
 
   const handleAddPacking = () => {
+    if (!newPacking.packingId || !newPacking.packingName) {
+      toast.error('Selecione uma embalagem.');
+      return;
+    }
+
     if (!newPacking.quantity || newPacking.quantity <= 0) {
-      alert('Quantidade deve ser maior que 0.');
+      toast.error('Quantidade deve ser maior que 0.');
       return;
     }
 
@@ -270,6 +298,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
                   value={formData.quantity === 0 ? '' : formData.quantity}
                   onChange={handleChange}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
                 />
               </div>
 
@@ -281,6 +310,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
                   value={formData.sellingValue === 0 ? '' : formData.sellingValue}
                   onChange={handleChange}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
                 />
               </div>
             </div>
@@ -363,6 +393,15 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
           </div>
 
           <div className="flex items-center justify-end gap-3 border-t border-gray-100 bg-gray-50 px-6 py-4">
+            {onCancel && (
+              <button
+                type="button"
+                onClick={onCancel}
+                className="text-gray-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:text-gray-700"
+              >
+                Cancelar
+              </button>
+            )}
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
@@ -431,7 +470,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
                     placeholder="Quantidade"
                     name="quantity"
                     type="number"
-                    value={newIngredient.quantity ?? 0}
+                    value={newIngredient.quantity ?? ''}
                     onChange={handleNewIngredientChange}
                     className={`mt-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${getQuantityInputStyle(newIngredient?.quantity ?? 0)}`}
                   />
@@ -516,7 +555,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit }) => {
                     placeholder="Quantidade"
                     name="quantity"
                     type="number"
-                    value={newPacking.quantity ?? 0}
+                    value={newPacking.quantity ?? ''}
                     onChange={handleNewPackingChange}
                     className={`mt-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${getQuantityInputStyle(newPacking?.quantity ?? 0)}`}
                   />

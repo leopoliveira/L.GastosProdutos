@@ -4,6 +4,7 @@ import ProductService from '@/common/services/product';
 import { getEnumStrings } from '@/common/utils/utils';
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import { toast } from 'sonner';
 
 type ProductModalProps = {
   isOpen: boolean;
@@ -54,6 +55,14 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const isInvalid =
+      formData.name.trim() === '' || formData.quantity <= 0 || formData.price <= 0;
+
+    if (isInvalid) {
+      toast.error('Preencha todos os campos obrigatórios.');
+      return;
+    }
 
     if (formData.id) {
       ProductService.UpdateProduct(formData.id, formData).then(() => {
@@ -106,6 +115,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
+                  required
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -115,8 +125,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
                 <input
                   name="quantity"
                   type="number"
-                  value={formData.quantity}
+                  value={formData.quantity === 0 ? '' : formData.quantity}
                   onChange={handleChange}
+                  required
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -126,8 +137,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
                 <input
                   name="price"
                   type="number"
-                  value={formData.price}
+                  value={formData.price === 0 ? '' : formData.price}
                   onChange={handleChange}
+                  required
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -138,6 +150,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
                   name="unitOfMeasure"
                   value={formData.unitOfMeasure}
                   onChange={handleChange}
+                  required
                   className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   {getEnumStrings(UnitOfMeasure).map((unit, index) => (
@@ -154,7 +167,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
                   disabled={true}
                   type="number"
                   value={
-                    isNaN(formData.price / formData.quantity) ? 0 : (formData.price / formData.quantity).toFixed(2)
+                    formData.price === 0 || formData.quantity === 0
+                      ? ''
+                      : (formData.price / formData.quantity).toFixed(2)
                   }
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline"
                 />
