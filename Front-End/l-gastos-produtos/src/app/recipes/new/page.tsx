@@ -1,31 +1,22 @@
 'use client';
 
 import RecipeForm from '@/app/components/recipe/recipe-form';
-import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
-import RecipeService from '@/common/services/recipe';
-import { Box, Spinner, useToast } from '@chakra-ui/react';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function FormRecipe() {
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
 
   const formSubmitCallback = (): void => {
-    toast({
-      title: `Receita criada com sucesso!`,
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
+    toast.success('Receita criada com sucesso!');
   };
 
   return (
     <main>
       {isLoading ? (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-          <Spinner size="xl" />
-        </Box>
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
       ) : (
         <RecipeForm recipe={null} onFormSubmit={formSubmitCallback} />
       )}

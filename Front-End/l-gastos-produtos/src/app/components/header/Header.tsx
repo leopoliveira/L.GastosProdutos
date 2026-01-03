@@ -2,58 +2,55 @@
 
 import React from 'react';
 import NextLink from 'next/link';
-import { Box, Flex, Link } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
+import clsx from 'clsx';
 
 const Header = () => {
   const pathname = usePathname();
+
+  const linkClass = (isActive: boolean) =>
+    clsx(
+      'hover:no-underline hover:text-gray-400 transition-colors',
+      isActive && 'font-bold'
+    );
+
   return (
-    <Box as="header" bg="gray.800" color="white" px={4} py={6}>
-      <Flex justify="space-between" align="center">
-        <Link
-          as={NextLink}
+    <header className="bg-gray-800 text-white px-4 py-6">
+      <div className="flex justify-between items-center">
+        <NextLink
           href="/"
-          aria-current={pathname === '/' ? 'page' : undefined}
-          _hover={{ textDecoration: 'none', color: 'gray.600' }}
+          className="hover:no-underline hover:text-gray-400 transition-colors text-lg font-semibold"
         >
           Amoh Doces
-        </Link>
-        <Flex gap={12}>
-          <Link
-            as={NextLink}
+        </NextLink>
+        <div className="flex gap-12">
+          <NextLink
             href="/"
-            aria-current={pathname === '/' ? 'page' : undefined}
-            _hover={{ textDecoration: 'none', color: 'gray.600' }}
+            className={linkClass(pathname === '/')}
           >
             Home
-          </Link>
-          <Link
-            as={NextLink}
+          </NextLink>
+          <NextLink
             href="/products"
-            aria-current={pathname?.startsWith('/products') ? 'page' : undefined}
-            _hover={{ textDecoration: 'none', color: 'gray.600' }}
+            className={linkClass(pathname?.startsWith('/products') || false)}
           >
             Materia Prima
-          </Link>
-          <Link
-            as={NextLink}
+          </NextLink>
+          <NextLink
             href="/packings"
-            aria-current={pathname?.startsWith('/packings') ? 'page' : undefined}
-            _hover={{ textDecoration: 'none', color: 'gray.600' }}
+            className={linkClass(pathname?.startsWith('/packings') || false)}
           >
             Embalagens
-          </Link>
-          <Link
-            as={NextLink}
+          </NextLink>
+          <NextLink
             href="/recipes"
-            aria-current={pathname?.startsWith('/recipes') ? 'page' : undefined}
-            _hover={{ textDecoration: 'none', color: 'gray.600' }}
+            className={linkClass(pathname?.startsWith('/recipes') || false)}
           >
             Receitas
-          </Link>
-        </Flex>
-      </Flex>
-    </Box>
+          </NextLink>
+        </div>
+      </div>
+    </header>
   );
 };
 

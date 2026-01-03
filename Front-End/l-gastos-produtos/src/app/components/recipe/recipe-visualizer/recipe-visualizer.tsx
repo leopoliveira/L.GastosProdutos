@@ -1,16 +1,5 @@
 import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
 import { formatCurrency } from '@/common/services/utils/utils';
-import {
-  VStack,
-  HStack,
-  Divider,
-  Wrap,
-  WrapItem,
-  Box,
-  Text,
-  Button,
-  Center,
-} from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 
 type RecipeViewProps = {
@@ -26,117 +15,92 @@ const RecipeVisualizer = ({ recipe }: RecipeViewProps) => {
 
   return (
     <>
-      <Box maxW="1024px" mx="auto" mt="20px" p={4} borderWidth={1} borderRadius="lg" boxShadow="lg">
-        <Text as="h1" fontSize="2xl" mb={4} textAlign="center">
+      <div className="max-w-4xl mx-auto mt-5 p-4 border border-gray-200 rounded-lg shadow-lg bg-white">
+        <h1 className="text-2xl font-bold mb-4 text-center">
           {recipe.name}
-        </Text>
-        <VStack spacing={4} align="start">
+        </h1>
+        <div className="flex flex-col gap-4">
           {recipe.description && (
-            <HStack spacing={5}>
-              <Text fontWeight="bold">Descrição:</Text>
-              <Text>{recipe.description ?? 'Sem descrição'}</Text>
-            </HStack>
+            <div className="flex gap-5 items-center">
+              <span className="font-bold">Descrição:</span>
+              <span>{recipe.description ?? 'Sem descrição'}</span>
+            </div>
           )}
-          <Divider />
-          <HStack spacing={5}>
-            <Text fontWeight="bold" color="red">
+          <hr className="border-gray-200" />
+          <div className="flex flex-wrap gap-5 items-center">
+            <span className="font-bold text-red-600">
               Custo Total:
-            </Text>
-            <Text color="red">{formatCurrency(recipe.totalCost)}</Text>
-            <Center height="50px">
-              <Divider orientation="vertical" />
-            </Center>
-            <Text fontWeight="bold">Quantidade Produzida:</Text>
-            <Text>{recipe.quantity}</Text>
-            <Center height="50px">
-              <Divider orientation="vertical" />
-            </Center>
-            <Text fontWeight="bold">Custo por Unidade:</Text>
-            <Text>{formatCurrency(recipe.totalCost / recipe.quantity)}</Text>
-          </HStack>
-          <Divider />
-          <HStack spacing={5}>
-            <Text fontWeight="bold">Preço de Venda:</Text>
-            <Text>{formatCurrency(recipe.sellingValue)}</Text>
-            <Center height="50px">
-              <Divider orientation="vertical" />
-            </Center>
-            <Text fontWeight="bold">Lucro por Unidade:</Text>
-            <Text>{formatCurrency(recipe.sellingValue - recipe.totalCost / recipe.quantity)}</Text>
-            <Center height="50px">
-              <Divider orientation="vertical" />
-            </Center>
-            <Text fontWeight="bold" color="green">
+            </span>
+            <span className="text-red-600">{formatCurrency(recipe.totalCost)}</span>
+            <div className="h-12 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <span className="font-bold">Quantidade Produzida:</span>
+            <span>{recipe.quantity}</span>
+            <div className="h-12 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <span className="font-bold">Custo por Unidade:</span>
+            <span>{formatCurrency(recipe.totalCost / recipe.quantity)}</span>
+          </div>
+          <hr className="border-gray-200" />
+          <div className="flex flex-wrap gap-5 items-center">
+            <span className="font-bold">Preço de Venda:</span>
+            <span>{formatCurrency(recipe.sellingValue)}</span>
+            <div className="h-12 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <span className="font-bold">Lucro por Unidade:</span>
+            <span>{formatCurrency(recipe.sellingValue - recipe.totalCost / recipe.quantity)}</span>
+            <div className="h-12 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <span className="font-bold text-green-600">
               Lucro Total:
-            </Text>
-            <Text color="green">
+            </span>
+            <span className="text-green-600">
               {formatCurrency(recipe.sellingValue * recipe.quantity - recipe.totalCost)}
-            </Text>
-          </HStack>
-          <Divider />
-          <Box width="100%">
-            <Text fontWeight="bold" mb={2}>
+            </span>
+          </div>
+          <hr className="border-gray-200" />
+          <div className="w-full">
+            <p className="font-bold mb-2">
               Ingredientes:
-            </Text>
-            <Wrap spacing="15px">
+            </p>
+            <div className="flex flex-wrap gap-4">
               {recipe.ingredients.map((ingredient, index) => (
-                <WrapItem key={index} minWidth="200px" maxWidth="500px">
-                  <Box
-                    p={4}
-                    borderWidth={1}
-                    borderRadius="lg"
-                    boxShadow="md"
-                    width="100%"
-                    bg="green.100"
-                    color="green.600"
-                  >
-                    <Text fontWeight="bold">{ingredient.productName}</Text>
-                    <Text>Quantidade: {ingredient.quantity}</Text>
-                    <Text>Preço: {formatCurrency(ingredient.ingredientPrice)}</Text>
-                    <Text as="strong">
-                      Custo: {formatCurrency(ingredient.ingredientPrice * ingredient.quantity)}
-                    </Text>
-                  </Box>
-                </WrapItem>
+                <div key={index} className="min-w-[200px] max-w-[500px] p-4 border border-gray-200 rounded-lg shadow-md w-full bg-green-100 text-green-800">
+                  <p className="font-bold">{ingredient.productName}</p>
+                  <p>Quantidade: {ingredient.quantity}</p>
+                  <p>Preço: {formatCurrency(ingredient.ingredientPrice)}</p>
+                  <p className="font-bold">
+                    Custo: {formatCurrency(ingredient.ingredientPrice * ingredient.quantity)}
+                  </p>
+                </div>
               ))}
-            </Wrap>
-          </Box>
-          <Divider />
-          <Box width="100%">
-            <Text fontWeight="bold" mb={2}>
+            </div>
+          </div>
+          <hr className="border-gray-200" />
+          <div className="w-full">
+            <p className="font-bold mb-2">
               Embalagens:
-            </Text>
-            <Wrap spacing="15px">
+            </p>
+            <div className="flex flex-wrap gap-4">
               {recipe.packings.map((packing, index) => (
-                <WrapItem key={index} minWidth="200px" maxWidth="500px">
-                  <Box
-                    p={4}
-                    borderWidth={1}
-                    borderRadius="lg"
-                    boxShadow="md"
-                    width="100%"
-                    bg="green.100"
-                    color="green.600"
-                  >
-                    <Text fontWeight="bold">{packing.packingName}</Text>
-                    <Text>Quantidade: {packing.quantity}</Text>
-                    <Text>Preço: {formatCurrency(packing.packingUnitPrice)}</Text>
-                    <Text as="strong">
-                      Custo: {formatCurrency(packing.packingUnitPrice * packing.quantity)}
-                    </Text>
-                  </Box>
-                </WrapItem>
+                <div key={index} className="min-w-[200px] max-w-[500px] p-4 border border-gray-200 rounded-lg shadow-md w-full bg-green-100 text-green-800">
+                  <p className="font-bold">{packing.packingName}</p>
+                  <p>Quantidade: {packing.quantity}</p>
+                  <p>Preço: {formatCurrency(packing.packingUnitPrice)}</p>
+                  <p className="font-bold">
+                    Custo: {formatCurrency(packing.packingUnitPrice * packing.quantity)}
+                  </p>
+                </div>
               ))}
-            </Wrap>
-          </Box>
-          <Divider />
-        </VStack>
-      </Box>
-      <Box maxW="1024px" mx="auto" mt="20px" textAlign={'right'} p={4}>
-        <Button width="150px" colorScheme="blue" onClick={handleBackClick}>
+            </div>
+          </div>
+          <hr className="border-gray-200" />
+        </div>
+      </div>
+      <div className="max-w-4xl mx-auto mt-5 text-right p-4">
+        <button 
+          className="w-[150px] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleBackClick}
+        >
           Voltar
-        </Button>
-      </Box>
+        </button>
+      </div>
     </>
   );
 };

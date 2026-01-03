@@ -26,7 +26,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} className={inter.className}>
         <Providers>
           <Header />
-          <div style={{ maxWidth: '1120px', margin: '0 auto', padding: '16px' }}>{children}</div>
+          <div className="max-w-[1120px] mx-auto p-4">{children}</div>
         </Providers>
       </body>
     </html>

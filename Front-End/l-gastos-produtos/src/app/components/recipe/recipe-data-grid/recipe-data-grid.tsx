@@ -1,25 +1,13 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Input,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  useToast,
-} from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { toast } from 'sonner';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
 import { useRouter } from 'next/navigation';
 import RecipeDeleteModal from '../recipe-delete-modal';
 import { formatCurrency } from '@/common/services/utils/utils';
+import clsx from 'clsx';
 
 type RecipeGridProps = {
   recipes: IReadRecipe[];
@@ -38,7 +26,6 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, onSubmit }) => {
   });
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<string>('');
-  const toast = useToast();
 
   const router = useRouter();
 
@@ -96,101 +83,134 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, onSubmit }) => {
     setOpenDeleteModal(false);
     setSelectedRecipeId('');
 
-    toast({
-      title: 'Receita excluída com sucesso!',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-
+    toast.success('Receita excluída com sucesso!');
     onSubmit(true);
   };
 
-  const unitCost = (item: IReadRecipe): number => {
-    return item.totalCost / item.quantity;
-  };
-
   return (
-    <>
-      <Box m={2}>
-        <Flex justifyContent="center">
-          <Heading as="h1" size="2xl">
-            Receitas
-          </Heading>
-        </Flex>
-        <Flex justify="flex-end" mt={4} mb={4}>
-          <Button
-            colorScheme="teal"
-            size="lg"
-            variant="outline"
-            leftIcon={<AddIcon />}
-            onClick={handleAdd}
-          >
-            Adicionar
-          </Button>
-        </Flex>
-        <Flex mt={2} mb={6}>
-          <Input placeholder="Filtrar por Nome" value={filter} onChange={onFilterChange} />
-        </Flex>
-        <Box overflowX="auto">
-          <Table variant="striped" width="100%" size="lg">
-            <Thead>
-              <Tr>
-                <Th cursor="pointer" textAlign="center" onClick={() => onSort('name')}>
+    <div className="m-2">
+      <div className="flex justify-center">
+        <h1 className="text-4xl font-bold">Receitas</h1>
+      </div>
+
+      <div className="flex justify-end mt-4 mb-4">
+        <button
+          className="border border-teal-500 text-teal-500 hover:bg-teal-50 font-bold py-2 px-4 rounded text-lg transition-colors"
+          onClick={handleAdd}
+        >
+          Adicionar
+        </button>
+      </div>
+
+      <div className="mt-2 mb-6">
+        <input
+          placeholder="Filtrar por Nome"
+          value={filter}
+          onChange={onFilterChange}
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+        <table className="min-w-full bg-white">
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                onClick={() => onSort('name')}
+              >
+                <div className="flex items-center gap-1">
                   Nome
-                </Th>
-                <Th cursor="pointer" textAlign="center" onClick={() => onSort('totalCost')}>
+                  {sortConfig.key === 'name' && (
+                    sortConfig.direction === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                  )}
+                </div>
+              </th>
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                onClick={() => onSort('totalCost')}
+              >
+                <div className="flex items-center gap-1">
                   Custo Total
-                </Th>
-                <Th cursor="pointer" textAlign="center" onClick={() => onSort('quantity')}>
+                  {sortConfig.key === 'totalCost' && (
+                    sortConfig.direction === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                  )}
+                </div>
+              </th>
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                onClick={() => onSort('quantity')}
+              >
+                <div className="flex items-center gap-1">
                   Qtde. Produzida
-                </Th>
-                <Th textAlign="center">Custo por Unidade</Th>
-                <Th cursor="pointer" textAlign="center" onClick={() => onSort('sellingValue')}>
+                  {sortConfig.key === 'quantity' && (
+                    sortConfig.direction === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                  )}
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider select-none">
+                Custo por Unidade
+              </th>
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                onClick={() => onSort('sellingValue')}
+              >
+                <div className="flex items-center gap-1">
                   Preço de Venda da Un.
-                </Th>
-                <Th textAlign="center">Lucro por Un.</Th>
-                <Th textAlign="center">Ações</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {filteredData.length === 0 ? (
-                <Tr>
-                  <Td textAlign="center" colSpan={7}>Nenhum registro encontrado.</Td>
-                </Tr>
-              ) : (
-                filteredData.map((item) => (
-                <Tr key={item.id}>
-                  <Td display="none">{item.id}</Td>
-                  <Td textAlign="center">{item.name}</Td>
-                  <Td textAlign="center">{formatCurrency(item.totalCost)}</Td>
-                  <Td textAlign="center">{item.quantity}</Td>
-                  <Td textAlign="center">{formatCurrency(unitCost(item))}</Td>
-                  <Td textAlign="center">{formatCurrency(item.sellingValue)}</Td>
-                  <Td textAlign="center">{formatCurrency(item.sellingValue - unitCost(item))}</Td>
-                  <Td textAlign="center">
-                    <Button
-                      size="sm"
-                      colorScheme="green"
-                      mr={2}
-                      onClick={() => handleShow(item.id)}
-                    >
-                      Visualizar
-                    </Button>
-                    <Button size="sm" colorScheme="blue" mr={2} onClick={() => handleEdit(item.id)}>
-                      Editar
-                    </Button>
-                    <Button size="sm" colorScheme="red" onClick={() => handleDelete(item.id)}>
-                      Excluir
-                    </Button>
-                  </Td>
-                </Tr>
-                ))
-              )}
-            </Tbody>
-          </Table>
-        </Box>
-      </Box>
+                  {sortConfig.key === 'sellingValue' && (
+                    sortConfig.direction === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                  )}
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider select-none">
+                Lucro por Un.
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Ações
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {filteredData.map((row) => (
+              <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{row.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatCurrency(row.totalCost)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{row.quantity}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatCurrency(row.totalCost / row.quantity)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatCurrency(row.sellingValue)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatCurrency(row.sellingValue - (row.totalCost / row.quantity))}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <button
+                    className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded mr-2 text-sm transition-colors"
+                    onClick={() => handleShow(row.id)}
+                  >
+                    Visualizar
+                  </button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded mr-2 text-sm transition-colors"
+                    onClick={() => handleEdit(row.id)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm transition-colors"
+                    onClick={() => handleDelete(row.id)}
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {filteredData.length === 0 && (
+              <tr>
+                <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
+                  Nenhum registro encontrado.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <RecipeDeleteModal
         phrase="Deseja realmente excluir esta receita?"
@@ -201,7 +221,7 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, onSubmit }) => {
         onConfirm={handleSubmitDelete}
         onClose={() => setOpenDeleteModal(false)}
       />
-    </>
+    </div>
   );
 };
 

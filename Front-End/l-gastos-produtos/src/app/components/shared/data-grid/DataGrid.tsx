@@ -1,19 +1,8 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Input,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+import { ChevronUp, ChevronDown } from 'lucide-react';
+import clsx from 'clsx';
 
 export type ColumnDef<T> = {
   header: string;
@@ -80,69 +69,88 @@ export function DataGrid<T extends object>({
   };
 
   return (
-    <Box m={2}>
-      <Flex justifyContent="center">
-        <Heading as="h1" size="2xl">
-          {title}
-        </Heading>
-      </Flex>
+    <div className="m-2">
+      <div className="flex justify-center">
+        <h1 className="text-4xl font-bold">{title}</h1>
+      </div>
 
-      <Flex justify="flex-end" mt={4} mb={4}>
+      <div className="flex justify-end mt-4 mb-4">
         {onAdd && (
-          <Button colorScheme="teal" size="lg" variant="outline" onClick={onAdd}>
+          <button
+            className="border border-teal-500 text-teal-500 hover:bg-teal-50 font-bold py-2 px-4 rounded text-lg transition-colors"
+            onClick={onAdd}
+          >
             {addLabel}
-          </Button>
+          </button>
         )}
-      </Flex>
+      </div>
 
-      <Flex mt={2} mb={6}>
-        <Input
+      <div className="mt-2 mb-6">
+        <input
           placeholder={filterPlaceholder}
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-      </Flex>
+      </div>
 
-      <Box overflowX="auto">
-        <Table variant="striped" width="100%" size="lg">
-          <Thead>
-            <Tr>
-              {columns.map((col, idx) => (
-                <Th
-                  key={idx}
-                  cursor={col.sortable && col.key ? 'pointer' : 'default'}
-                  textAlign="center"
+      <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+        <table className="min-w-full bg-white">
+          <thead className="bg-gray-50">
+            <tr>
+              {columns.map((col, i) => (
+                <th
+                  key={i}
+                  className={clsx(
+                    "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                    col.sortable && "cursor-pointer hover:bg-gray-100 select-none"
+                  )}
                   onClick={() => requestSort(col.key, col.sortable)}
                 >
-                  {col.header}
-                </Th>
+                  <div className="flex items-center gap-1">
+                    {col.header}
+                    {col.sortable && sort.key === col.key && (
+                      sort.direction === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                    )}
+                  </div>
+                </th>
               ))}
-              {actionsRenderer && <Th textAlign="center">{actionsHeader}</Th>}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {sorted.length === 0 ? (
-              <Tr>
-                <Td textAlign="center" colSpan={columns.length + (actionsRenderer ? 1 : 0)}>
+              {actionsRenderer && (
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {actionsHeader}
+                </th>
+              )}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {sorted.map((row, i) => (
+              <tr key={i} className="hover:bg-gray-50 transition-colors">
+                {columns.map((col, j) => (
+                  <td key={j} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {col.render ? col.render(row) : (row[col.key as keyof T] as React.ReactNode)}
+                  </td>
+                ))}
+                {actionsRenderer && (
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    {actionsRenderer(row)}
+                  </td>
+                )}
+              </tr>
+            ))}
+            {sorted.length === 0 && (
+              <tr>
+                <td
+                  colSpan={columns.length + (actionsRenderer ? 1 : 0)}
+                  className="px-6 py-4 text-center text-gray-500"
+                >
                   Nenhum registro encontrado.
-                </Td>
-              </Tr>
-            ) : (
-              sorted.map((row, i) => (
-                <Tr key={i}>
-                  {columns.map((col, idx) => (
-                    <Td key={idx} textAlign="center">
-                      {col.render ? col.render(row) : col.key ? String((row as any)[col.key]) : null}
-                    </Td>
-                  ))}
-                  {actionsRenderer && <Td textAlign="center">{actionsRenderer(row)}</Td>}
-                </Tr>
-              ))
+                </td>
+              </tr>
             )}
-          </Tbody>
-        </Table>
-      </Box>
-    </Box>
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 

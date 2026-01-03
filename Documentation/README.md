@@ -19,9 +19,11 @@ This project is built using a modern stack with a **.NET 8** backend and a **Nex
 ### Frontend
 *   **Framework:** Next.js 14 (App Router)
 *   **Language:** TypeScript
-*   **UI Library:** Chakra UI
+*   **UI Library:** Tailwind CSS
 *   **State/Data Fetching:** Axios, React Hooks
-*   **Styling:** Emotion / CSS Modules
+*   **Styling:** Tailwind CSS utility classes
+*   **Icons:** Lucide React
+*   **Notifications:** Sonner
 
 ### Infrastructure
 *   **Containerization:** Docker & Docker Compose

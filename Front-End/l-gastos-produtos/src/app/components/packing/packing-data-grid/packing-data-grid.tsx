@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, useDisclosure, useToast } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { toast } from "sonner";
 import PackingModal from "../packing-form";
 import IReadPacking from "@/common/interfaces/packing/IReadPacking";
 import { UnitOfMeasure } from "@/common/enums/unit-of-measure.enum";
@@ -16,11 +15,13 @@ type PackingGridProps = {
 };
 
 const PackingGrid: React.FC<PackingGridProps> = ({ packings, onSubmit }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedPacking, setSelectedPacking] = useState<IReadPacking | null>(null);
   const [selectedPackingId, setSelectedPackingId] = useState<string>("");
-  const toast = useToast();
+
+  const onOpen = () => setIsModalOpen(true);
+  const onClose = () => setIsModalOpen(false);
 
   const handleEdit = (packing: IReadPacking) => {
     setSelectedPacking(packing);
@@ -38,24 +39,14 @@ const PackingGrid: React.FC<PackingGridProps> = ({ packings, onSubmit }) => {
   };
 
   const handleSubmit = (acao: string) => {
-    toast({
-      title: `Embalagem ${acao} com sucesso!`,
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
+    toast.success(`Embalagem ${acao} com sucesso!`);
     onSubmit(true);
   };
 
   const handleSubmitDelete = () => {
     setOpenDeleteModal(false);
     setSelectedPackingId("");
-    toast({
-      title: "Embalagem excluída com sucesso!",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
+    toast.success("Embalagem excluída com sucesso!");
     onSubmit(true);
   };
 
@@ -76,17 +67,23 @@ const PackingGrid: React.FC<PackingGridProps> = ({ packings, onSubmit }) => {
         onAdd={handleAdd}
         actionsRenderer={(row) => (
           <>
-            <Button size="sm" colorScheme="blue" mr={2} onClick={() => handleEdit(row)}>
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded mr-2 text-sm transition-colors"
+              onClick={() => handleEdit(row)}
+            >
               Editar
-            </Button>
-            <Button size="sm" colorScheme="red" onClick={() => handleDelete(row.id)}>
+            </button>
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm transition-colors"
+              onClick={() => handleDelete(row.id)}
+            >
               Excluir
-            </Button>
+            </button>
           </>
         )}
       />
 
-      <PackingModal isOpen={isOpen} onClose={onClose} packing={selectedPacking} onSubmit={handleSubmit} />
+      <PackingModal isOpen={isModalOpen} onClose={onClose} packing={selectedPacking} onSubmit={handleSubmit} />
       <PackingDeleteModal
         phrase="Deseja realmente excluir este embalagem?"
         btnConfirmLabel="Excluir"

@@ -6,8 +6,10 @@ This document explains the structure and design of the **L.GastosProdutos** fron
 
 *   **Framework:** Next.js 14 (App Router)
 *   **Language:** TypeScript
-*   **UI Library:** Chakra UI
+*   **UI Library:** Tailwind CSS
 *   **HTTP Client:** Axios
+*   **Icons:** Lucide React
+*   **Notifications:** Sonner
 
 **********
 
@@ -17,8 +19,8 @@ The project uses the Next.js **App Router** directory structure, where the file 
 
 ### `app/` Directory (Routes)
 *   **`page.tsx`**: The home page (`/`).
-*   **`layout.tsx`**: The root layout, wrapping the application with providers (Chakra UI, etc.).
-*   **`providers.tsx`**: Client-side context providers (ChakraProvider).
+*   **`layout.tsx`**: The root layout, wrapping the application with global styles and providers.
+*   **`providers.tsx`**: Client-side context providers (Toaster for notifications).
 *   **`products/`**: Contains the route for Product management.
     *   `page.tsx`: The UI for listing/adding products.
 *   **`packings/`**: Contains the route for Packing management.
@@ -49,9 +51,12 @@ This directory holds code that is reused across the application, keeping the UI 
 
 ## UI Components
 
-*   **Chakra UI:** The application relies heavily on Chakra UI for pre-built components (Buttons, Inputs, Modals, Tables).
-*   **Styling:** Most styling is done via Chakra's prop-based system (e.g., `<Box p={4} bg="gray.100">`), ensuring a consistent design system.
-*   **Responsiveness:** Chakra UI provides responsive props to handle different screen sizes.
+*   **Tailwind CSS:** The application uses Tailwind CSS utility classes for styling, providing a consistent and customizable design system.
+*   **Custom Components:** UI components are built using standard HTML elements styled with Tailwind utility classes.
+*   **Styling:** Styling is done via Tailwind's utility-first approach (e.g., `<div className="p-4 bg-gray-100">`), with `clsx` and `tailwind-merge` utilities for conditional styling.
+*   **Icons:** Lucide React provides a comprehensive icon library (replacing Chakra icons).
+*   **Notifications:** Sonner is used for toast notifications.
+*   **Responsiveness:** Tailwind's responsive utilities (e.g., `sm:`, `md:`, `lg:`) handle different screen sizes.
 
 **********
 

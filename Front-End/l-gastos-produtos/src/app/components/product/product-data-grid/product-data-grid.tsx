@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, useDisclosure, useToast } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { toast } from 'sonner';
 import ProductModal from '../product-form';
 import { IReadProduct } from '@/common/interfaces/product/IReadProduct';
 import { UnitOfMeasure } from '@/common/enums/unit-of-measure.enum';
@@ -16,11 +15,13 @@ type ProductGridProps = {
 };
 
 const ProductGrid: React.FC<ProductGridProps> = ({ products, onSubmit }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<IReadProduct | null>(null);
   const [selectedProductId, setSelectedProductId] = useState<string>('');
-  const toast = useToast();
+
+  const onOpen = () => setIsModalOpen(true);
+  const onClose = () => setIsModalOpen(false);
 
   const handleEdit = (product: IReadProduct) => {
     setSelectedProduct(product);
@@ -38,24 +39,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onSubmit }) => {
   };
 
   const handleSubmit = (acao: string) => {
-    toast({
-      title: `Matéria Prima ${acao} com sucesso!`,
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
+    toast.success(`Matéria Prima ${acao} com sucesso!`);
     onSubmit(true);
   };
 
   const handleSubmitDelete = () => {
     setOpenDeleteModal(false);
     setSelectedProductId('');
-    toast({
-      title: 'Matéria Prima excluída com sucesso!',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
+    toast.success('Matéria Prima excluída com sucesso!');
     onSubmit(true);
   };
 
@@ -82,18 +73,24 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onSubmit }) => {
         addLabel="Adicionar"
         actionsRenderer={(row) => (
           <>
-            <Button size="sm" colorScheme="blue" mr={2} onClick={() => handleEdit(row)}>
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded mr-2 text-sm transition-colors"
+              onClick={() => handleEdit(row)}
+            >
               Editar
-            </Button>
-            <Button size="sm" colorScheme="red" onClick={() => handleDelete(row.id)}>
+            </button>
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm transition-colors"
+              onClick={() => handleDelete(row.id)}
+            >
               Excluir
-            </Button>
+            </button>
           </>
         )}
       />
 
       <ProductModal
-        isOpen={isOpen}
+        isOpen={isModalOpen}
         onClose={onClose}
         product={selectedProduct}
         onSubmit={handleSubmit}

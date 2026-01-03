@@ -2,21 +2,8 @@ import { UnitOfMeasure } from '@/common/enums/unit-of-measure.enum';
 import IReadPacking from '@/common/interfaces/packing/IReadPacking';
 import PackingService from '@/common/services/packing';
 import { getEnumStrings } from '@/common/utils/utils';
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Select,
-} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 
 type PackingModalProps = {
   isOpen: boolean;
@@ -52,6 +39,16 @@ const PackingModal: React.FC<PackingModalProps> = ({ isOpen, onClose, packing, o
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if (name === 'quantity' || name === 'price') {
+      const num = parseFloat(value);
+      setFormData({ ...formData, [name]: isNaN(num) ? 0 : num });
+      return;
+    }
+    if (name === 'unitOfMeasure') {
+      const num = parseInt(value, 10);
+      setFormData({ ...formData, unitOfMeasure: isNaN(num) ? 0 : num });
+      return;
+    }
     setFormData({ ...formData, [name]: value });
   };
 
@@ -70,66 +67,114 @@ const PackingModal: React.FC<PackingModalProps> = ({ isOpen, onClose, packing, o
     onClose();
   };
 
+  if (!isOpen) return null;
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{formData.id ? 'Editar Emabalagem' : 'Adicionar Emabalagem'}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          {formData.id && (
-            <FormControl mb={4}>
-              <Input name="id" value={formData.id} hidden={true} readOnly={true} variant="filled" />
-            </FormControl>
-          )}
-          <FormControl mb={4}>
-            <FormLabel>Nome</FormLabel>
-            <Input name="name" value={formData.name} onChange={handleChange} />
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel>Quantidade</FormLabel>
-            <Input
-              name="quantity"
-              type="number"
-              value={formData.quantity}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel>Preço</FormLabel>
-            <Input name="price" type="number" value={formData.price} onChange={handleChange} />
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel>Unidade de Medida</FormLabel>
-            <Select name="unitOfMeasure" value={formData.unitOfMeasure} onChange={handleChange}>
-              {getEnumStrings(UnitOfMeasure).map((unit, index) => (
-                <option key={index} value={UnitOfMeasure[unit as keyof typeof UnitOfMeasure]}>
-                  {unit}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel>Preço Unitário</FormLabel>
-            <Input
-              disabled={true}
-              type="number"
-              value={
-                isNaN(formData.price / formData.quantity) ? 0 : formData.price / formData.quantity
-              }
-            />
-          </FormControl>
-        </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
-            {formData.id ? 'Atualizar' : 'Criar'}
-          </Button>
-          <Button variant="ghost" onClick={onClose}>
-            Cancelar
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none bg-black/50">
+      <div className="relative w-full max-w-md mx-auto my-6 px-4">
+        <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
+          {/* Header */}
+          <div className="flex items-start justify-between p-5 border-b border-solid border-gray-200 rounded-t">
+            <h3 className="text-xl font-semibold">
+              {formData.id ? 'Editar Embalagem' : 'Adicionar Embalagem'}
+            </h3>
+            <button
+              className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+              onClick={onClose}
+            >
+              <X className="w-6 h-6 text-gray-500 hover:text-gray-700" />
+            </button>
+          </div>
+          
+          {/* Body */}
+          <div className="relative p-6 flex-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              {formData.id && (
+                <input name="id" value={formData.id} type="hidden" />
+              )}
+              
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Nome</label>
+                <input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Quantidade</label>
+                <input
+                  name="quantity"
+                  type="number"
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Preço</label>
+                <input
+                  name="price"
+                  type="number"
+                  value={formData.price}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Unidade de Medida</label>
+                <select
+                  name="unitOfMeasure"
+                  value={formData.unitOfMeasure}
+                  onChange={handleChange}
+                  className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  {getEnumStrings(UnitOfMeasure).map((unit, index) => (
+                    <option key={index} value={UnitOfMeasure[unit as keyof typeof UnitOfMeasure]}>
+                      {unit}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Preço Unitário</label>
+                <input
+                  disabled={true}
+                  type="number"
+                  value={
+                    isNaN(formData.price / formData.quantity) ? 0 : (formData.price / formData.quantity).toFixed(2)
+                  }
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+            </form>
+          </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-end p-6 border-t border-solid border-gray-200 rounded-b gap-2">
+            <button
+              className="text-gray-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:text-gray-700"
+              type="button"
+              onClick={onClose}
+            >
+              Cancelar
+            </button>
+            <button
+              className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-blue-600"
+              type="button"
+              onClick={handleSubmit}
+            >
+              {formData.id ? 'Atualizar' : 'Criar'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
