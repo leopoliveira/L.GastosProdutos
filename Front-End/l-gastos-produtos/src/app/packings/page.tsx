@@ -5,6 +5,7 @@ import PackingService from '@/common/services/packing';
 import { useEffect, useState } from 'react';
 import PackingGrid from '../components/packing/packing-data-grid/packing-data-grid';
 import { AlertCircle, Loader2 } from 'lucide-react';
+import Breadcrumb from '../components/shared/Breadcrumb';
 
 export default function Packings() {
   const [packings, setPackings] = useState<IReadPacking[]>([]);
@@ -40,6 +41,7 @@ export default function Packings() {
 
   return (
     <main>
+      <Breadcrumb items={[{ label: 'Embalagens' }]} />
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <Loader2 className="w-12 h-12 animate-spin text-blue-500" />

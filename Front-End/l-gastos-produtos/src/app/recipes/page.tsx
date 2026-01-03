@@ -5,6 +5,7 @@ import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
 import RecipeService from '@/common/services/recipe';
 import RecipeGrid from '../components/recipe/recipe-data-grid/recipe-data-grid';
 import { AlertCircle, Loader2 } from 'lucide-react';
+import Breadcrumb from '../components/shared/Breadcrumb';
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState<IReadRecipe[]>([]);
@@ -40,6 +41,7 @@ export default function Recipes() {
 
   return (
     <main>
+      <Breadcrumb items={[{ label: 'Receitas' }]} />
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <Loader2 className="w-12 h-12 animate-spin text-blue-500" />

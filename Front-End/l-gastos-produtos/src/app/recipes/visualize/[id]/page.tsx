@@ -6,6 +6,7 @@ import RecipeService from '@/common/services/recipe';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AlertCircle } from 'lucide-react';
+import Breadcrumb from '@/app/components/shared/Breadcrumb';
 
 export default function VisualizeRecipe() {
   const [recipe, setRecipe] = useState<IReadRecipe>({
@@ -43,6 +44,10 @@ export default function VisualizeRecipe() {
   }, []);
   return (
     <main>
+      <Breadcrumb items={[
+        { label: 'Receitas', href: '/recipes' },
+        { label: recipe?.name || 'Visualizar Receita' }
+      ]} />
       {isLoading ? (
         <div className="flex justify-center items-center h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>

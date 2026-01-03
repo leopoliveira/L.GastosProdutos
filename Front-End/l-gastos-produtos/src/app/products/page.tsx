@@ -5,6 +5,7 @@ import { AlertCircle } from 'lucide-react';
 import ProductGrid from '../components/product/product-data-grid';
 import { IReadProduct } from '@/common/interfaces/product/IReadProduct';
 import ProductService from '@/common/services/product';
+import Breadcrumb from '../components/shared/Breadcrumb';
 
 export default function Products() {
   const [products, setProducts] = useState<IReadProduct[]>([]);
@@ -40,6 +41,7 @@ export default function Products() {
 
   return (
     <main>
+      <Breadcrumb items={[{ label: 'Produtos' }]} />
       {loading ? (
         <div className="p-4">
           <div className="flex flex-col gap-4">

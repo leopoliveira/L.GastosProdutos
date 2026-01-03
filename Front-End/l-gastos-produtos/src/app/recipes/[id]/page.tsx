@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { AlertCircle } from 'lucide-react';
+import Breadcrumb from '@/app/components/shared/Breadcrumb';
 
 export default function FormRecipe() {
   const { id } = useParams();
@@ -39,6 +40,10 @@ export default function FormRecipe() {
 
   return (
     <main>
+      <Breadcrumb items={[
+        { label: 'Receitas', href: '/recipes' },
+        { label: recipe?.name || 'Editar Receita' }
+      ]} />
       {isLoading ? (
         <div className="flex justify-center items-center h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
