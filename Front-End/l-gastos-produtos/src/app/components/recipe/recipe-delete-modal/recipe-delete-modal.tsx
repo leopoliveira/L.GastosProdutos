@@ -1,6 +1,7 @@
 import RecipeService from '@/common/services/recipe';
 import React from 'react';
 import { X } from 'lucide-react';
+import { toast } from 'sonner';
 
 type RecipeDeleteModalProps = {
   phrase: string;
@@ -21,9 +22,13 @@ const RecipeDeleteModal: React.FC<RecipeDeleteModalProps> = ({
   onConfirm,
   onClose,
 }) => {
-  const handleConfirm = () => {
-    RecipeService.DeleteRecipe(recipeId);
-    onConfirm();
+  const handleConfirm = async () => {
+    try {
+      await RecipeService.DeleteRecipe(recipeId);
+      onConfirm();
+    } catch (error) {
+      toast.error('Erro ao excluir receita.');
+    }
   };
 
   if (!isOpen) return null;

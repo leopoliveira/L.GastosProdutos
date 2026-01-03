@@ -1,6 +1,7 @@
 import PackingService from '@/common/services/packing';
 import React from 'react';
 import { X } from 'lucide-react';
+import { toast } from 'sonner';
 
 type PackingDeleteModalProps = {
   phrase: string;
@@ -21,9 +22,13 @@ const PackingDeleteModal: React.FC<PackingDeleteModalProps> = ({
   onConfirm,
   onClose,
 }) => {
-  const handleConfirm = () => {
-    PackingService.DeletePacking(packingId);
-    onConfirm();
+  const handleConfirm = async () => {
+    try {
+      await PackingService.DeletePacking(packingId);
+      onConfirm();
+    } catch (error) {
+      toast.error('Erro ao excluir embalagem.');
+    }
   };
 
   if (!isOpen) return null;

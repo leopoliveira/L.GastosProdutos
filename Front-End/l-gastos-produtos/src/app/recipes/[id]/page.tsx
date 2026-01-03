@@ -4,6 +4,7 @@ import RecipeForm from '@/app/components/recipe/recipe-form';
 import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
 import RecipeService from '@/common/services/recipe';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { AlertCircle } from 'lucide-react';
@@ -11,6 +12,7 @@ import Breadcrumb from '@/app/components/shared/Breadcrumb';
 
 export default function FormRecipe() {
   const { id } = useParams();
+  const router = useRouter();
   const [recipe, setRecipe] = useState<IReadRecipe>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +68,17 @@ export default function FormRecipe() {
           <p className="text-lg">Receita não encontrada.</p>
         </div>
       ) : (
-        <RecipeForm recipe={recipe} onFormSubmit={formSubmitCallback} />
+        <>
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={() => router.push('/recipes')}
+              className="border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold py-2 px-4 rounded transition-colors"
+            >
+              Cancelar
+            </button>
+          </div>
+          <RecipeForm recipe={recipe} onFormSubmit={formSubmitCallback} />
+        </>
       )}
     </main>
   );

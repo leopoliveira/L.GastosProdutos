@@ -1,6 +1,7 @@
 import ProductService from '@/common/services/product';
 import React from 'react';
 import { X } from 'lucide-react';
+import { toast } from 'sonner';
 
 type ProductDeleteModalProps = {
   phrase: string;
@@ -21,9 +22,13 @@ const ProductDeleteModal: React.FC<ProductDeleteModalProps> = ({
   onConfirm,
   onClose,
 }) => {
-  const handleConfirm = () => {
-    ProductService.DeleteProduct(productId);
-    onConfirm();
+  const handleConfirm = async () => {
+    try {
+      await ProductService.DeleteProduct(productId);
+      onConfirm();
+    } catch (error) {
+      toast.error('Erro ao excluir matéria prima.');
+    }
   };
 
   if (!isOpen) return null;
