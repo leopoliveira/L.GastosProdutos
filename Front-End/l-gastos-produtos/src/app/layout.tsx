@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Gastos de Produtos',
   description: 'Sistema pra controle de Produto x Receitas.',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export const viewport = {
