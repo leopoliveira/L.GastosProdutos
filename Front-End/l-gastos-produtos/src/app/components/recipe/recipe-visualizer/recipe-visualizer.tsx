@@ -16,9 +16,12 @@ const RecipeVisualizer = ({ recipe }: RecipeViewProps) => {
   return (
     <>
       <div className="max-w-4xl mx-auto mt-5 p-4 border border-gray-200 rounded-lg shadow-lg bg-white">
-        <h1 className="text-2xl font-bold mb-4 text-center">
+        <h1 className="text-2xl font-bold mb-2 text-center">
           {recipe.name}
         </h1>
+        {recipe.groupName && (
+          <p className="text-center text-sm text-gray-600 mb-4">{recipe.groupName}</p>
+        )}
         <div className="flex flex-col gap-4">
           {recipe.description && (
             <div className="flex gap-5 items-center">

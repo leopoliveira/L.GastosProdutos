@@ -116,23 +116,34 @@ The API exposes endpoints for CRUD operations on the entities.
 - `DELETE /product/{id}`: Delete a product.
 
 #### Recipes
-- `GET /recipe`: List all recipes.
-- `GET /recipe/{id}`: Get details of a specific recipe.
-- `POST /recipe`: Create a new recipe. Payload includes lists of ingredients and packings.
-- `PUT /recipe/{id}`: Update a recipe.
-- `DELETE /recipe/{id}`: Delete a recipe.
-
+### Backend
+- **Framework**: .NET 10.0
+- **Language**: C#
+- **Architecture**: Clean Architecture (Separation of concerns: API, Core/Domain, Infrastructure)
+- **Database**: SQLite
+- **ORM**: Entity Framework Core 10.0.1
+- **API Style**: RESTful API
 ## 5. Frontend Structure
 
-The frontend is built with Next.js App Router.
-
-- **`src/app/products/page.tsx`**: List view of products with Add/Edit/Delete actions.
-- **`src/app/packings/page.tsx`**: List view of packings with Add/Edit/Delete actions.
-- **`src/app/recipes/page.tsx`**: List view of recipes.
+### Frontend
+- **Framework**: Next.js 14.2.3 (App Router)
+- **Language**: TypeScript
+- **UI Library / Styling:** Tailwind CSS utility-first approach (components built with Tailwind classes)
+- **HTTP Client**: Axios
 - **`src/app/recipes/create/page.tsx`** (or modal): Form to create a recipe. This form is complex as it requires selecting multiple Products and Packings, specifying quantities for each, and calculating totals dynamically.
 - **`src/common/services`**: Contains API calls (Axios) to the backend.
 - **`src/common/interfaces`**: TypeScript interfaces matching the Domain Entities.
 
+
+### 3.3. Group (Recipe Group / Grupo)
+The system supports grouping recipes into categories for better organization and filtering.
+* **Attributes:**
+  * `Id` (Guid/String): Unique identifier.
+  * `Name` (String): Group name (required).
+  * `Description` (String, Optional): Additional notes.
+  * `IsDeleted` (bool): Soft-delete flag inherited from `BaseEntity`.
+* **Behavior:** Soft-deleted groups are hidden by global query filters. Deleting a group is prevented by service-level validation if any non-deleted recipes reference it.
+* **Recipe relation:** Recipes have a nullable `GroupId` foreign key. Legacy records may have null `GroupId`, but the UI requires group selection when creating or editing recipes.
 ## 6. AI Prompts for Development
 
 Use these prompts to guide an AI in generating or migrating code for this project.

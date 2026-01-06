@@ -1,13 +1,16 @@
 import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
+import IReadGroup from '@/common/interfaces/group/IReadGroup';
 import IngredientDto from '@/common/interfaces/recipe/dtos/IngredientDto';
 import PackingDto from '@/common/interfaces/recipe/dtos/PackingDto';
 import PackingService from '@/common/services/packing';
 import ProductService from '@/common/services/product';
 import RecipeService from '@/common/services/recipe';
+import GroupService from '@/common/services/group';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { X, Search } from 'lucide-react';
+import GroupFormModal from '../../../components/group/group-form-modal';
 
 type RecipeFormProps = {
   recipe: IReadRecipe | null;
@@ -18,6 +21,8 @@ type RecipeFormProps = {
 const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit, onCancel }) => {
   const [isIngredientsOpen, setIsIngredientsOpen] = useState(false);
   const [isPackingsOpen, setIsPackingsOpen] = useState(false);
+  const [isGroupFormOpen, setIsGroupFormOpen] = useState(false);
+  const [groups, setGroups] = useState<IReadGroup[]>([]);
 
   const [formData, setFormData] = useState<IReadRecipe>({
     id: '',
@@ -28,6 +33,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit, onCancel 
     packings: [],
     quantity: 0,
     sellingValue: 0,
+    groupId: undefined,
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [availableIngredients, setAvailableIngredients] = useState<IngredientDto[]>([]);
@@ -50,9 +56,22 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit, onCancel 
         packings: [],
         quantity: 0,
         sellingValue: 0,
+        groupId: undefined,
       });
     }
   }, [recipe]);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const groupsData = await GroupService.GetAllGroups();
+        setGroups(groupsData);
+      } catch (error) {
+        console.error('Erro ao carregar grupos:', error);
+      }
+    };
+    fetchGroups();
+  }, []);
 
   const handleRemoveIngredient = (ingredient: IngredientDto, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -98,10 +117,11 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit, onCancel 
       formData.name.trim() === '' ||
       formData.quantity <= 0 ||
       formData.sellingValue <= 0 ||
-      formData.ingredients.length === 0;
+      formData.ingredients.length === 0 ||
+      !formData.groupId;
 
     if (hasMissingRequired) {
-      toast.error('Preencha todos os campos obrigatórios.');
+      toast.error('Preencha todos os campos obrigatórios, incluindo o grupo.');
       return;
     }
 
@@ -288,6 +308,44 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit, onCancel 
                   onChange={handleChange}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-gray-700 text-sm font-semibold mb-2">Grupo <span className="text-red-500">*</span></label>
+                {groups.length === 0 ? (
+                  <button
+                    type="button"
+                    className="w-full px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 transition-colors font-semibold"
+                    onClick={() => setIsGroupFormOpen(true)}
+                  >
+                    Criar Grupo
+                  </button>
+                ) : (
+                  <div className="flex gap-2">
+                    <select
+                      name="groupId"
+                      value={formData.groupId || ''}
+                      onChange={handleChange}
+                      className="flex-1 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      required
+                    >
+                      <option value="">Selecione um grupo...</option>
+                      {groups.map((group) => (
+                        <option key={group.id} value={group.id}>
+                          {group.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 transition-colors font-semibold whitespace-nowrap"
+                      onClick={() => setIsGroupFormOpen(true)}
+                      title="Criar novo grupo"
+                    >
+                      Novo
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div>
@@ -581,6 +639,25 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onFormSubmit, onCancel 
           </div>
         </div>
       )}
+
+      {/* Group Form Modal */}
+      <GroupFormModal
+        group={null}
+        isOpen={isGroupFormOpen}
+        onConfirm={async () => {
+          setIsGroupFormOpen(false);
+          const updatedGroups = await GroupService.GetAllGroups();
+          setGroups(updatedGroups);
+          if (updatedGroups.length > 0) {
+            setFormData((prev) => ({
+              ...prev,
+              groupId: updatedGroups[0].id,
+            }));
+          }
+          toast.success('Grupo criado com sucesso!');
+        }}
+        onClose={() => setIsGroupFormOpen(false)}
+      />
     </section>
   );
 };

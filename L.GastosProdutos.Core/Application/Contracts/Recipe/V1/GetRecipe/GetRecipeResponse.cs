@@ -12,7 +12,9 @@ namespace L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe
         List<PackingDto> Packings,
         decimal TotalCost,
         decimal? Quantity,
-        decimal? SellingValue
-    ) : RecipeResponse(Id, Name, Description, Ingredients, Packings, TotalCost, Quantity ?? 0, SellingValue ?? 0);
+        decimal? SellingValue,
+        string? GroupId,
+        string? GroupName
+    ) : RecipeResponse(Id, Name, Description, Ingredients, Packings, TotalCost, Quantity ?? 0, SellingValue ?? 0, GroupId, GroupName);
 }
 

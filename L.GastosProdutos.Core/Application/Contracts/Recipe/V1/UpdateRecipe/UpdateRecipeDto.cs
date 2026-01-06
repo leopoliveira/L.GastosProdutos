@@ -10,7 +10,8 @@ namespace L.GastosProdutos.Core.Application.Contracts.Recipe.V1.UpdateRecipe
         List<IngredientDto> Ingredients,
         List<PackingDto> Packings,
         decimal? Quantity,
-        decimal? SellingValue)
-        : RecipeWriteDto(Name, Description, Ingredients, Packings, Quantity, SellingValue);
+        decimal? SellingValue,
+        string? GroupId)
+        : RecipeWriteDto(Name, Description, Ingredients, Packings, Quantity, SellingValue, GroupId);
 }
 

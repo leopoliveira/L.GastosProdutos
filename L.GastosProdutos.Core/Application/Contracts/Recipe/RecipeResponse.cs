@@ -11,7 +11,9 @@ namespace L.GastosProdutos.Core.Application.Contracts.Recipe
         List<V1.Dto.PackingDto> Packings,
         decimal TotalCost,
         decimal? Quantity,
-        decimal? SellingValue
+        decimal? SellingValue,
+        string? GroupId,
+        string? GroupName
     );
 }
 

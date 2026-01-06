@@ -16,9 +16,10 @@ export const GetRecipeById = async (recipeId: string): Promise<IReadRecipe> => {
   }
 };
 
-export const GetAllRecipes = async (): Promise<IReadRecipe[]> => {
+export const GetAllRecipes = async (groupId?: string): Promise<IReadRecipe[]> => {
   try {
-    const response = await api.get<IReadRecipe[]>('/');
+    const url = groupId ? `/?groupId=${groupId}` : '/';
+    const response = await api.get<IReadRecipe[]>(url);
 
     return response.data;
   } catch (error) {

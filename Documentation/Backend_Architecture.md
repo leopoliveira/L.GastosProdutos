@@ -19,8 +19,8 @@ The backend follows a **Clean Architecture** approach, separating concerns into 
 2.  **Core Layer (`L.GastosProdutos.Core`)**
     *   **Role:** Contains the business logic and domain model. In this project, the "Application" and "Domain" layers are combined within the Core project.
     *   **Components:**
-        *   **Domain Entities:** `Recipe`, `Product`, `Packing`. These are the heart of the logic.
-        *   **Application Services:** `RecipeService`, `ProductService`, etc. Orchestrate business operations.
+        *   **Domain Entities:** `Recipe`, `Product`, `Packing`, `Group`. These are the heart of the logic.
+        *   **Application Services:** `RecipeService`, `ProductService`, `GroupService`, etc. Orchestrate business operations.
         *   **Contracts (DTOs):** Define the input/output structures for the API (e.g., `AddRecipeRequest`, `GetRecipeResponse`).
         *   **Infrastructure Implementation:** `AppDbContext` (EF Core) is located here (technically an Infrastructure concern, but placed in Core/Infra for simplicity in this solution).
 
@@ -53,9 +53,10 @@ This is the most complex entity.
 *   **Structure:** It owns collections of `Ingredients` and `Packings`.
 *   **Value Objects:** Ingredients and Packings within a Recipe are treated as Value Objects (snapshots of the product/packing at the time of addition). They are stored in separate tables (`RecipeIngredients`, `RecipePackings`) managed by EF Core's `OwnsMany` configuration.
 *   **Cost Calculation:** The `TotalCost` property is **not** set directly. It is updated incrementally via methods like `AddIngredient`, `RemoveIngredient`, etc. This ensures the cost is always consistent with the contents of the recipe.
+*   **Group Association:** Recipes now include a nullable `GroupId` foreign key for associating recipes with groups.
 
 ### Soft Deletes
-All major entities (`Product`, `Packing`, `Recipe`) inherit from `BaseEntity` (or similar) which likely includes an `IsDeleted` flag.
+All major entities (`Product`, `Packing`, `Recipe`, `Group`) inherit from `BaseEntity` which includes an `IsDeleted` flag.
 *   **Implementation:** `AppDbContext` configures a Global Query Filter (`e.HasQueryFilter(p => !p.IsDeleted)`) to automatically exclude deleted items from queries.
 
 **********
@@ -79,6 +80,25 @@ Dependencies are configured in `L.GastosProdutos.API/IOC/ConfigureBindings.cs`.
     *   `IProductService` → `ProductService`
     *   `IRecipeService` → `RecipeService`
     *   `IPackingService` → `PackingService`
+    *   `IGroupService` → `GroupService`
 *   **Database:** SQLite registered with `AddDbContext<AppDbContext>`.
 *   **CORS:** Configured with an "AllowAll" policy for development.
 *   **Note:** MediatR was removed; the application now uses direct service calls instead of command/query handlers.
+
+**********
+
+## Recipe Groups Feature
+
+**Purpose:** Enable grouping of recipes into categories for better organization and filtering.
+
+**Key Components:**
+*   **GroupEntity** (`Domain/Entities/Group/GroupEntity.cs`): Represents a recipe group with `Name` and `Description` properties. Inherits from `BaseEntity` for soft delete support.
+*   **IGroupService & GroupService** (`Application/Services/IGroupService.cs` and `Implementations/GroupService.cs`): Provides CRUD operations with business logic validation to prevent deletion of groups that are referenced by recipes.
+*   **GroupController** (`API/Controllers/V1/GroupController.cs`): Exposes REST endpoints for group management (`GET`, `POST`, `PUT`, `DELETE`).
+*   **RecipeEntity Integration:** The `RecipeEntity` includes a nullable `GroupId` foreign key. Legacy data remains supported with null values, while new/updated recipes require group assignment in the UI.
+
+**Soft Delete Integration:** Groups follow the same soft delete pattern as other entities, with global query filters automatically excluding deleted groups from queries.
+
+**Deletion Validation:** Attempting to delete a group that is referenced by any recipe results in an `InvalidOperationException` with message "Não é possível deletar um grupo que está em uso por receitas."
+
+**Database Relationship:** Configured with `DeleteBehavior.SetNull` so that if a group were somehow deleted directly at the database level, associated recipes would have their `GroupId` set to null (though the application prevents this through service-level validation).

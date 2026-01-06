@@ -1,3 +1,4 @@
+using L.GastosProdutos.Core.Domain.Entities.Group;
 using L.GastosProdutos.Core.Domain.Entities.Packing;
 using L.GastosProdutos.Core.Domain.Entities.Product;
 using L.GastosProdutos.Core.Domain.Entities.Recipe;
@@ -11,6 +12,7 @@ namespace L.GastosProdutos.Core.Infra.Sqlite
 
         public DbSet<ProductEntity> Products { get; set; } = null!;
         public DbSet<PackingEntity> Packings { get; set; } = null!;
+        public DbSet<GroupEntity> Groups { get; set; } = null!;
         public DbSet<RecipeEntity> Recipes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,10 +31,22 @@ namespace L.GastosProdutos.Core.Infra.Sqlite
                 e.HasQueryFilter(p => !p.IsDeleted);
             });
 
+            modelBuilder.Entity<GroupEntity>(e =>
+            {
+                e.HasKey(g => g.Id);
+                e.HasQueryFilter(g => !g.IsDeleted);
+            });
+
             modelBuilder.Entity<RecipeEntity>(e =>
             {
                 e.HasKey(r => r.Id);
                 e.HasQueryFilter(r => !r.IsDeleted);
+
+                e.HasOne(r => r.Group)
+                    .WithMany(g => g.Recipes)
+                    .HasForeignKey(r => r.GroupId)
+                    .IsRequired(false)
+                    .OnDelete(DeleteBehavior.SetNull);
 
                 e.OwnsMany(r => r.Ingredients, a =>
                 {

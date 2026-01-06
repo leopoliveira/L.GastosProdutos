@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using L.GastosProdutos.Core.Application.Contracts.Group;
 using L.GastosProdutos.Core.Application.Contracts.Product.V1.GetProduct;
 using L.GastosProdutos.Core.Application.Contracts.Packing.V1.GetPacking;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.GetRecipe;
 using L.GastosProdutos.Core.Application.Contracts.Recipe.V1.Dto;
+using L.GastosProdutos.Core.Domain.Entities.Group;
 using L.GastosProdutos.Core.Domain.Entities.Product;
 using L.GastosProdutos.Core.Domain.Entities.Packing;
 using L.GastosProdutos.Core.Domain.Entities.Recipe;
@@ -31,6 +33,12 @@ namespace L.GastosProdutos.Core.Application.Services.Mappers
             p.UnitOfMeasure
         );
 
+        public static GroupResponse ToResponse(this GroupEntity g) => new(
+            g.Id,
+            g.Name,
+            g.Description
+        );
+
         public static GetRecipeResponse ToResponse(this RecipeEntity recipe)
         {
             return new GetRecipeResponse(
@@ -51,7 +59,9 @@ namespace L.GastosProdutos.Core.Application.Services.Mappers
                 )),
                 recipe.TotalCost,
                 recipe.Quantity ?? 0,
-                recipe.SellingValue ?? 0
+                recipe.SellingValue ?? 0,
+                recipe.GroupId,
+                null
             );
         }
     }

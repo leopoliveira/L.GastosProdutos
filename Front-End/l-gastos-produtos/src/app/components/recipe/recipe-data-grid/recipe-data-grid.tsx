@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
+import IReadGroup from '@/common/interfaces/group/IReadGroup';
 import { useRouter } from 'next/navigation';
 import RecipeDeleteModal from '../recipe-delete-modal';
 import { formatCurrency } from '@/common/services/utils/utils';
@@ -11,11 +12,13 @@ import clsx from 'clsx';
 
 type RecipeGridProps = {
   recipes: IReadRecipe[];
+  groups: IReadGroup[];
   onSubmit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, onSubmit }) => {
+const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, groups, onSubmit }) => {
   const [filter, setFilter] = useState('');
+  const [groupFilter, setGroupFilter] = useState('');
   const [sortedData, setSortedData] = useState<IReadRecipe[]>(recipes);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof IReadRecipe | null;
@@ -37,10 +40,18 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, onSubmit }) => {
     setFilter(e.target.value);
   };
 
+  const onGroupFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGroupFilter(e.target.value);
+  };
+
   const filteredData = useMemo(() => {
     const lower = filter.toLowerCase();
-    return sortedData.filter((item) => item.name.toLowerCase().includes(lower));
-  }, [sortedData, filter]);
+    return sortedData.filter((item) => {
+      const nameMatches = item.name.toLowerCase().includes(lower);
+      const groupMatches = !groupFilter || item.groupId === groupFilter;
+      return nameMatches && groupMatches;
+    });
+  }, [sortedData, filter, groupFilter]);
 
   const onSort = (key: keyof IReadRecipe) => {
     const nextDirection: 'asc' | 'desc' =
@@ -102,13 +113,25 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({ recipes, onSubmit }) => {
         </button>
       </div>
 
-      <div className="mt-2 mb-6">
+      <div className="mt-2 mb-6 flex gap-4">
         <input
           placeholder="Filtrar por Nome"
           value={filter}
           onChange={onFilterChange}
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <select
+          value={groupFilter}
+          onChange={onGroupFilterChange}
+          className="w-1/5 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Todos os Grupos</option>
+          {groups.map((group) => (
+            <option key={group.id} value={group.id}>
+              {group.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">

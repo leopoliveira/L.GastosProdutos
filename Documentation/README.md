@@ -45,6 +45,32 @@ This project is built using a modern stack with a **.NET 10** backend and a **Ne
     *   **Frontend:** [http://localhost:3000](http://localhost:3000)
     *   **Backend API (Swagger):** [http://localhost:8080/swagger](http://localhost:8080/swagger)
 
+## Database Migrations
+
+If you change domain entities (add/remove properties or entities), create and apply an EF Core migration before running the app in production.
+
+Locally (recommended):
+
+```bash
+cd L.GastosProdutos.API
+dotnet ef migrations add <MigrationName>
+dotnet ef database update
+```
+
+When using Docker, migration files should be created on the host and included in the build context so the container can apply them on startup. This repository's `Program.cs` will call `Database.Migrate()` at startup to apply pending migrations automatically. To build and run with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+If you prefer running migrations explicitly inside the container (advanced), you can run:
+
+```bash
+docker compose run --rm webapi dotnet ef database update --startup-project L.GastosProdutos.API
+```
+
+Note: Ensure the `Microsoft.EntityFrameworkCore.Design` package is referenced in the startup project when creating migrations with `dotnet ef`.
+
 ## Project Structure
 
 The workspace is organized into the following main directories:
@@ -58,6 +84,7 @@ The workspace is organized into the following main directories:
 *   **Product Management:** Register raw ingredients with their bulk price and quantity.
 *   **Packing Management:** Register packaging materials.
 *   **Recipe Management:** Create recipes by combining Products and Packings. The system automatically calculates the cost based on the portion used.
+*   **Group Management:** Create and manage recipe groups (Configurações → Grupos) to categorize recipes; groups support soft-delete and are used to filter recipes in the listing and require selection when creating/updating recipes.
 
 ## Resources
 *   **API Documentation:** Available via Swagger when running the backend.

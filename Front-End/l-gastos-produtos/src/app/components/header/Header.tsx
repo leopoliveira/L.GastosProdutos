@@ -49,6 +49,12 @@ const Sidebar = () => {
         >
           Receitas
         </NextLink>
+        <NextLink
+          href="/configuration"
+          className={linkClass(pathname?.startsWith('/configuration') || false)}
+        >
+          Configurações
+        </NextLink>
       </nav>
     </aside>
   );

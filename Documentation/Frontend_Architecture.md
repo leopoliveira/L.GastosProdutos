@@ -28,11 +28,16 @@ The project uses the Next.js **App Router** directory structure, where the file 
     *   **`product/`**: Product-specific components (data grids, forms, modals).
     *   **`packing/`**: Packing-specific components.
     *   **`recipe/`**: Recipe-specific components.
+    *   **`group/`**: Group-specific components (data grids, forms, modals).
     *   **`shared/`**: Shared components used across the application (e.g., DataGrid, modals).
 *   **`products/`**: Contains the route for Product management.
     *   `page.tsx`: The UI for listing/adding products.
 *   **`packings/`**: Contains the route for Packing management.
 *   **`recipes/`**: Contains the route for Recipe management.
+*   **`configuration/`**: Contains the route for Application Configuration.
+    *   `page.tsx`: Overview page for configuration options.
+    *   **`groups/`**: Nested route for Group management.
+        *   `page.tsx`: UI for listing/adding groups.
 
 ### `common/` Directory (Shared Logic)
 This directory holds code that is reused across the application, keeping the UI components clean.
@@ -40,6 +45,7 @@ This directory holds code that is reused across the application, keeping the UI 
     *   `recipe/`: Service functions for Recipe API calls.
     *   `product/`: Service functions for Product API calls.
     *   `packing/`: Service functions for Packing API calls.
+    *   `group/`: Service functions for Group API calls.
     *   `http/`: Contains the configured Axios instance (base URL, interceptors).
     *   `utils/`: Service-level utility functions.
 *   **`interfaces/`**: TypeScript definitions for API responses and domain objects.
@@ -84,3 +90,30 @@ This directory holds code that is reused across the application, keeping the UI 
     *   `NEXT_PUBLIC_PACKING_API_URL`
     *   `NEXT_PUBLIC_RECIPE_API_URL`
     *   These are defined in `docker-compose.yml` and passed to the container at runtime.
+
+**********
+
+## Recipe Groups Feature
+
+**Purpose:** Enable grouping of recipes into categories for better organization and filtering.
+
+**Key Frontend Components:**
+*   **GroupService** (`common/services/group/GroupService.ts`): TypeScript service encapsulating all group-related API calls (`GetAllGroups`, `GetGroupById`, `CreateGroup`, `UpdateGroup`, `DeleteGroup`).
+*   **Group Interfaces** (`common/interfaces/group/`): TypeScript definitions for group data structures (`ICreateGroup`, `IReadGroup`, `IUpdateGroup`).
+*   **Configuration Pages:**
+    *   **Configuration Overview** (`app/configuration/page.tsx`): Main configuration hub with navigation to sub-pages.
+    *   **Groups Management** (`app/configuration/groups/page.tsx`): Full CRUD interface for managing groups.
+*   **Group Components** (`app/components/group/`):
+    *   **GroupDataGrid:** Displays groups in a filterable, sortable table with Edit/Delete actions.
+    *   **GroupFormModal:** Create/Edit form modal with name (required) and description (optional) fields and validation.
+    *   **GroupDeleteModal:** Delete confirmation modal with API error handling.
+
+**Recipe Integration:**
+*   **RecipeGrid Filter:** The recipe listing page includes a dropdown select (20% width) to filter recipes by group, positioned alongside the name filter.
+*   **RecipeForm Group Selection:**
+    *   If no groups exist: Display a teal "Criar Grupo" button to create a group inline.
+    *   If groups exist: Display a dropdown select with all groups plus a "Novo" button for creating new groups.
+    *   Group selection is mandatory for new/updated recipes (required field validation).
+    *   After creating a group via modal, the form automatically fetches the updated group list and pre-selects the newly created group.
+
+**Navigation:** A "Configurações" link has been added to the sidebar navigation, providing easy access to the configuration section and its subpages.

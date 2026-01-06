@@ -8,4 +8,5 @@ export default interface ICreateRecipe {
   packings: PackingDto[];
   quantity: number;
   sellingValue: number;
+  groupId?: string;
 }

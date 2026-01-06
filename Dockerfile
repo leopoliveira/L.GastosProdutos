@@ -23,4 +23,5 @@ RUN dotnet publish "./L.GastosProdutos.API.csproj" -c $BUILD_CONFIGURATION -o /a
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "L.GastosProdutos.API.dll"]
+COPY --chmod=0755 entrypoint.sh ./
+ENTRYPOINT ["./entrypoint.sh"]

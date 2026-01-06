@@ -24,6 +24,7 @@ namespace L.GastosProdutos.API.IOC
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<IPackingService, PackingService>();
+            services.AddScoped<IGroupService, GroupService>();
         }
 
         public static void ConfigureCors(IServiceCollection services)

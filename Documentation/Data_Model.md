@@ -4,7 +4,7 @@ This document describes the core entities and database schema of the **L.GastosP
 
 ## Core Entities
 
-The domain revolves around three main concepts: **Products** (Ingredients), **Packings** (Packaging), and **Recipes** (Final Product).
+The domain revolves around four main concepts: **Products** (Ingredients), **Packings** (Packaging), **Groups** (Recipe Categories), and **Recipes** (Final Product).
 
 ### 1. Product (Ingrediente)
 Represents a raw material purchased in bulk.
@@ -27,7 +27,16 @@ Represents packaging materials.
     *   `Quantity`: Bulk quantity.
 *   **Usage:** Added to a recipe to account for packaging costs.
 
-### 3. Recipe (Receita)
+### 3. Group (Grupo de Receitas)
+Represents a category or grouping for recipes.
+*   **Table:** `Groups`
+*   **Key Attributes:**
+    *   `Id`: Unique Identifier (String/Guid).
+    *   `Name`: Group name (e.g., "Bolos", "Doces", "Salgados").
+    *   `Description`: Optional description of the group.
+*   **Usage:** Allows recipes to be organized and filtered by category.
+
+### 4. Recipe (Receita)
 Represents the final culinary product produced by combining ingredients and packaging.
 *   **Table:** `Recipes`
 *   **Key Attributes:**
@@ -37,12 +46,22 @@ Represents the final culinary product produced by combining ingredients and pack
     *   `Quantity`: The yield of the recipe (e.g., 1 Cake, or 10 Slices).
     *   `SellingValue`: The price the recipe is sold for.
     *   `TotalCost`: **Calculated Field.** The sum of all ingredient costs + all packing costs.
+    *   `GroupId`: **Foreign Key (Nullable).** References a `Group`. Allows recipes to be categorized.
 
 **********
 
 ## Relationships & Value Objects
 
 The relationship between Recipes and their components is modeled using **Value Objects** in the Domain and **Owned Types** in EF Core.
+
+### Recipe -> Group
+*   **Relationship:** Many-to-One (Many Recipes belong to one Group).
+*   **Implementation:**
+    *   `GroupId` is a nullable foreign key on `Recipes` table.
+    *   Configured via EF Core relationship: `HasOne().WithMany().HasForeignKey().IsRequired(false).OnDelete(DeleteBehavior.SetNull)`.
+    *   When a group is created, recipes can be associated with it.
+    *   When a group is deleted (soft delete), recipes referencing it retain the null value (no cascade).
+    *   A recipe may not belong to any group (GroupId is null), but when created/edited, group selection is mandatory in the UI.
 
 ### Recipe -> Ingredients
 *   **Relationship:** One-to-Many (A Recipe has many Ingredients).
@@ -85,19 +104,26 @@ The database `gastos.db` is stored in the `App_Data` directory and contains the 
     *   Soft Delete: `IsDeleted` (Boolean)
     *   Global Query Filter: Automatically excludes deleted records
 
-3.  **`Recipes`** - Stores recipe information
+3.  **`Groups`** - Stores recipe groups/categories
+    *   Primary Key: `Id` (String)
+    *   Soft Delete: `IsDeleted` (Boolean)
+    *   Global Query Filter: Automatically excludes deleted records
+    *   Has columns: `Name`, `Description`, `CreatedAt`, `UpdatedAt`
+
+4.  **`Recipes`** - Stores recipe information
     *   Primary Key: `Id` (Guid)
+    *   Foreign Key: `GroupId` (references `Groups.Id`, nullable)
     *   Soft Delete: `IsDeleted` (Boolean)
     *   Global Query Filter: Automatically excludes deleted records
     *   Contains computed field `TotalCost` (updated via domain methods)
 
 ### Relationship Tables (Owned Types)
-4.  **`RecipeIngredients`** - Links recipes to products (snapshot pattern)
+5.  **`RecipeIngredients`** - Links recipes to products (snapshot pattern)
     *   Composite Key: `(RecipeId, ProductId)`
     *   Foreign Key: `RecipeId` references `Recipes.Id`
     *   Configured as EF Core Owned Type via `OwnsMany`
 
-5.  **`RecipePackings`** - Links recipes to packings (snapshot pattern)
+6.  **`RecipePackings`** - Links recipes to packings (snapshot pattern)
     *   Composite Key: `(RecipeId, PackingId)`
     *   Foreign Key: `RecipeId` references `Recipes.Id`
     *   Configured as EF Core Owned Type via `OwnsMany`

@@ -9,7 +9,8 @@ namespace L.GastosProdutos.Core.Application.Contracts.Recipe
         List<V1.Dto.IngredientDto> Ingredients,
         List<V1.Dto.PackingDto> Packings,
         decimal? Quantity,
-        decimal? SellingValue
+        decimal? SellingValue,
+        string? GroupId
     );
 }
 

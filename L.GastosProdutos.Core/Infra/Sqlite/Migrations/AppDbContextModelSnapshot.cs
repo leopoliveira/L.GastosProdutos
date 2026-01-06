@@ -17,6 +17,32 @@ namespace L.GastosProdutos.Core.Infra.Sqlite.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.1");
 
+            modelBuilder.Entity("L.GastosProdutos.Core.Domain.Entities.Group.GroupEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("L.GastosProdutos.Core.Domain.Entities.Packing.PackingEntity", b =>
                 {
                     b.Property<string>("Id")
@@ -95,6 +121,9 @@ namespace L.GastosProdutos.Core.Infra.Sqlite.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("GroupId")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
@@ -116,11 +145,18 @@ namespace L.GastosProdutos.Core.Infra.Sqlite.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupId");
+
                     b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("L.GastosProdutos.Core.Domain.Entities.Recipe.RecipeEntity", b =>
                 {
+                    b.HasOne("L.GastosProdutos.Core.Domain.Entities.Group.GroupEntity", "Group")
+                        .WithMany("Recipes")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.OwnsMany("L.GastosProdutos.Core.Domain.Entities.Packing.PackingValueObject", "Packings", b1 =>
                         {
                             b1.Property<string>("RecipeId")
@@ -173,9 +209,16 @@ namespace L.GastosProdutos.Core.Infra.Sqlite.Migrations
                                 .HasForeignKey("RecipeId");
                         });
 
+                    b.Navigation("Group");
+
                     b.Navigation("Ingredients");
 
                     b.Navigation("Packings");
+                });
+
+            modelBuilder.Entity("L.GastosProdutos.Core.Domain.Entities.Group.GroupEntity", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }

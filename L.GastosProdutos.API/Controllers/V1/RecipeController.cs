@@ -24,15 +24,17 @@ namespace L.GastosProdutos.API.Controllers.V1
         /// <summary>
         /// Returns all recipes.
         /// </summary>
+        /// <param name="groupId">Optional group filter.</param>
         /// <param name="cancellationToken">Request cancellation token.</param>
         /// <returns>List of recipes.</returns>
         [HttpGet]
         public async Task<ActionResult<GetRecipeResponse>> GetAll
         (
+            [FromQuery] string? groupId,
             CancellationToken cancellationToken
         )
         {
-            var response = await _service.GetAllAsync(cancellationToken);
+            var response = await _service.GetAllAsync(groupId, cancellationToken);
 
             return Ok(response);
         }

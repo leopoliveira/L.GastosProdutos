@@ -1,5 +1,6 @@
 ﻿using L.GastosProdutos.Core.Domain.Entities.Base;
 using L.GastosProdutos.Core.Domain.Entities.Packing;
+using L.GastosProdutos.Core.Domain.Entities.Group;
 
 namespace L.GastosProdutos.Core.Domain.Entities.Recipe
 {
@@ -36,6 +37,10 @@ namespace L.GastosProdutos.Core.Domain.Entities.Recipe
         public decimal? Quantity { get; set; }
 
         public decimal? SellingValue { get; set; }
+
+        public string? GroupId { get; set; }
+
+        public GroupEntity? Group { get; set; }
 
         public decimal TotalCost { get; private set; }
 

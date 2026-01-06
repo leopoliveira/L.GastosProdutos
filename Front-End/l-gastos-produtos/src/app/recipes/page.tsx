@@ -2,13 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import IReadRecipe from '@/common/interfaces/recipe/IReadRecipe';
+import IReadGroup from '@/common/interfaces/group/IReadGroup';
 import RecipeService from '@/common/services/recipe';
+import GroupService from '@/common/services/group';
 import RecipeGrid from '../components/recipe/recipe-data-grid/recipe-data-grid';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import Breadcrumb from '../components/shared/Breadcrumb';
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState<IReadRecipe[]>([]);
+  const [groups, setGroups] = useState<IReadGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [reRender, setReRender] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,8 +20,12 @@ export default function Recipes() {
     setLoading(true);
 
     try {
-      const response = await RecipeService.GetAllRecipes();
-      setRecipes(response);
+      const [recipesResponse, groupsResponse] = await Promise.all([
+        RecipeService.GetAllRecipes(),
+        GroupService.GetAllGroups(),
+      ]);
+      setRecipes(recipesResponse);
+      setGroups(groupsResponse);
     } catch (err: any) {
       setError(err?.message ?? 'Erro ao carregar receitas.');
     } finally {
@@ -60,7 +67,7 @@ export default function Recipes() {
           </button>
         </div>
       ) : (
-        <RecipeGrid recipes={recipes} onSubmit={setReRender} />
+        <RecipeGrid recipes={recipes} groups={groups} onSubmit={setReRender} />
       )}
     </main>
   );

@@ -72,3 +72,48 @@ To preserve historical data and prevent accidental data loss, the system uses "S
     *   They disappear from the UI but remain in the database for data integrity and potential recovery.
 *   **Accessing Deleted Records:** 
     *   If needed (e.g., for admin tools or audit features), deleted records can be accessed by adding `.IgnoreQueryFilters()` to LINQ queries.
+
+**********
+
+## 5. Creating and Managing Groups
+
+**Purpose:** Organize recipes into logical categories (e.g., "Bolos", "Cookies", "Brigadeiros").
+
+### Group Creation Workflow
+1.  **Initiation:** User navigates to `/configuration/groups` or clicks "Criar Grupo" button while creating/editing a recipe.
+2.  **Form Input:** User enters:
+    *   **Name** (required): The group identifier (e.g., "Bolos").
+    *   **Description** (optional): Detailed description of the group.
+3.  **Submission:** Frontend calls `GroupService.CreateGroup(name, description)`.
+4.  **Backend Processing:**
+    *   `GroupController` receives the request via `POST /api/v1/Group`.
+    *   `GroupService.AddAsync()` validates that name is not empty.
+    *   A new `GroupEntity` is created and persisted to the database.
+5.  **Success Response:**
+    *   Backend returns `201 Created` with the new group's ID and data.
+    *   Frontend displays a success toast notification.
+    *   If the creation was triggered from the recipe form, the form automatically refetches the groups list and pre-selects the newly created group.
+
+### Group Filtering in Recipe Listing
+1.  **Display:** The recipe listing page shows two filters side-by-side (20% width each):
+    *   Name filter (flexible width).
+    *   Group filter dropdown (20% width).
+2.  **Default:** "Todos os Grupos" option shows all recipes regardless of group.
+3.  **Filtering:** Selecting a specific group filters the recipe list to show only recipes assigned to that group.
+4.  **Combination:** Name and group filters work with AND logic (both must match).
+
+### Group Assignment During Recipe Creation/Editing
+1.  **No Groups Scenario:** If no groups exist in the system, a teal "Criar Grupo" button is displayed instead of a select dropdown.
+2.  **With Groups Scenario:** 
+    *   A dropdown select allows choosing an existing group.
+    *   A "Novo" button allows creating a new group inline.
+3.  **Mandatory Selection:** Group assignment is required for all new and updated recipes (enforced via form validation).
+4.  **Legacy Data:** Existing recipes in the database may have null GroupId values from before the feature was implemented, but such recipes cannot be edited or created without selecting a group.
+
+### Group Deletion Protection
+1.  **Deletion Attempt:** User tries to delete a group from `/configuration/groups`.
+2.  **Validation Check:** Backend queries all recipes to see if any have `GroupId == [group_id]` and `IsDeleted == false`.
+3.  **Prevention:** If recipes are found using the group, deletion is rejected with HTTP 400 and error message: "Não é possível deletar um grupo que está em uso por receitas."
+4.  **Success:** If the group is not referenced by any recipe, the group is soft-deleted (`IsDeleted = true`).
+
+```
