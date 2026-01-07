@@ -1,6 +1,4 @@
 using L.GastosProdutos.API.IOC;
-
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using L.GastosProdutos.Core.Application.Exceptions;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +16,10 @@ namespace L.GastosProdutos.API
 
             // Add services to the container.
             var dataDir = Path.Combine(builder.Environment.ContentRootPath, "App_Data");
-            Directory.CreateDirectory(dataDir);
+            if (!Directory.Exists(dataDir))
+            {
+                Directory.CreateDirectory(dataDir);
+            }
             var dbPath = Path.Combine(dataDir, "gastos.db");
             ConfigureBindings.Sqlite(builder.Services, dbPath);
             // MediatR removed; using simple application services
@@ -81,7 +82,7 @@ namespace L.GastosProdutos.API
                 app.UseHttpsRedirection();
             }
 
-            // Map application NotFoundException to HTTP 404 with ProblemDetails
+            // Map application exceptions to HTTP status codes with ProblemDetails
             app.Use(async (context, next) =>
             {
                 try
@@ -99,12 +100,40 @@ namespace L.GastosProdutos.API
                     };
                     await context.Response.WriteAsJsonAsync(problem);
                 }
+                catch (InvalidOperationException ex)
+                {
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    var problem = new ProblemDetails
+                    {
+                        Status = StatusCodes.Status400BadRequest,
+                        Title = "Bad Request",
+                        Detail = ex.Message
+                    };
+                    await context.Response.WriteAsJsonAsync(problem);
+                }
+                catch (Exception ex)
+                {
+                    app.Logger.LogError(ex, "An unhandled exception occurred.");
+                    
+                    if (app.Environment.IsDevelopment())
+                    {
+                        throw; // Let developer see the full stack trace
+                    }
+
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    var problem = new ProblemDetails
+                    {
+                        Status = StatusCodes.Status500InternalServerError,
+                        Title = "Internal Server Error",
+                        Detail = "An unexpected error occurred."
+                    };
+                    await context.Response.WriteAsJsonAsync(problem);
+                }
             });
 
             app.UseCors(ConfigureBindings.CORS_POLICY);
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

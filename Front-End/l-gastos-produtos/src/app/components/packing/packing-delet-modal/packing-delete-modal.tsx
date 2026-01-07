@@ -26,8 +26,10 @@ const PackingDeleteModal: React.FC<PackingDeleteModalProps> = ({
     try {
       await PackingService.DeletePacking(packingId);
       onConfirm();
-    } catch (error) {
-      toast.error('Erro ao excluir embalagem.');
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.detail || err?.response?.data?.message || err?.message || 'Erro ao excluir embalagem.';
+      toast.error(errorMessage);
     }
   };
 

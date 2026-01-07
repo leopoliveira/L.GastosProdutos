@@ -26,8 +26,10 @@ const RecipeDeleteModal: React.FC<RecipeDeleteModalProps> = ({
     try {
       await RecipeService.DeleteRecipe(recipeId);
       onConfirm();
-    } catch (error) {
-      toast.error('Erro ao excluir receita.');
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.detail || err?.response?.data?.message || err?.message || 'Erro ao excluir receita.';
+      toast.error(errorMessage);
     }
   };
 

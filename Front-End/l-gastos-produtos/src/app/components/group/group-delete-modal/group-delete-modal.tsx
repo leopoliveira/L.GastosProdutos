@@ -29,7 +29,8 @@ const GroupDeleteModal: React.FC<GroupDeleteModalProps> = ({
       await GroupService.DeleteGroup(groupId);
       onConfirm();
     } catch (err: any) {
-      const errorMessage = err?.response?.data?.message || err?.message || 'Erro ao deletar grupo';
+      const errorMessage =
+        err?.response?.data?.detail || err?.response?.data?.message || err?.message || 'Erro ao deletar grupo';
       toast.error(errorMessage);
       onClose();
     }

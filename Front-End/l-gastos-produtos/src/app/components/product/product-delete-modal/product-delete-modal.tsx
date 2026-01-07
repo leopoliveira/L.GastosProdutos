@@ -26,8 +26,10 @@ const ProductDeleteModal: React.FC<ProductDeleteModalProps> = ({
     try {
       await ProductService.DeleteProduct(productId);
       onConfirm();
-    } catch (error) {
-      toast.error('Erro ao excluir matéria prima.');
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.detail || err?.response?.data?.message || err?.message || 'Erro ao excluir receita.';
+      toast.error(errorMessage);
     }
   };
 
