@@ -24,4 +24,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 COPY --chmod=0755 entrypoint.sh ./
+RUN sed -i 's/\r$//' entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
