@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import clsx from 'clsx';
+import { normalizeString } from '@/common/utils/utils';
 
 export type ColumnDef<T> = {
   header: string;
@@ -41,10 +42,10 @@ export function DataGrid<T extends object>({
   });
 
   const filtered = useMemo(() => {
-    const lower = filter.toLowerCase();
+    const lower = normalizeString(filter);
     if (!lower) return data;
     const getter = getFilterValue || ((row: any) => String(row?.name ?? ''));
-    return data.filter((row) => getter(row).toLowerCase().includes(lower));
+    return data.filter((row) => normalizeString(getter(row)).includes(lower));
   }, [data, filter, getFilterValue]);
 
   const sorted = useMemo(() => {
